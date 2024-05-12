@@ -1,27 +1,22 @@
---[[
+-- @description Convert item notes to regions
+-- @author Amely Suncroll
+-- @version 1.0
+-- @website https://forum.cockos.com/showthread.php?t=291012
+-- @changelog
+--    + init @
+-- @about My own script I created when don't knew about others
+    
+-- @donation https://www.paypal.com/paypalme/suncroll
 
-  ReaScript Name: Convert item notes to regions
-  Instructions: Just open it with Actions -  New action - Load ReaScript
-  Author: Amely Suncroll
-  REAPER: 6+ (maybe less)
-  Extensions: none
-  Version: 1.0
+-- @website: https://t.me/reaper_ua
 
-  About: my own script I created when don't knew about others.
+-- Support:
+-- https://t.me/yxo_composer_support
+-- amelysuncroll@gmail.com
 
-
-  Donations: 
-  https://www.paypal.com/paypalme/suncroll
-
-  Support:
-  https://t.me/yxo_composer_support
-  amelysuncroll@gmail.com
-
-  Other links:
-  https://github.com/AmelySuncroll
-  https://www.youtube.com/@yxo_composer
-
-]]--
+-- Other links:
+-- https://github.com/AmelySuncroll
+-- https://www.youtube.com/@yxo_composer
 
 local item_count = reaper.CountSelectedMediaItems(0)
 
