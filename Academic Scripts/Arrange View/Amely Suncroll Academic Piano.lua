@@ -5,7 +5,7 @@
   Author: Amely Suncroll
   REAPER: 6+ (maybe less)
   Extensions: none
-  Version: 1.0
+  @Version: 1.0
 
   About: Play on your pc keyboard anywhere (you need to add this script to Arrange View (Main) and Piano Roll Actions separately)
 
