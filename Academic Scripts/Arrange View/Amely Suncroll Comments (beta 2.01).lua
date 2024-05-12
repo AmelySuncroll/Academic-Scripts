@@ -6,9 +6,6 @@
   @REAPER: 6+
   @Extensions: SWS
   @Version: beta 2.01
-  
-  @Changelog:
-  1.0 Initial Release
 
   @Description: Select and navigate between your text items (insert_empty_item in Action List)
 
