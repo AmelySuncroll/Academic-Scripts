@@ -10,11 +10,10 @@
   @Description: Select and navigate between your text items (insert_empty_item in Action List)
 
 
-  Запрошую долучитися: https://t.me/reaper_ua
-    
-  Donations: 
+  @Donation: 
   https://www.paypal.com/paypalme/suncroll
 
+  @Website: https://t.me/reaper_ua
 
   Support:
   https://t.me/yxo_composer_support
