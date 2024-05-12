@@ -1,13 +1,16 @@
 --[[
 
-  ReaScript Name: Comments
-  Instructions: Just open it with Actions -  New action - Load ReaScript
-  Author: Amely Suncroll
-  REAPER: 6+
-  Extensions: SWS
-  Version: beta 2.01
+  @ReaScript Name: Comments
+  @Instructions: Just open it with Actions -  New action - Load ReaScript
+  @Author: Amely Suncroll
+  @REAPER: 6+
+  @Extensions: SWS
+  @Version: beta 2.01
+  
+  @Changelog:
+  1.0 Initial Release
 
-  About: Select and navigate between your text items (insert_empty_item in Action List)
+  @Description: Select and navigate between your text items (insert_empty_item in Action List)
 
 
   Запрошую долучитися: https://t.me/reaper_ua
