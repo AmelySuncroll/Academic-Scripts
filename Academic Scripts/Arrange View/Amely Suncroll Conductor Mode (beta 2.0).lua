@@ -1,4 +1,4 @@
--- @description Conductor Mode
+-- @description Conductor Mode (experimental beta)
 -- @author Amely Suncroll
 -- @version 0.1.0
 -- @website https://forum.cockos.com/showthread.php?t=291012
