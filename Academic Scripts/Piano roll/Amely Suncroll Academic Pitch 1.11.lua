@@ -1,41 +1,32 @@
---[[
+-- @description Academic Pitch
+-- @author Amely Suncroll
+-- @version 1.11
+-- @website https://forum.cockos.com/showthread.php?t=291012
+-- @changelog
+--    + init @
+--    + v1.1 add pitch points to all notes before using script
+--    + v.11 keep midi editor focused
+-- @about Set pitch bend parametres with academic symbols
+-- b = move pitch bend down by one semitone
+-- # = move pitch bend up by one semitone
 
-  @ReaScript Name: Academic Pitch
-  @Instructions: Just open it with Actions -  New action - Load ReaScript
-  @Author: Amely Suncroll
-  @REAPER: 6+ (maybe less)
-  @Extensions: none
-  @Version: 1.11
-
-  @Description: 
-
-  b = move pitch bend down by one semitone
-  # = move pitch bend up by one semitone
-
-  /b = the half of b 
-  /# = the half of #
+-- /b = the half of b 
+-- /# = the half of #
   
-  you can type #/# and b/b, bb and ## also
-  b (or #) nat = natural b or # (before Bach)
+-- you can type #/# and b/b, bb and ## also
+-- b (or #) nat = natural b or # (before Bach)
+    
+-- @donation https://www.paypal.com/paypalme/suncroll
 
-  @Changelog:
-  v1.1: add pitch points to each note before input
-  v1.11: keep midi editor in focus
+-- @website: https://t.me/reaper_ua
 
-  @Donation: 
-  https://www.paypal.com/paypalme/suncroll
+-- Support:
+-- https://t.me/yxo_composer_support
+-- amelysuncroll@gmail.com
 
-  @Website: https://t.me/reaper_ua
-
-  Support:
-  https://t.me/yxo_composer_support
-  amelysuncroll@gmail.com
-
-  Other links:
-  https://github.com/AmelySuncroll
-  https://www.youtube.com/@yxo_composer
-
-]]--
+-- Other links:
+-- https://github.com/AmelySuncroll
+-- https://www.youtube.com/@yxo_composer
 
 local reaper = reaper
 
