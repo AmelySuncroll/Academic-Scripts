@@ -1,5 +1,3 @@
---[[
-
 -- @description Comments (beta)
 -- @author Amely Suncroll
 -- @version beta 2.01
@@ -8,19 +6,15 @@
 --    + init @
 --    + change font and color
 --    + pin docker
--- @screenshot none
 -- @about Select and navigate between your text items (insert_empty_item in Action List)
 
 -- @donation https://www.paypal.com/paypalme/suncroll
 
 -- @website https://t.me/reaper_ua
 
-  Support:
-  https://t.me/yxo_composer_support
-  amelysuncroll@gmail.com
-
-
-]]--
+-- Support:
+-- https://t.me/yxo_composer_support
+-- amelysuncroll@gmail.com
 
 function load_window_params()
   local x = tonumber(reaper.GetExtState("AmelySuncrollComments", "WindowPosX")) or 200
