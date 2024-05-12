@@ -1,40 +1,24 @@
---[[
+-- @description Academic Ornaments
+-- @author Amely Suncroll
+-- @version 1.01
+-- @website https://forum.cockos.com/showthread.php?t=291012
+-- @changelog
+--    + init @
+--    + v1.01 keep midi editor focused
+-- @about Set trills and forshlags here
+-- YOU CAN CREATE YOUR OWN ORNAMENTS BELOW
+    
+-- @donation https://www.paypal.com/paypalme/suncroll
 
-  @ReaScript Name: Academic Ornaments
-  @Instructions: Just open it with Actions -  New action - Load ReaScript
-  @Author: Amely Suncroll
-  @REAPER: 6+ (maybe less)
-  @Extensions: none
-  @Version: 1.01
+-- @website: https://t.me/reaper_ua
 
-  @Description: Set trills and forshlags here.
+-- Support:
+-- https://t.me/yxo_composer_support
+-- amelysuncroll@gmail.com
 
-  "trill" or "tr" with 2, 4, 8 etc = trill with length 2, 4, 8 etc 
-  Example: tr32
-
-  forshlug = acci = short = nach = nachschlag
-
-  also try slide and gliss
-
-  YOU CAN CREATE YOUR OWN ORNAMENTS BELOW
-
-  @Changelog:
-  v1.01: keep midi editor in focus
-
-  @Donation: 
-  https://www.paypal.com/paypalme/suncroll
-
-  @Website: https://t.me/reaper_ua
-
-  Support:
-  https://t.me/yxo_composer_support
-  amelysuncroll@gmail.com
-
-  Other links:
-  https://github.com/AmelySuncroll
-  https://www.youtube.com/@yxo_composer
-
-]]
+-- Other links:
+-- https://github.com/AmelySuncroll
+-- https://www.youtube.com/@yxo_composer
 
 
 local function calculateTotalDuration(note_lengths)
