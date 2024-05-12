@@ -1,29 +1,23 @@
---[[
+-- @description Delete selected chords except the highest note
+-- @author Amely Suncroll
+-- @version 1.0
+-- @website https://forum.cockos.com/showthread.php?t=291012
+-- @changelog
+--    + init @
+-- @about Delete selected chords except the highest note
 
-  ReaScript Name: Delete selected chords except the highest note
-  Instructions: Just open it with Actions -  New action - Load ReaScript
-  Author: Amely Suncroll
-  REAPER: 6+ (maybe less)
-  Extensions: none
-  Version: 1.0
+-- @donation https://www.paypal.com/paypalme/suncroll
 
-  About: Delete all chord's notes except highest
+-- @website: https://t.me/reaper_ua
 
-  
-  Запрошую долучитися: https://t.me/reaper_ua
-      
-  Donations: 
-  https://www.paypal.com/paypalme/suncroll
+-- Support:
+-- https://t.me/yxo_composer_support
+-- amelysuncroll@gmail.com
 
-  Support:
-  https://t.me/yxo_composer_support
-  amelysuncroll@gmail.com
+-- Other links:
+-- https://github.com/AmelySuncroll
+-- https://www.youtube.com/@yxo_composer
 
-  Other links:
-  https://github.com/AmelySuncroll
-  https://www.youtube.com/@yxo_composer
-
-]]--
 
 function count_chords_and_notes(take, notecnt)
     local notes = {}
