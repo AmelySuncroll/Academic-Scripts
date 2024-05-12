@@ -27,4 +27,4 @@ jobs:
     - name: Push changes
       run:  git push
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ACADEMICSECRET: ${{ secrets.ACADEMICSECRET }}
