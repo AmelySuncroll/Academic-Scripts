@@ -1,6 +1,8 @@
 # Academic Scripts
 Scripts for Reaper DAW
 
+Add this repo to ReaPack: https://raw.githubusercontent.com/AmelySuncroll/Academic-Scripts/master/index.xml
+
 NEW! Academic Articulations - make simple articulations in seconds. Be sure they are work as a trigger - they are created one pixel before notes you select.
 
 Academic Dynamic - select midi notes and see how velocity will change by your magic fingers. Use academic dynamics such as ppp, mf or fff etc. Make a crescendo and diminuendo. Replace X velocity value to Y. Get a random in range. Go away MIDI Editor to Arrange View window to set velocity to each selected item. SWS is required.
