@@ -1,24 +1,24 @@
 --[[
 
-  ReaScript Name: Academic Articulations
-  Instructions: Just open it with Actions -  New action - Load ReaScript
-  Author: Amely Suncroll
-  REAPER: 6+ (maybe less)
-  Extensions: none
-  Version: 1.04
+  @ReaScript Name: Academic Articulations
+  @Instructions: Just open it with Actions -  New action - Load ReaScript
+  @Author: Amely Suncroll
+  @REAPER: 6+ (maybe less)
+  @Extensions: none
+  @Version: 1.04
 
-  About: Set acticulations by note names you've set before
+  @Description: Set acticulations by note names you've set before
 
-  Changelog:
+  @Changelog:
   v1.02: add markers
   v1.03: add pop-up menu of existing articulations
   v1.04: add auto-refresh markers
 
 
-  Запрошую долучитися: https://t.me/reaper_ua
-
-  Donations: 
+  @Donation: 
   https://www.paypal.com/paypalme/suncroll
+
+  @Website: https://t.me/reaper_ua
 
   Support:
   https://t.me/yxo_composer_support
