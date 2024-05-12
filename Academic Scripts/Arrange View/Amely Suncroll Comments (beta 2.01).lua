@@ -1,19 +1,19 @@
 --[[
 
-  @ReaScript Name: Comments
-  @Instructions: Just open it with Actions -  New action - Load ReaScript
-  @Author: Amely Suncroll
-  @REAPER: 6+
-  @Extensions: SWS
-  @Version: beta 2.01
+-- @description Comments (beta)
+-- @author Amely Suncroll
+-- @version beta 2.01
+-- @website https://forum.cockos.com/showthread.php?t=291012
+-- @changelog
+--    + init @
+--    + change font and color
+--    + pin docker
+-- @screenshot none
+-- @about Select and navigate between your text items (insert_empty_item in Action List)
 
-  @Description: Select and navigate between your text items (insert_empty_item in Action List)
+-- @donation https://www.paypal.com/paypalme/suncroll
 
-
-  @Donation: 
-  https://www.paypal.com/paypalme/suncroll
-
-  @Website: https://t.me/reaper_ua
+-- @website https://t.me/reaper_ua
 
   Support:
   https://t.me/yxo_composer_support
