@@ -4,7 +4,6 @@
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
--- @screenshot none
 -- @about Play on your pc keyboard anywhere (you need to add this script to Arrange View (Main) and Piano Roll Actions separately)
 
 -- IF YOU HAVE NO SOUND:
