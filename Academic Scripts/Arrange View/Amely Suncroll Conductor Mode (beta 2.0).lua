@@ -1,12 +1,9 @@
---[[
-
 -- @description Conductor Mode
 -- @author Amely Suncroll
 -- @version beta 1.0
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
--- @screenshot none
 -- @about EXPERIMENTAL FUNCTION. 
 -- Slows down the selected part of the project by 30% and then by 50%, and then returns the original tempo. 
 -- The script will be useful for those who want to hear their mush at a slower tempo without making unnecessary movements. 
@@ -16,12 +13,9 @@
 
 -- @website: https://t.me/reaper_ua
 
-  Support:
-  https://t.me/yxo_composer_support
-  amelysuncroll@gmail.com
-
-
-]]--
+-- Support:
+-- https://t.me/yxo_composer_support
+-- amelysuncroll@gmail.com
 
 local start_time, end_time = reaper.GetSet_LoopTimeRange(false, false, 0, 0, false)
 if start_time ~= end_time then
