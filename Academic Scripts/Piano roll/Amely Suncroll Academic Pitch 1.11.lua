@@ -1,13 +1,13 @@
 --[[
 
-  ReaScript Name: Academic Pitch
-  Instructions: Just open it with Actions -  New action - Load ReaScript
-  Author: Amely Suncroll
-  REAPER: 6+ (maybe less)
-  Extensions: none
-  Version: 1.11
+  @ReaScript Name: Academic Pitch
+  @Instructions: Just open it with Actions -  New action - Load ReaScript
+  @Author: Amely Suncroll
+  @REAPER: 6+ (maybe less)
+  @Extensions: none
+  @Version: 1.11
 
-  About: 
+  @Description: 
 
   b = move pitch bend down by one semitone
   # = move pitch bend up by one semitone
@@ -18,13 +18,14 @@
   you can type #/# and b/b, bb and ## also
   b (or #) nat = natural b or # (before Bach)
 
+  @Changelog:
   v1.1: add pitch points to each note before input
   v1.11: keep midi editor in focus
 
-  Запрошую долучитися: https://t.me/reaper_ua
-
-  Donations: 
+  @Donation: 
   https://www.paypal.com/paypalme/suncroll
+
+  @Website: https://t.me/reaper_ua
 
   Support:
   https://t.me/yxo_composer_support
