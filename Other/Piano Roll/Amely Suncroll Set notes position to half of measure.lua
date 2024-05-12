@@ -1,10 +1,10 @@
--- @description Set notes position to half of measure
+-- @description Set notes position to half of each measure
 -- @author Amely Suncroll
 -- @version 1.0
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
--- @about Set notes position to half of measure
+-- @about Set notes position to half of each measure
 
 -- @donation https://www.paypal.com/paypalme/suncroll
 
