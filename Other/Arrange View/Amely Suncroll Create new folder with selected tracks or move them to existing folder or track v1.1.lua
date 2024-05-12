@@ -1,28 +1,23 @@
---[[
+-- @description Create new folder with selected tracks or move them to existing folder or track
+-- @author Amely Suncroll
+-- @version 1.1
+-- @website https://forum.cockos.com/showthread.php?t=291012
+-- @changelog
+--    + init @
+--    + v.1.1 add track folder height lock
+-- @about Select tracks and call the script. If you type "DRUMS" but you have this track or folder already - all selected tracks will move there
+    
+-- @donation https://www.paypal.com/paypalme/suncroll
 
-  ReaScript Name: Create new folder with selected tracks or move them to existing folder or track
-  Instructions: Just open it with Actions -  New action - Load ReaScript
-  Author: Amely Suncroll
-  REAPER: 6+ (maybe less)
-  Extensions: none
-  Version: 1.1
+-- @website: https://t.me/reaper_ua
 
-  About: select tracks and call the script. If you type "DRUMS" but you have this track or folder already - all selected tracks will move there.
-  v1.1: add track folder height (1 = on, 0 = off)
+-- Support:
+-- https://t.me/yxo_composer_support
+-- amelysuncroll@gmail.com
 
-
-  Donations: 
-  https://www.paypal.com/paypalme/suncroll
-
-  Support:
-  https://t.me/yxo_composer_support
-  amelysuncroll@gmail.com
-
-  Other links:
-  https://github.com/AmelySuncroll
-  https://www.youtube.com/@yxo_composer
-
-]]--
+-- Other links:
+-- https://github.com/AmelySuncroll
+-- https://www.youtube.com/@yxo_composer
 
 local script_title = "Create new folder with selected tracks or move them to existing folder or track"
 reaper.Undo_BeginBlock()
