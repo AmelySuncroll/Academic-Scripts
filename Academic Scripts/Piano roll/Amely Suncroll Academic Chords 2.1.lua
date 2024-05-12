@@ -1,13 +1,13 @@
 --[[
 
-  ReaScript Name: Academic Chords
-  Instructions: Just open it with Actions -  New action - Load ReaScript
-  Author: Amely Suncroll
-  REAPER: 6+ (maybe less)
-  Extensions: none
-  Version: 2.1
+  @ReaScript Name: Academic Chords
+  @Instructions: Just open it with Actions -  New action - Load ReaScript
+  @Author: Amely Suncroll
+  @REAPER: 6+ (maybe less)
+  @Extensions: none
+  @Version: 2.1
 
-  About: Select one or more notes (or chords) and turn them into one of 117 chords.
+  @Description: Select one or more notes (or chords) and turn them into one of 117 chords.
 
   Try to type next:
   list - full list of chords
@@ -16,12 +16,12 @@
   R - one random chord to all notes and chords you select
   RR - different random chords to all notes and chords you select
   Gm, G, F#m, C - set tonality (experimental function)
-      
-    
-  Запрошую долучитися: https://t.me/reaper_ua
 
-  Donations: 
+
+  @Donation: 
   https://www.paypal.com/paypalme/suncroll
+
+  @Website: https://t.me/reaper_ua
 
   Support:
   https://t.me/yxo_composer_support
