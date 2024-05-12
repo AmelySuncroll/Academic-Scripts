@@ -1,5 +1,3 @@
---[[
-
 -- @description Academic Piano 
 -- @author Amely Suncroll
 -- @version 1.0
@@ -21,11 +19,9 @@
 
 -- @website https://t.me/reaper_ua
 
-  Support:
-  https://t.me/yxo_composer_support
-  amelysuncroll@gmail.com
-
-]]--
+-- Support:
+-- https://t.me/yxo_composer_support
+-- amelysuncroll@gmail.com
 
 local extStateSection = "MyCustomScript"
 local extStateKey = "isCommandsActive"
