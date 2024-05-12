@@ -1,11 +1,11 @@
 --[[
 
-  ReaScript Name: Academic Piano
-  Instructions: Just open it with Actions -  New action - Load ReaScript
-  Author: Amely Suncroll
-  REAPER: 6+ (maybe less)
-  Extensions: none
-  Version: 1.0
+  @ReaScript Name: Academic Piano
+  @Instructions: Just open it with Actions -  New action - Load ReaScript
+  @Author: Amely Suncroll
+  @REAPER: 6+ (maybe less)
+  @Extensions: none
+  @Version: 1.0
 
   About: Play on your pc keyboard anywhere (you need to add this script to Arrange View (Main) and Piano Roll Actions separately)
 
