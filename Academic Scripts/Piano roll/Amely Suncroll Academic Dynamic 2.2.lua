@@ -1,50 +1,43 @@
---[[
+-- @description Academic Dynamic
+-- @author Amely Suncroll
+-- @version 2.2
+-- @website https://forum.cockos.com/showthread.php?t=291012
+-- @changelog
+--    + init @
+--    + v2.0: add function random velocity
+--    + v2.1: add function select midi item(s) to set dynamic to each of them (in arrange view)
+--    + v2.11: add keep midi editor focused
+--    + v2.2: add replace velocity function
+-- @about Select notes and see how velocity will change by your magic fingers
+-- ---
+-- ppp = set velocity of selected notes to 16 value
+-- pp = 32
+-- p = 48
+-- etc (up to fff)
+-- ---
+-- 123 = set velocity of selected notes to 123 value
+-- to 123 = set THE FIRST selected note to 123 value and keep the ratio between others
+-- 123 to 123 = set transition from 123 to 123 of selected notes velocity (up to four: A to B to X to Y)
+-- ---
+-- 123 r 123 = random velocity with range from X (low value) to Y (high value)
+-- 123 = 123 = replace velocity (approximately range of the note you want to replace is +-5)
+-- ---
+-- to ppp (or other) = set THE FIRST selected note to ppp value and keep the ratio between others
+-- mf to mp (up to 4) = set transition from mf to mp of selected notes velocity
+-- cresc (or dim) = set velocity transition from note BEFORE and note AFTER out of selection
+-- ---
+    
+-- @donation https://www.paypal.com/paypalme/suncroll
 
-  @ReaScript Name: Academic Dynamic
-  @Instructions: Just open it with Actions -  New action - Load ReaScript
-  @Author: Amely Suncroll
-  @REAPER: 6+ (maybe less)
-  @Extensions: none
-  @Version: 2.2
+-- @website: https://t.me/reaper_ua
 
-  @Description: Select notes and see how velocity will change by your magic fingers.
+-- Support:
+-- https://t.me/yxo_composer_support
+-- amelysuncroll@gmail.com
 
-  ppp = set velocity of selected notes to 16 value
-  pp = 32
-  p = 48
-  etc (up to fff)
-
-  123 = set velocity of selected notes to 123 value
-  to 123 = set THE FIRST selected note to 123 value and keep the ratio between others
-  123 to 123 = set transition from 123 to 123 of selected notes velocity (up to four: A to B to X to Y)
-
-  123 r 123 = random velocity with range from X (low value) to Y (high value)
-  123 = 123 = replace velocity (approximately range of the note you want to replace is +-5)
-
-  to ppp (or other) = set THE FIRST selected note to ppp value and keep the ratio between others
-  mf to mp (up to 4) = set transition from mf to mp of selected notes velocity
-  cresc (or dim) = set velocity transition from note BEFORE and note AFTER out of selection
-
-  @Changelog:
-  v2.0: add function random velocity
-  v2.1: add function select midi item(s) to set dynamic to each of them (in arrange view)
-  v2.11: add keep midi editor focused
-  v2.2: add replace velocity function
-
-  @Donation: 
-  https://www.paypal.com/paypalme/suncroll
-
-  @Website: https://t.me/reaper_ua
-
-  Support:
-  https://t.me/yxo_composer_support
-  amelysuncroll@gmail.com
-
-  Other links:
-  https://github.com/AmelySuncroll
-  https://www.youtube.com/@yxo_composer
-
-]]--
+-- Other links:
+-- https://github.com/AmelySuncroll
+-- https://www.youtube.com/@yxo_composer
 
 
 
