@@ -1,13 +1,13 @@
 --[[
 
-  ReaScript Name: Academic Ornaments
-  Instructions: Just open it with Actions -  New action - Load ReaScript
-  Author: Amely Suncroll
-  REAPER: 6+ (maybe less)
-  Extensions: none
-  Version: 1.01
+  @ReaScript Name: Academic Ornaments
+  @Instructions: Just open it with Actions -  New action - Load ReaScript
+  @Author: Amely Suncroll
+  @REAPER: 6+ (maybe less)
+  @Extensions: none
+  @Version: 1.01
 
-  About: Set trills and forshlags here.
+  @Description: Set trills and forshlags here.
 
   "trill" or "tr" with 2, 4, 8 etc = trill with length 2, 4, 8 etc 
   Example: tr32
@@ -18,12 +18,13 @@
 
   YOU CAN CREATE YOUR OWN ORNAMENTS BELOW
 
+  @Changelog:
   v1.01: keep midi editor in focus
 
-  Запрошую долучитися: https://t.me/reaper_ua
-
-  Donations: 
+  @Donation: 
   https://www.paypal.com/paypalme/suncroll
+
+  @Website: https://t.me/reaper_ua
 
   Support:
   https://t.me/yxo_composer_support
