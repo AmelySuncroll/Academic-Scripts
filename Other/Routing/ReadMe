@@ -1,0 +1,8 @@
+Create sends with one button to tracks called "delay", "hall" etc and to first/second (etc) track of the project. 
+
+You can change track name inside the code:
+local targetTrackName = "Delay"  -- change it to "NAME YOU NEED".
+
+You can change track number with:
+local firstTrack = reaper.GetTrack(0, X) -- X is number you need. 0 = first track, 1 = second, 2 = third etc
+
