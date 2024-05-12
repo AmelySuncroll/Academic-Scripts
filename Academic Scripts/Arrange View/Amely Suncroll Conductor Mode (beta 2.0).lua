@@ -1,6 +1,6 @@
 -- @description Conductor Mode
 -- @author Amely Suncroll
--- @version beta 1.0
+-- @version 0.1.0
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
