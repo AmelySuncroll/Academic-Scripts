@@ -1,13 +1,13 @@
 --[[
 
-  ReaScript Name: Academic Dynamic
-  Instructions: Just open it with Actions -  New action - Load ReaScript
-  Author: Amely Suncroll
-  REAPER: 6+ (maybe less)
-  Extensions: none
-  Version: 2.2
+  @ReaScript Name: Academic Dynamic
+  @Instructions: Just open it with Actions -  New action - Load ReaScript
+  @Author: Amely Suncroll
+  @REAPER: 6+ (maybe less)
+  @Extensions: none
+  @Version: 2.2
 
-  About: Select notes and see how velocity will change by your magic fingers.
+  @Description: Select notes and see how velocity will change by your magic fingers.
 
   ppp = set velocity of selected notes to 16 value
   pp = 32
@@ -25,15 +25,16 @@
   mf to mp (up to 4) = set transition from mf to mp of selected notes velocity
   cresc (or dim) = set velocity transition from note BEFORE and note AFTER out of selection
 
+  @Changelog:
   v2.0: add function random velocity
   v2.1: add function select midi item(s) to set dynamic to each of them (in arrange view)
   v2.11: add keep midi editor focused
   v2.2: add replace velocity function
 
-  Запрошую долучитися: https://t.me/reaper_ua
-
-  Donations: 
+  @Donation: 
   https://www.paypal.com/paypalme/suncroll
+
+  @Website: https://t.me/reaper_ua
 
   Support:
   https://t.me/yxo_composer_support
