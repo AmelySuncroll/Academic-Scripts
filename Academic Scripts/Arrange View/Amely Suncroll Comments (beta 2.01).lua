@@ -1,6 +1,6 @@
 -- @description Comments (beta)
 -- @author Amely Suncroll
--- @version beta 2.01
+-- @version 0.2.0
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
