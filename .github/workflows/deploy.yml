@@ -25,5 +25,4 @@ jobs:
     - name: Update index.xml
       run:  reapack-index --commit
     - name: Push changes
-      run:  git push https://${{ secrets.ACADEMICSECRET }}@github.com/AmelySuncroll/Academic-Scripts.git
-    
+      run:  git push
