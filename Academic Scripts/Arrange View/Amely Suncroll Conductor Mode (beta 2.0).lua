@@ -1,20 +1,20 @@
 --[[
 
-  @ReaScript Name: Conductor Mode
-  @Instructions: Just open it with Actions -  New action - Load ReaScript
-  @Author: Amely Suncroll
-  @REAPER: 6+
-  @Extensions: none
-  @Version: beta 2.0
-
-  @Description: EXPERIMENTAL FUNCTION. Slows down the selected part of the project by 30% and then by 50%, and then returns the original tempo. 
-         The script will be useful for those who want to hear their mush at a slower tempo without making unnecessary movements. 
-         Why beta? Because the created markers are not deleted yet.
+-- @description Conductor Mode
+-- @author Amely Suncroll
+-- @version beta 1.0
+-- @website https://forum.cockos.com/showthread.php?t=291012
+-- @changelog
+--    + init @
+-- @screenshot none
+-- @about EXPERIMENTAL FUNCTION. 
+-- Slows down the selected part of the project by 30% and then by 50%, and then returns the original tempo. 
+-- The script will be useful for those who want to hear their mush at a slower tempo without making unnecessary movements. 
+-- Why beta? Because the created markers are not deleted yet.
     
-  @Donation: 
-  https://www.paypal.com/paypalme/suncroll
+-- @donation https://www.paypal.com/paypalme/suncroll
 
-  @Website: https://t.me/reaper_ua
+-- @website: https://t.me/reaper_ua
 
   Support:
   https://t.me/yxo_composer_support
