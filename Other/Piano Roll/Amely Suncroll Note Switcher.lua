@@ -1,36 +1,29 @@
---[[
+-- @description Note Switcher
+-- @author Amely Suncroll
+-- @version 1.0
+-- @website https://forum.cockos.com/showthread.php?t=291012
+-- @changelog
+--    + init @
+-- @about Select notes and replace it. Don't select notes and replace them all.
+-- Input example:
+-- x=y
+-- x#=y#
+-- xb=yb
 
-  ReaScript Name: Note Switcher
-  Instructions: Just open it with Actions -  New action - Load ReaScript
-  Author: Amely Suncroll
-  REAPER: 6+ (maybe less)
-  Extensions: none
-  Version: 1.0
+-- or:
+-- x=y, x#=y#, xb=yb (up to three notes to replace)
 
-  About: Select notes and replace it. Don't select notes and replace them all.
+-- @donation https://www.paypal.com/paypalme/suncroll
 
-  Input example:
-  x=y
-  x#=y#
-  xb=yb
+-- @website: https://t.me/reaper_ua
 
-  or:
-  x=y, x#=y#, xb=yb (up to three notes to replace)
+-- Support:
+-- https://t.me/yxo_composer_support
+-- amelysuncroll@gmail.com
 
-  Запрошую долучитися: https://t.me/reaper_ua
-
-  Donations: 
-  https://www.paypal.com/paypalme/suncroll
-
-  Support:
-  https://t.me/yxo_composer_support
-  amelysuncroll@gmail.com
-
-  Other links:
-  https://github.com/AmelySuncroll
-  https://www.youtube.com/@yxo_composer
-
-]]--
+-- Other links:
+-- https://github.com/AmelySuncroll
+-- https://www.youtube.com/@yxo_composer
 
 function trim(s)
     return (s:gsub("^%s*(.-)%s*$", "%1"))
