@@ -7,7 +7,7 @@
   @Extensions: none
   @Version: 1.0
 
-  About: Play on your pc keyboard anywhere (you need to add this script to Arrange View (Main) and Piano Roll Actions separately)
+  @Description: Play on your pc keyboard anywhere (you need to add this script to Arrange View (Main) and Piano Roll Actions separately)
 
   IF YOU HAVE NO SOUND:
   1. Click right mouse on Virtual MIDI Keyboard (VKB) and check 
@@ -21,18 +21,14 @@
   or
   4.2 Click on input part of track - Input: MIDI - Virtual MIDI keyboard - All channels (this option is local to selected track)
 
-
-
-  Donations: 
+  @Donation: 
   https://www.paypal.com/paypalme/suncroll
+
+  @Website: https://t.me/reaper_ua
 
   Support:
   https://t.me/yxo_composer_support
   amelysuncroll@gmail.com
-
-  Other links:
-  https://github.com/AmelySuncroll
-  https://www.youtube.com/@yxo_composer
 
 ]]--
 
