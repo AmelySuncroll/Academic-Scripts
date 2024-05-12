@@ -1,23 +1,670 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="58a3e39ba95bd0f35846aa1f39aa4cb2574295e1">
-  <category name="Example">
-    <reapack name="cfillion_Hello world.lua" type="script" desc="Hello world">
+<index version="1" name="Academic-Scripts" commit="4ed6a88c5ca811a6d688543d94f235f77b5adec1">
+  <category name="Academic Scripts/Arrange View">
+    <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 This is an example of a package file. It installs itself as a ReaScript that does nothing but show "Hello World!" in REAPER's scripting console.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Packages may also include additional files specified using the @provides tag.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 This text is the documentation shown when using ReaPack's "About this package" feature. {\field{\*\fldinst{HYPERLINK "https://commonmark.org/"}}{\fldrslt{\ul
-Markdown
-}}}
- {\i formatting} is supported.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Play on your pc keyboard anywhere (you need to add this script to Arrange View (Main) and Piano Roll Actions separately)\par}
 }
 ]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
       </metadata>
-      <version name="1.0" author="cfillion" time="2021-01-04T23:30:32Z">
-        <source main="main">https://github.com/cfillion/reapack-repository-template/raw/58a3e39ba95bd0f35846aa1f39aa4cb2574295e1/Example/cfillion_Hello%20world.lua</source>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T08:42:06Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/e5ec27bb2006cbed73b7af0d2057c7fb7e5aef33/Academic%20Scripts/Arrange%20View/Amely%20Suncroll%20Academic%20Piano.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Comments (beta 2.01).lua" type="script" desc="Comments (beta)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select and navigate between your text items (insert_empty_item in Action List)\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="0.2.0" author="Amely Suncroll" time="2024-05-12T09:27:23Z">
+        <changelog><![CDATA[+ init @
++ change font and color
++ pin docker]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/9d719950d23857e81575527371f801c80de02c88/Academic%20Scripts/Arrange%20View/Amely%20Suncroll%20Comments%20(beta%202.01).lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Conductor Mode (beta 2.0).lua" type="script" desc="Conductor Mode">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 EXPERIMENTAL FUNCTION.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="0.1.0" author="Amely Suncroll" time="2024-05-12T09:27:38Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/9e5e2174e4ee26d8bebf617570854626ba6f0797/Academic%20Scripts/Arrange%20View/Amely%20Suncroll%20Conductor%20Mode%20(beta%202.0).lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Academic Scripts/Piano roll">
+    <reapack name="Amely Suncroll Academic Articulations 1.04.lua" type="script" desc="Academic Articulations">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Set acticulations by note names you've set before\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.04" author="Amely Suncroll" time="2024-05-12T08:43:50Z">
+        <changelog><![CDATA[+ init @
++ v1.02 add text events (type: marker)
++ v1.03 add pop-up menu
++ v1.04 add auto-refresh text events (type: marker)]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/a61e6bc27a1d48a2f96d9764c9cb0042b8183d1e/Academic%20Scripts/Piano%20roll/Amely%20Suncroll%20Academic%20Articulations%201.04.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Academic Chords 2.1.lua" type="script" desc="Academic Chords">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select one or more notes (or chords) and turn them into one of 117 chords\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="2.1" author="Amely Suncroll" time="2024-05-12T08:50:49Z">
+        <changelog><![CDATA[+ init @
++ v2.0 add 117 chords, add random and double random chords (r, rr)
++ v2.01 fix not update arrange view when docked piano roll
++ v2.1 add tonality function]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/655a8125a87c491aa4bef134aba3eb54461d01bf/Academic%20Scripts/Piano%20roll/Amely%20Suncroll%20Academic%20Chords%202.1.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Academic Dynamic 2.2.lua" type="script" desc="Academic Dynamic">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select notes and see how velocity will change by your magic fingers\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="2.2" author="Amely Suncroll" time="2024-05-12T08:54:08Z">
+        <changelog><![CDATA[+ init @
++ v2.0: add function random velocity
++ v2.1: add function select midi item(s) to set dynamic to each of them (in arrange view)
++ v2.11: add keep midi editor focused
++ v2.2: add replace velocity function]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/e6852da93c868f2354ca6d866317453c6e9fc346/Academic%20Scripts/Piano%20roll/Amely%20Suncroll%20Academic%20Dynamic%202.2.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Academic Ornaments 1.01.lua" type="script" desc="Academic Ornaments">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Set trills and forshlags here\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.01" author="Amely Suncroll" time="2024-05-12T08:55:49Z">
+        <changelog><![CDATA[+ init @
++ v1.01 keep midi editor focused]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/c7dd4864f1b0839e75ca10d524417034181a529c/Academic%20Scripts/Piano%20roll/Amely%20Suncroll%20Academic%20Ornaments%201.01.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Academic Pitch 1.11.lua" type="script" desc="Academic Pitch">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Set pitch bend parametres with academic symbols\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.11" author="Amely Suncroll" time="2024-05-12T08:58:38Z">
+        <changelog><![CDATA[+ init @
++ v1.1 add pitch points to all notes before using script
++ v.11 keep midi editor focused]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/404748ef7ca12ae5e10291f5e5d47744590e1f46/Academic%20Scripts/Piano%20roll/Amely%20Suncroll%20Academic%20Pitch%201.11.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Other/Arrange View">
+    <reapack name="Amely Suncroll Convert item notes to regions.lua" type="script" desc="Convert item notes to regions">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 My own script I created when don't knew about others\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:00:17Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/bba2778d76f6ffc6774f4e625321f4cb88dea8eb/Other/Arrange%20View/Amely%20Suncroll%20Convert%20item%20notes%20to%20regions.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Create new folder with selected tracks or move them to existing folder or track v1.1.lua" type="script" desc="Create new folder with selected tracks or move them to existing folder or track">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select tracks and call the script. If you type "DRUMS" but you have this track or folder already - all selected tracks will move there\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.1" author="Amely Suncroll" time="2024-05-12T09:01:43Z">
+        <changelog><![CDATA[+ init @
++ v.1.1 add track folder height lock]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/351a113cb53b61b5d2b84f9b474fdcbc82bf10dc/Other/Arrange%20View/Amely%20Suncroll%20Create%20new%20folder%20with%20selected%20tracks%20or%20move%20them%20to%20existing%20folder%20or%20track%20v1.1.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Delete markers by name.lua" type="script" desc="Delete markers by name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Delete markers by name\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:02:36Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/8b52a395197c8a12b133f20e915df4681f9a5e64/Other/Arrange%20View/Amely%20Suncroll%20Delete%20markers%20by%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Select all items after edit cursor.lua" type="script" desc="Select all items after edit cursor">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select all items after edit cursor\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:03:46Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/996bdb12e531747de1da01abd172325fca6da8ca/Other/Arrange%20View/Amely%20Suncroll%20Select%20all%20items%20after%20edit%20cursor.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Select all items before edit cursor.lua" type="script" desc="Select all items before edit cursor">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select all items before edit cursor\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:04:05Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/9b652232ef1523b8b31413e1cd6bcda2847827ad/Other/Arrange%20View/Amely%20Suncroll%20Select%20all%20items%20before%20edit%20cursor.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Other/Arrange View/Link Track By Name">
+    <reapack name="Amely Suncroll Create a link by cross name (for script Toggle switch mute for linked tracks by name).lua" type="script" desc="Create a link by cross name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select two tracks WITH NAMES to make a cross name between them (to link)\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:29:26Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/889f365b738d3dd23687cedd815d47c1dd0a45de/Other/Arrange%20View/Link%20Track%20By%20Name/Amely%20Suncroll%20Create%20a%20link%20by%20cross%20name%20(for%20script%20Toggle%20switch%20mute%20for%20linked%20tracks%20by%20name).lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Delete track name contains [ABC].lua" type="script" desc="Delete track name contains [ABC]">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Use this script after use "Amely Suncroll Create a link by cross name".\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:31:10Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/4eedf726a877610da0c032b80ab3ef79ed501780/Other/Arrange%20View/Link%20Track%20By%20Name/Amely%20Suncroll%20Delete%20track%20name%20contains%20%5BABC%5D.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Toggle mute for linked tracks by name.lua" type="script" desc="Toggle mute for linked track by name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Use "Create a link by cross name" to make a link between two tracks by their name.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:32:02Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/235b9b96859adacc583d1d811d3da7f816465176/Other/Arrange%20View/Link%20Track%20By%20Name/Amely%20Suncroll%20Toggle%20mute%20for%20linked%20tracks%20by%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Toggle solo for linked tracks by name.lua" type="script" desc="Toggle solo for linked track by name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Use "Create a link by cross name" to make a link between two tracks by their name.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:32:21Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/92685487496d8fdb3b4873ab97f3019eec80e361/Other/Arrange%20View/Link%20Track%20By%20Name/Amely%20Suncroll%20Toggle%20solo%20for%20linked%20tracks%20by%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Toggle switch mute for linked tracks by name.lua" type="script" desc="Switch mute for linked track by name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Use "Create a link by cross name" to make a link between two tracks by their name.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:33:01Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/673f44edeec60ad9d81829939579e07950ee6052/Other/Arrange%20View/Link%20Track%20By%20Name/Amely%20Suncroll%20Toggle%20switch%20mute%20for%20linked%20tracks%20by%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Toggle switch solo for linked tracks by name.lua" type="script" desc="Switch solo for linked track by name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Use "Create a link by cross name" to make a link between two tracks by their name.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:33:19Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/4ed6a88c5ca811a6d688543d94f235f77b5adec1/Other/Arrange%20View/Link%20Track%20By%20Name/Amely%20Suncroll%20Toggle%20switch%20solo%20for%20linked%20tracks%20by%20name.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Other/Piano Roll">
+    <reapack name="Amely Suncroll Delete all events on selected midi item.lua" type="script" desc="Delete all events on selected midi item">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Get piano roll and call the script to delete all events such as velocity (will be 100), pitch etc\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:07:48Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/71100db4c7b7e833f374a45dadd8879d0d85e890/Other/Piano%20Roll/Amely%20Suncroll%20Delete%20all%20events%20on%20selected%20midi%20item.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Delete selected chords except the highest note.lua" type="script" desc="Delete selected chords except the highest note">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Delete selected chords except the highest note\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:08:32Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/d5c4a211890df955ab32b4c362a32012079a25de/Other/Piano%20Roll/Amely%20Suncroll%20Delete%20selected%20chords%20except%20the%20highest%20note.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Delete selected chords except the lowest note.lua" type="script" desc="Delete selected chords except the lowest note">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Delete selected chords except the lowest note\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:09:22Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/6c2082b6e0d29343890d6c1a9483db85b498e602/Other/Piano%20Roll/Amely%20Suncroll%20Delete%20selected%20chords%20except%20the%20lowest%20note.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll First remove time selection and then close piano roll.lua" type="script" desc="First remove time selection and then close piano roll">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 First remove time selection and then close piano roll\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:10:03Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/2bf40ab2a8c54656b55a349eafd5c20c64b16e6a/Other/Piano%20Roll/Amely%20Suncroll%20First%20remove%20time%20selection%20and%20then%20close%20piano%20roll.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Insert and edit marker at current position in piano roll.lua" type="script" desc="Insert and edit marker at current position in piano roll">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Insert and edit marker at current position in piano roll\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:10:34Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/5a986aa0d9b27a58127b58b176196f066fc755c0/Other/Piano%20Roll/Amely%20Suncroll%20Insert%20and%20edit%20marker%20at%20current%20position%20in%20piano%20roll.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Note Switcher.lua" type="script" desc="Note Switcher">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select notes and replace it. Don't select notes and replace them all.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:11:55Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/a9236eca54dd061a3b3dd5c7a27b2fd0be713379/Other/Piano%20Roll/Amely%20Suncroll%20Note%20Switcher.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Select all midi notes without notes with name.lua" type="script" desc="Select all midi notes without notes with name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select all midi notes without notes with name\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:12:32Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/12261c65161ac0505d6d7a2a5ce86f6fabd8854d/Other/Piano%20Roll/Amely%20Suncroll%20Select%20all%20midi%20notes%20without%20notes%20with%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Select all notes after edit cursor.lua" type="script" desc="Select all notes after edit cursor">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select all notes after edit cursor\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:13:14Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/92e22eebac0f4dd3bd22d1f8b85332ca604d46dd/Other/Piano%20Roll/Amely%20Suncroll%20Select%20all%20notes%20after%20edit%20cursor.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Select all notes before edit cursor.lua" type="script" desc="Select all notes before edit cursor">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select all notes before edit cursor\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:13:34Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/84c3c50932db57236b02458de3f8dea5eb63528f/Other/Piano%20Roll/Amely%20Suncroll%20Select%20all%20notes%20before%20edit%20cursor.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Set notes position to half of measure.lua" type="script" desc="Set notes position to half of each measure">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Set notes position to half of each measure\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:14:09Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/c386b2c6a76704e0d78ce10729c15bec6c47612b/Other/Piano%20Roll/Amely%20Suncroll%20Set%20notes%20position%20to%20half%20of%20measure.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Set notes position to start of measure.lua" type="script" desc="Set notes position to start of each measure">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Set notes position to start of each measure\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:14:52Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/3dd31a092647785ba4f36fd6844c0a80c67c0b26/Other/Piano%20Roll/Amely%20Suncroll%20Set%20notes%20position%20to%20start%20of%20measure.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Show video window in piano roll.lua" type="script" desc="Show video window inside piano roll">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Show video windows inside piano roll\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:15:42Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/145cefad311499ec775ea7abaf9ea49d76e4f501/Other/Piano%20Roll/Amely%20Suncroll%20Show%20video%20window%20in%20piano%20roll.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Toggle metronome in piano roll.lua" type="script" desc="Toggle metronome in piano roll">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Turn on/off metronome inside piano roll (toggle)\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:17:11Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/0cceb1decf451c30135b438810ec9d8a09238bc4/Other/Piano%20Roll/Amely%20Suncroll%20Toggle%20metronome%20in%20piano%20roll.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Other/Routing">
+    <reapack name="Amely Suncroll Create send to DELAY.lua" type="script" desc="Create send to DELAY">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Create send to folder named 'DELAY' (you can change name inside the code)\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:18:43Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/f316e7ba5b4a616a377d4e7221814dd0ee27d5b6/Other/Routing/Amely%20Suncroll%20Create%20send%20to%20DELAY.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Create send to HALL.lua" type="script" desc="Create send to HALL">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Create send to folder named 'HALL' (you can change name inside the code)\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:19:08Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/ed5bc7728364469c1ccd65d9db14b6ed8190ba9b/Other/Routing/Amely%20Suncroll%20Create%20send%20to%20HALL.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Create send to ROOM.lua" type="script" desc="Create send to ROOM">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Create send to folder named 'ROOM' (you can change name inside the code)\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:19:39Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/4f589a4cad3ce584ad98e4c0bc551deaa7dd478c/Other/Routing/Amely%20Suncroll%20Create%20send%20to%20ROOM.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Create send to STAGE.lua" type="script" desc="Create send to STAGE">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Create send to folder named 'STAGE' (you can change name inside the code)\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:20:20Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/d8fee20e555417db6f3234d818fc3f6ff7676a61/Other/Routing/Amely%20Suncroll%20Create%20send%20to%20STAGE.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Create send to Track 01.lua" type="script" desc="Create send to Track 01">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Create send to the FIRST track (include folders)\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:22:29Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/0ad8af887096a5c78fd27f69e185a4398b3bf100/Other/Routing/Amely%20Suncroll%20Create%20send%20to%20Track%2001.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Create send to Track 02.lua" type="script" desc="Create send to Track 02">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Create send to the SECOND track (include folders)\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:23:52Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/5d9378a0e107b46564bff59868532ccfdbc300a9/Other/Routing/Amely%20Suncroll%20Create%20send%20to%20Track%2002.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Create send to Track 03.lua" type="script" desc="Create send to Track 03">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Create send to the THIRD track (include folders)\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:24:12Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/db2554368dc1048a38ee09711ab3a9b9278e302c/Other/Routing/Amely%20Suncroll%20Create%20send%20to%20Track%2003.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Create send to Track 04.lua" type="script" desc="Create send to Track 04">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Create send to the FOURTH track (include folders)\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:24:33Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/2ac9898c168715e07a493dfebde541287ddaf1c9/Other/Routing/Amely%20Suncroll%20Create%20send%20to%20Track%2004.lua</source>
       </version>
     </reapack>
   </category>
@@ -26,29 +673,23 @@ Markdown
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 ReaPack Repository Template\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 A template for GitHub-hosted ReaPack repositories with automated {\field{\*\fldinst{HYPERLINK "https://github.com/cfillion/reapack-index"}}{\fldrslt{\ul
-reapack-index
-}}}
- running from GitHub Actions.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Replace the name of the repository in {\field{\*\fldinst{HYPERLINK "/index.xml"}}{\fldrslt{\ul
-index.xml
-}}}
- when using this template. This will be the name shown in ReaPack.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 \f1 <index version="1" name="Name of your repository here">\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Replace the contents of this file ({\field{\*\fldinst{HYPERLINK "/README.md"}}{\fldrslt{\ul
-README.md
-}}}
-). This will be the text shown when using ReaPack's "About this repository" feature.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 reapack-index looks for package files in subfolders. The folder tree represents the package categories shown in ReaPack.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 Each package file is expected to begin with a metadata header. See {\field{\*\fldinst{HYPERLINK "https://github.com/cfillion/reapack-index/wiki/Packaging-Documentation"}}{\fldrslt{\ul
-Packaging Documentation
-}}}
- on reapack-index's wiki.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 The URL to import in ReaPack is {\field{\*\fldinst{HYPERLINK "https://github.com/cfillion/reapack-repository-template/raw/master/index.xml"}}{\fldrslt{\ul
-https://github.com/{\f1 <your username>}/{\f1 <repository name>}/raw/master/index.xml
-}}}
-.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Academic Scripts\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Scripts for Reaper DAW\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 NEW! Academic Articulations - make simple articulations in seconds. Be sure they are work as a trigger - they are created one pixel before notes you select.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Academic Dynamic - select midi notes and see how velocity will change by your magic fingers. Use academic dynamics such as ppp, mf or fff etc. Make a crescendo and diminuendo. Replace X velocity value to Y. Get a random in range. Go away MIDI Editor to Arrange View window to set velocity to each selected item. SWS is required.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Academic Piano - play on your pc keyboard anytime. Anywhere. With one button.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Auto Aim Midi* - glue edit cursor to start or end of selected note or notes. It has the main script and the switch scriipt. Best script for working with foleys.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 NEW! Auto Aim Item* - an exact copy of the Auto Aim Midi script, but applied to items and also consists of two scripts - the main one and the switch. Enjoy.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Academic Chords - get up to 117 chords! Select notes, chords or chords and notes and go. Get random chord for notes and chords you select. Get random chords individually to each note and chord you select. Rein this horse by making a filters - and all random chords will contain what you want. Make a chords by tonality you select.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Comments (beta) - see all your empty_notes with text in one window. Navigate between them. Mute it with checkboxes. See where are you by highlights on every empty_note. SWS is required.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Conductor Mode (beta) - slows down the selected part of the project by 30% and then by 50%, and then returns the original tempo. The script will be useful for those who want to hear their mush at a slower tempo without making unnecessary movements. Why beta? Because the created markers are not deleted yet.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Academic Pitch - use academic symbols such as "b" or "#" to change a pitch. You can get more with combinate them - bb, ##, /b, /# etc.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Academic Ornaments - set trills and forshlags here. And now YOU CAN CREATE YOUR OWN ORNAMENTS (instructions is inside the code).\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 In all (almost) scripts added instruction - call with the "i" letter. The window header text "Error" is replaced with ":(". Each script automatically switches the visibility of the CC lane to the event it is working with. Each script keep midi editor focused after use.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 P.S. The Academic Ornaments and Academic Pitch scripts is out-of-date and I didn't pay any attention to them as they seemed useless to me.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Donations: @suncroll (https://paypal.me/suncroll) or 5536 9140 7560 5653 - Tinkoff (Maria R).\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Thank you.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 *NOW IS PAID. Text me to amelysuncroll@gmail.com or https://t.me/yxo_composer_support.\par}
 }
 ]]></description>
   </metadata>
