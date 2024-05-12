@@ -7,9 +7,7 @@
 -- @changelog
 --    + init @
 -- @screenshot none
--- @about
-
--- Play on your pc keyboard anywhere (you need to add this script to Arrange View (Main) and Piano Roll Actions separately)
+-- @about Play on your pc keyboard anywhere (you need to add this script to Arrange View (Main) and Piano Roll Actions separately)
 
 -- IF YOU HAVE NO SOUND:
 -- 1. Click right mouse on Virtual MIDI Keyboard (VKB) and check "Send all keyboard input to VKB (even when other windows active)";
