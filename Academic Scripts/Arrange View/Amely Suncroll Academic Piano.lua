@@ -1,30 +1,27 @@
 --[[
 
-  @ReaScript Name: Academic Piano
-  @Instructions: Just open it with Actions -  New action - Load ReaScript
-  @Author: Amely Suncroll
-  @REAPER: 6+ (maybe less)
-  @Extensions: none
-  @version: 1.0
+-- @description Academic Piano 
+-- @author Amely Suncroll
+-- @version 1.0
+-- @website https://forum.cockos.com/showthread.php?t=291012
+-- @changelog
+--    + init @
+-- @screenshot none
+-- @about
 
-  @Description: Play on your pc keyboard anywhere (you need to add this script to Arrange View (Main) and Piano Roll Actions separately)
+-- Play on your pc keyboard anywhere (you need to add this script to Arrange View (Main) and Piano Roll Actions separately)
 
-  IF YOU HAVE NO SOUND:
-  1. Click right mouse on Virtual MIDI Keyboard (VKB) and check 
-  "Send all keyboard input to VKB (even when other windows active)";
+-- IF YOU HAVE NO SOUND:
+-- 1. Click right mouse on Virtual MIDI Keyboard (VKB) and check "Send all keyboard input to VKB (even when other windows active)";
+-- 2. Be sure your MIDI-channel on VKB is set to 01 (check right virtual keyboard corner);
+-- 3. Be sure your MIDI-channel in your VST is set to 01 or "omni".
+-- 4.1 Check your preferences - Project - Track/Send Defaults - Record config: "MIDI: Virtual MIDI keyboard: All channels"
+-- or
+-- 4.2 Click on input part of track - Input: MIDI - Virtual MIDI keyboard - All channels (this option is local to selected track)
 
-  2. Be sure your MIDI-channel on VKB is set to 01 (check right virtual keyboard corner);
+-- @donation https://www.paypal.com/paypalme/suncroll
 
-  3 Be sure your MIDI-channel in your VST is set to 01 or "omni".
-
-  4.1 Check your preferences - Project - Track/Send Defaults - Record config: "MIDI: Virtual MIDI keyboard: All channels"
-  or
-  4.2 Click on input part of track - Input: MIDI - Virtual MIDI keyboard - All channels (this option is local to selected track)
-
-  @Donation: 
-  https://www.paypal.com/paypalme/suncroll
-
-  @Website: https://t.me/reaper_ua
+-- @website https://t.me/reaper_ua
 
   Support:
   https://t.me/yxo_composer_support
