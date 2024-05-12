@@ -1,24 +1,20 @@
 --[[
 
-  @ReaScript Name: Academic Articulations
-  @Instructions: Just open it with Actions -  New action - Load ReaScript
-  @Author: Amely Suncroll
-  @REAPER: 6+ (maybe less)
-  @Extensions: none
-  @Version: 1.04
+-- @description Academic Articulations
+-- @author Amely Suncroll
+-- @version 1.04
+-- @website https://forum.cockos.com/showthread.php?t=291012
+-- @changelog
+--    + init @
+--    + v1.02 add text events (type: marker)
+--    + v1.03 add pop-up menu
+--    + v1.04 add auto-refresh text events (type: marker)
+-- @screenshot none
+-- @about Set acticulations by note names you've set before
+    
+-- @donation https://www.paypal.com/paypalme/suncroll
 
-  @Description: Set acticulations by note names you've set before
-
-  @Changelog:
-  v1.02: add markers
-  v1.03: add pop-up menu of existing articulations
-  v1.04: add auto-refresh markers
-
-
-  @Donation: 
-  https://www.paypal.com/paypalme/suncroll
-
-  @Website: https://t.me/reaper_ua
+-- @website: https://t.me/reaper_ua
 
   Support:
   https://t.me/yxo_composer_support
