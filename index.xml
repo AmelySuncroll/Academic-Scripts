@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="4ed6a88c5ca811a6d688543d94f235f77b5adec1">
+<index version="1" name="Academic-Scripts" commit="ad98ba91f56b451b294a3abc067f22af46b5ca91">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -35,7 +35,7 @@
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/9d719950d23857e81575527371f801c80de02c88/Academic%20Scripts/Arrange%20View/Amely%20Suncroll%20Comments%20(beta%202.01).lua</source>
       </version>
     </reapack>
-    <reapack name="Amely Suncroll Conductor Mode (beta 2.0).lua" type="script" desc="Conductor Mode">
+    <reapack name="Amely Suncroll Conductor Mode (beta 2.0).lua" type="script" desc="Conductor Mode (experimental beta)">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
