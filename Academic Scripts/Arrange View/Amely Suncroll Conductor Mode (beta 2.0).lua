@@ -7,7 +7,7 @@
   @Extensions: none
   @Version: beta 2.0
 
-  @Description: EXPERIMENTAL FUNCTION. Slows down the selected part of the project by 30 and then by 50%, and then returns the original tempo. 
+  @Description: EXPERIMENTAL FUNCTION. Slows down the selected part of the project by 30% and then by 50%, and then returns the original tempo. 
          The script will be useful for those who want to hear their mush at a slower tempo without making unnecessary movements. 
          Why beta? Because the created markers are not deleted yet.
     
