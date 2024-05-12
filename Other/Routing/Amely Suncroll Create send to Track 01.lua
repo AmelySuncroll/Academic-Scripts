@@ -1,4 +1,4 @@
--- @description Create send to first project track
+-- @description Create send to Track 01
 -- @author Amely Suncroll
 -- @version 1.0
 -- @website https://forum.cockos.com/showthread.php?t=291012
