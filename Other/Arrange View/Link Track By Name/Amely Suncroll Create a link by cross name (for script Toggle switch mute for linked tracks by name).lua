@@ -1,28 +1,23 @@
---[[
+-- @description Create a link by cross name 
+-- @author Amely Suncroll
+-- @version 1.0
+-- @website https://forum.cockos.com/showthread.php?t=291012
+-- @changelog
+--    + init @
+-- @about Select two tracks WITH NAMES to make a cross name between them (to link)
+-- Then call script "Amely Suncroll Toggle switch mute (or solo) for linked tracks by name"
 
-  ReaScript Name: Create a link by cross name (for script "Toggle switch mute for linked tracks by name")
-  Instructions: Just open it with Actions -  New action - Load ReaScript
-  Author: Amely Suncroll
-  REAPER: 6+ (maybe less)
-  Extensions: none
-  Version: 1.0
+-- @donation https://www.paypal.com/paypalme/suncroll
 
-  About: select two tracks WITH NAMES to make a cross name between them (to link)
-  Then call script "Amely Suncroll Toggle switch mute (or solo) for linked tracks by name"
+-- @website: https://t.me/reaper_ua
 
+-- Support:
+-- https://t.me/yxo_composer_support
+-- amelysuncroll@gmail.com
 
-  Donations: 
-  https://www.paypal.com/paypalme/suncroll
-
-  Support:
-  https://t.me/yxo_composer_support
-  amelysuncroll@gmail.com
-
-  Other links:
-  https://github.com/AmelySuncroll
-  https://www.youtube.com/@yxo_composer
-
-]]--
+-- Other links:
+-- https://github.com/AmelySuncroll
+-- https://www.youtube.com/@yxo_composer
 
 local function get_track_name(track)
     local _, name = reaper.GetSetMediaTrackInfo_String(track, "P_NAME", "", false)
