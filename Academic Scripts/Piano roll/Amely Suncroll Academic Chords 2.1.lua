@@ -1,37 +1,32 @@
---[[
+-- @description Academic Chords
+-- @author Amely Suncroll
+-- @version 2.1
+-- @website https://forum.cockos.com/showthread.php?t=291012
+-- @changelog
+--    + init @
+--    + v2.0 add 117 chords, add random and double random chords (r, rr)
+--    + v2.01 fix not update arrange view when docked piano roll
+--    + v2.1 add tonality function
+-- @about Select one or more notes (or chords) and turn them into one of 117 chords
+-- Try to type next:
+-- list - full list of chords
+-- i - instructions
+-- #9 or 7 or smth else after the chord to filter them with what you type
+-- R - one random chord to all notes and chords you select
+-- RR - different random chords to all notes and chords you select
+-- Gm, G, F#m, C - set tonality (experimental function)
+    
+-- @donation https://www.paypal.com/paypalme/suncroll
 
-  @ReaScript Name: Academic Chords
-  @Instructions: Just open it with Actions -  New action - Load ReaScript
-  @Author: Amely Suncroll
-  @REAPER: 6+ (maybe less)
-  @Extensions: none
-  @Version: 2.1
+-- @website: https://t.me/reaper_ua
 
-  @Description: Select one or more notes (or chords) and turn them into one of 117 chords.
+-- Support:
+-- https://t.me/yxo_composer_support
+-- amelysuncroll@gmail.com
 
-  Try to type next:
-  list - full list of chords
-  i - instructions
-  #9 or 7 or smth else after the chord to filter them with what you type
-  R - one random chord to all notes and chords you select
-  RR - different random chords to all notes and chords you select
-  Gm, G, F#m, C - set tonality (experimental function)
-
-
-  @Donation: 
-  https://www.paypal.com/paypalme/suncroll
-
-  @Website: https://t.me/reaper_ua
-
-  Support:
-  https://t.me/yxo_composer_support
-  amelysuncroll@gmail.com
-
-  Other links:
-  https://github.com/AmelySuncroll
-  https://www.youtube.com/@yxo_composer
-
-]]--
+-- Other links:
+-- https://github.com/AmelySuncroll
+-- https://www.youtube.com/@yxo_composer
 
 math.randomseed(os.time())
 
