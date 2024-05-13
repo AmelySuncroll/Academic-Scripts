@@ -7,7 +7,7 @@
 --    + v2.0 add 117 chords, add random and double random chords (r, rr)
 --    + v2.01 fix not update arrange view when docked piano roll
 --    + v2.1 add tonality function
--- @about Select one or more notes (or chords) and turn them into one of 117 chords
+-- @about Get up to 117 chords! Select notes, chords or chords and notes together and go. Make new chords using big library. Get random chord for all notes and chords you select. Get random chords individually to each note and chord you select. Rein this horse by making a filters - and all random chords will contain what you want. Experimental function: make chords and replace them by tonality you will set there.
 -- Try to type next:
 -- list - full list of chords
 -- i - instructions
