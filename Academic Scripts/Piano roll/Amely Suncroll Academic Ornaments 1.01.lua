@@ -1,12 +1,11 @@
--- @description Academic Ornaments
+e-- @description Academic Ornaments
 -- @author Amely Suncroll
 -- @version 1.01
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
 --    + v1.01 keep midi editor focused
--- @about Set trills and forshlags here
--- YOU CAN CREATE YOUR OWN ORNAMENTS BELOW
+-- @about Set trills and forshlags here. And now YOU CAN CREATE YOUR OWN ORNAMENTS (instructions is inside the code).
     
 -- @donation https://www.paypal.com/paypalme/suncroll
 
