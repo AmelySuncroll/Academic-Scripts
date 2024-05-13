@@ -8,7 +8,7 @@
 --    + v2.1: add function select midi item(s) to set dynamic to each of them (in arrange view)
 --    + v2.11: add keep midi editor focused
 --    + v2.2: add replace velocity function
--- @about Select notes and see how velocity will change by your magic fingers
+-- @about Select midi notes and see how velocity will change by your magic fingers. Use academic dynamics such as ppp, mf or fff etc. Make a crescendo and diminuendo. Replace velocity with X value to Y to to release your quiet notes from the depths of the velocity ocean (X = Y command). Get a random in range. Go away MIDI Editor to Arrange View window to set velocity to each selected item. SWS is required. Type 'i' to get instruction inside script.
 -- ---
 -- ppp = set velocity of selected notes to 16 value
 -- pp = 32
