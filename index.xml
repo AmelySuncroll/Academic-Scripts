@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="58205befe492dcc2e75b77891816188745d732a6">
+<index version="1" name="Academic-Scripts" commit="091189873f0f10113fdf2b5c1acf26ce35842a35">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -103,7 +103,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Select notes and see how velocity will change by your magic fingers\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Select midi notes and see how velocity will change by your magic fingers. Use academic dynamics such as ppp, mf or fff etc. Make a crescendo and diminuendo. Replace velocity with X value to Y to to release your quiet notes from the depths of the velocity ocean (X = Y command). Get a random in range. Go away MIDI Editor to Arrange View window to set velocity to each selected item. SWS is required. Type 'i' to get instruction inside script.\par}
 }
 ]]></description>
         <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
