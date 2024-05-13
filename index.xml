@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="384059e3389ec94a415e11791e65135d4efec402">
+<index version="1" name="Academic-Scripts" commit="58205befe492dcc2e75b77891816188745d732a6">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -140,7 +140,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Set pitch bend parametres with academic symbols\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Use academic symbols such as "b" or "#" to change a pitch. You can get more with combinate them - bb, ##, /b, /#, b/b or #/#. Use b nat or # nat. Use numeral values from 1 to 16383.\par}
 }
 ]]></description>
         <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
