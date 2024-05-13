@@ -1,12 +1,12 @@
 -- @description Comments (beta)
 -- @author Amely Suncroll
--- @version 0.2.0
+-- @version 0.2.1
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
 --    + change font and color
 --    + pin docker
--- @about Select and navigate between your text items (insert_empty_item in Action List)
+-- @about see all your empty_notes with text in one window. Navigate between them. Mute it with checkboxes. See where are you by highlights on every empty_note. SWS is required.
 
 -- @donation https://www.paypal.com/paypalme/suncroll
 
