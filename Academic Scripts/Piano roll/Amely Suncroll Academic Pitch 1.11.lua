@@ -6,15 +6,7 @@
 --    + init @
 --    + v1.1 add pitch points to all notes before using script
 --    + v.11 keep midi editor focused
--- @about Set pitch bend parametres with academic symbols
--- b = move pitch bend down by one semitone
--- # = move pitch bend up by one semitone
-
--- /b = the half of b 
--- /# = the half of #
-  
--- you can type #/# and b/b, bb and ## also
--- b (or #) nat = natural b or # (before Bach)
+-- @about Use academic symbols such as "b" or "#" to change a pitch. You can get more with combinate them - bb, ##, /b, /#, b/b or #/#. Use b nat or # nat. Use numeral values from 1 to 16383.
     
 -- @donation https://www.paypal.com/paypalme/suncroll
 
