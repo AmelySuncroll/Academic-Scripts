@@ -7,7 +7,7 @@
 --    + v1.02 add text events (type: marker)
 --    + v1.03 add pop-up menu
 --    + v1.04 add auto-refresh text events (type: marker)
--- @about Set acticulations by note names you've set before
+-- @about Make simple articulations in seconds. Be sure they are work as a trigger - they are created one pixel before notes you select. Attention: you need to set your own note names before use (double right click on the key).
     
 -- @donation https://www.paypal.com/paypalme/suncroll
 
