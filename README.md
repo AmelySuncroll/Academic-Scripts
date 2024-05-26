@@ -8,7 +8,7 @@ NEW! Academic Articulations - make simple articulations in seconds. Be sure they
 Academic Dynamic - select midi notes and see how velocity will change by your magic fingers. Use academic dynamics such as ppp, mf or fff etc. Make a crescendo and diminuendo. Replace X velocity value to Y. Get a random in range. Go away MIDI Editor to Arrange View window to set velocity to each selected item. SWS is required.
 
 
-NEW! Academic Voice - Select any voice in selected tracks - as original classic voices or upside down (top down or bottom up).
+NEW! Academic Voice - Select any voice in selected tracks - as original classic way or upside down (top down or bottom up).
 
 
 Academic Piano - play on your pc keyboard anytime. Anywhere. With one button.
