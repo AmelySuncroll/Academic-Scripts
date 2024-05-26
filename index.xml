@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="3c24452c75c313808f6ced9816fb29fbd002b417">
+<index version="1" name="Academic-Scripts" commit="e88b46ebb30bf769f3a7e42ed04db6fe849fbe25">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -233,6 +233,22 @@
       <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:04:05Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/9b652232ef1523b8b31413e1cd6bcda2847827ad/Other/Arrange%20View/Amely%20Suncroll%20Select%20all%20items%20before%20edit%20cursor.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Smart duplicate track.lua" type="script" desc="Smart duplicate tracks">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Smart duplicate track with name by formula X+1. Example: original track named "FX" after use this script will change name to "FX 1" and duplicated track will change name to "FX 2". Etc.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-26T16:44:39Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/e88b46ebb30bf769f3a7e42ed04db6fe849fbe25/Other/Arrange%20View/Amely%20Suncroll%20Smart%20duplicate%20track.lua</source>
       </version>
     </reapack>
   </category>
