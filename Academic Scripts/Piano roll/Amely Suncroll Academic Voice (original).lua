@@ -15,7 +15,7 @@
 -- amelysuncroll@gmail.com
 
 function get_voice_from_user()
-    local retval, user_input = reaper.GetUserInputs("Acamedic Voice (original)", 1, "Enter Voice Number (inc. 0):", "")
+    local retval, user_input = reaper.GetUserInputs("Acamedic Voice (original)", 1, "Enter voice number (inc. 0):", "")
     if not retval then return nil end
     local voice_num = tonumber(user_input)
     return voice_num
