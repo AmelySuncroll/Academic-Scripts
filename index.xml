@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="e631c56fa3ae24d655ff1125f8dcbe4a01e9529a">
+<index version="1" name="Academic-Scripts" commit="952597ac41d9096aec71d2b25b52be74002cfc1d">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -726,7 +726,7 @@
 {\pard \ql \f0 \sa180 \li0 \fi0 Add this repo to ReaPack: https://raw.githubusercontent.com/AmelySuncroll/Academic-Scripts/master/index.xml\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 NEW! Academic Articulations - make simple articulations in seconds. Be sure they are work as a trigger - they are created one pixel before notes you select.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 Academic Dynamic - select midi notes and see how velocity will change by your magic fingers. Use academic dynamics such as ppp, mf or fff etc. Make a crescendo and diminuendo. Replace X velocity value to Y. Get a random in range. Go away MIDI Editor to Arrange View window to set velocity to each selected item. SWS is required.\par}
-{\pard \ql \f0 \sa180 \li0 \fi0 NEW! Academic Voice - Select any voice in selected tracks - as original classic voices or upside down (top down or bottom up).\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 NEW! Academic Voice - Select any voice in selected tracks - as original classic way or upside down (top down or bottom up).\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 Academic Piano - play on your pc keyboard anytime. Anywhere. With one button.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 Auto Aim Midi* - glue edit cursor to start or end of selected note or notes. It has the main script and the switch scriipt. Best script for working with foleys.\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 NEW! Auto Aim Item* - an exact copy of the Auto Aim Midi script, but applied to items and also consists of two scripts - the main one and the switch. Enjoy.\par}
