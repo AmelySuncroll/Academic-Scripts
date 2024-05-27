@@ -1,4 +1,4 @@
--- @description Academic Voice (upside down)
+-- @description Academic Voice (inverted)
 -- @author Amely Suncroll
 -- @version 1.0
 -- @website https://forum.cockos.com/showthread.php?t=291012
@@ -15,7 +15,7 @@
 -- amelysuncroll@gmail.com
 
 function get_voice_from_user()
-    local retval, user_input = reaper.GetUserInputs("Acamedic Voice (upside down)", 1, "Enter note number (inc. 0):", "")
+    local retval, user_input = reaper.GetUserInputs("Acamedic Voice (inverted)", 1, "Enter note number (inc. 0):", "")
     if not retval then return nil end
     local voice_num = tonumber(user_input)
     return voice_num
