@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="952597ac41d9096aec71d2b25b52be74002cfc1d">
+<index version="1" name="Academic-Scripts" commit="3fabb862df8217554b1df588fe06b801183cb8d0">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -146,6 +146,22 @@
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/404748ef7ca12ae5e10291f5e5d47744590e1f46/Academic%20Scripts/Piano%20roll/Amely%20Suncroll%20Academic%20Pitch%201.11.lua</source>
       </version>
     </reapack>
+    <reapack name="Amely Suncroll Academic Voice (inverted).lua" type="script" desc="Academic Voice (inverted)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select any voice in selected tracks but upside down: 1 = bass + notes without chords, 2 = tenor, 3 = alto, 4 = soprano, then 5, 6, etc. 0 = all highest notes inside chords.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-27T06:32:17Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/3fabb862df8217554b1df588fe06b801183cb8d0/Academic%20Scripts/Piano%20roll/Amely%20Suncroll%20Academic%20Voice%20(inverted).lua</source>
+      </version>
+    </reapack>
     <reapack name="Amely Suncroll Academic Voice (original).lua" type="script" desc="Academic Voice (original)">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
@@ -160,22 +176,6 @@
       <version name="1.0" author="Amely Suncroll" time="2024-05-26T17:42:47Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/e631c56fa3ae24d655ff1125f8dcbe4a01e9529a/Academic%20Scripts/Piano%20roll/Amely%20Suncroll%20Academic%20Voice%20(original).lua</source>
-      </version>
-    </reapack>
-    <reapack name="Amely Suncroll Academic Voice (upside down).lua" type="script" desc="Academic Voice (upside down)">
-      <metadata>
-        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
-{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
-\widowctrl\hyphauto
-
-{\pard \ql \f0 \sa180 \li0 \fi0 Select any voice in selected tracks but upside down: 1 = bass + notes without chords, 2 = tenor, 3 = alto, 4 = soprano, then 5, 6, etc. 0 = all highest notes inside chords.\par}
-}
-]]></description>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="1.0" author="Amely Suncroll" time="2024-05-26T17:42:47Z">
-        <changelog><![CDATA[+ init @]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/e631c56fa3ae24d655ff1125f8dcbe4a01e9529a/Academic%20Scripts/Piano%20roll/Amely%20Suncroll%20Academic%20Voice%20(upside%20down).lua</source>
       </version>
     </reapack>
   </category>
