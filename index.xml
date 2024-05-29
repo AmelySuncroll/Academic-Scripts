@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="3fabb862df8217554b1df588fe06b801183cb8d0">
+<index version="1" name="Academic-Scripts" commit="6e060c0cc2f958537e76bb24795d99618d429f52">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -423,6 +423,22 @@
       <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:09:22Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/6c2082b6e0d29343890d6c1a9483db85b498e602/Other/Piano%20Roll/Amely%20Suncroll%20Delete%20selected%20chords%20except%20the%20lowest%20note.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Deselect midi notes with right mouse click (like FL Studio).lua" type="script" desc="Deselect midi notes with right mouse click (like FL Studio)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Click right mouse click just one time to deselect all midi notes. Hold right mouse click to delete midi notes (if you set up delete notes by right drag) and keep others selected.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-05-29T14:14:34Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/6e060c0cc2f958537e76bb24795d99618d429f52/Other/Piano%20Roll/Amely%20Suncroll%20Deselect%20midi%20notes%20with%20right%20mouse%20click%20(like%20FL%20Studio).lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll First remove time selection and then close piano roll.lua" type="script" desc="First remove time selection and then close piano roll">
