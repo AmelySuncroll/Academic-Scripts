@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="6e060c0cc2f958537e76bb24795d99618d429f52">
+<index version="1" name="Academic-Scripts" commit="5f60827e82fbffabc486ea603d7c50708e6991fd">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -17,7 +17,7 @@
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/e5ec27bb2006cbed73b7af0d2057c7fb7e5aef33/Academic%20Scripts/Arrange%20View/Amely%20Suncroll%20Academic%20Piano.lua</source>
       </version>
     </reapack>
-    <reapack name="Amely Suncroll Comments (beta 2.07).lua" type="script" desc="Comments (beta)">
+    <reapack name="Amely Suncroll Comments (beta 2.08).lua" type="script" desc="Comments (beta)">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -28,11 +28,11 @@
 ]]></description>
         <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
       </metadata>
-      <version name="0.2.7" author="Amely Suncroll" time="2024-05-26T16:54:35Z">
+      <version name="0.2.8" author="Amely Suncroll" time="2024-05-29T14:34:55Z">
         <changelog><![CDATA[+ init @
 + change font and color
 + pin docker]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/78d39cb25bccd1d286166bcec2942dc171fec9ea/Academic%20Scripts/Arrange%20View/Amely%20Suncroll%20Comments%20(beta%202.07).lua</source>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/5f60827e82fbffabc486ea603d7c50708e6991fd/Academic%20Scripts/Arrange%20View/Amely%20Suncroll%20Comments%20(beta%202.08).lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll Conductor Mode (beta 2.0).lua" type="script" desc="Conductor Mode (experimental beta)">
