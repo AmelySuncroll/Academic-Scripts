@@ -1,6 +1,6 @@
 -- @description Comments (beta)
 -- @author Amely Suncroll
--- @version 0.2.7
+-- @version 0.2.8
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -300,6 +300,7 @@ local function drawCheckboxes()
         gfx.rect(checkbox.x, checkbox.y, checkbox.width, checkbox.height, 1) 
         gfx.set(1, 1, 1, 1)
 
+        -- Отрисовка чекбокса
         gfx.rect(checkbox.x, checkbox.y, checkbox.width, checkbox.height, 0)
         if checkbox.checked then
             gfx.line(checkbox.x, checkbox.y, checkbox.x + checkbox.width, checkbox.y + checkbox.height)
@@ -334,13 +335,17 @@ local function drawTextItems(sortedTextItems)
 
         local note = reaper.ULT_GetMediaItemNote(textItem.item)
 
-        local checkboxX = 173
+        -- Сдвиг для чекбоксов и текста
+        local checkboxX = 175
         if not showStartTime and not showDuration then
             checkboxX = 35
+            maxInfoWidth = 80
         elseif not showDuration then
             checkboxX = 85
+            maxInfoWidth = 130
         elseif not showStartTime then
             checkboxX = 107
+            maxInfoWidth = 150
         end
 
         if textItem.index == selectedItemIndex then
@@ -352,6 +357,7 @@ local function drawTextItems(sortedTextItems)
         gfx.x, gfx.y = 10, y
         gfx.drawstr(infoText, 0, maxInfoWidth, gfx.y + 20)
 
+        -- Создание чекбокса
         table.insert(checkboxes, {x = checkboxX, y = y, width = 17, height = 17, checked = reaper.GetMediaItemInfo_Value(textItem.item, "B_MUTE") > 0, linkedItemIndex = textItem.index})
 
         local brokenLines = breakTextToFitWidth(note, gfx.w - maxInfoWidth - 20 - (textItem.level - 1) * 15)
@@ -369,10 +375,10 @@ end
 local function updateAndDrawCheckboxes(sortedTextItems)
     checkboxes = {}
 
-    local y = 40 + scrollOffset  
+    local y = 40 + scrollOffset  -- Добавляем смещение прокрутки к координате Y
     for _, textItem in ipairs(sortedTextItems) do
         createCheckbox(180, y, textItem.index)
-        y = y + 20 
+        y = y + 20  -- Отступ для следующего чекбокса
     end
 
     drawCheckboxes()
@@ -393,10 +399,10 @@ local function handleCheckboxClick(mouseX, mouseY)
 
             drawTextItems(getSortedTextItems())
 
-            return true  
+            return true  -- Возвращаем true, чтобы указать, что клик обработан
         end
     end
-    return false  
+    return false  -- Возвращаем false, если клик не был обработан
 end
 
 
@@ -426,37 +432,38 @@ local function handleToggleButtonClick(mouseX, mouseY)
 end
   
 local function drawOpenNotesButton()
-    local buttonX, buttonY, buttonWidth, buttonHeight = 10, gfx.h - 30, 70, 20 
-    gfx.set(1, 1, 1, 1)  
-    gfx.rect(buttonX, buttonY, buttonWidth, buttonHeight, 1)  
-    gfx.set(0, 0, 0, 1)  
+    local buttonX, buttonY, buttonWidth, buttonHeight = 10, gfx.h - 30, 70, 20  -- Координаты и размеры кнопки
+    gfx.set(1, 1, 1, 1)  -- Цвет кнопки
+    gfx.rect(buttonX, buttonY, buttonWidth, buttonHeight, 1)  -- Отрисовка кнопки
+    gfx.set(0, 0, 0, 1)  -- Цвет текста
     gfx.x, gfx.y = buttonX + 14, buttonY + 1
-    gfx.drawstr("Notes")  
+    gfx.drawstr("Notes")  -- Текст на кнопке
 end
 
 function drawCreateSingleItemButton()
     local buttonWidth, buttonHeight = 40, 20
-    local buttonX = gfx.w - buttonWidth - 70  
-    local buttonY = gfx.h - 30  
-    gfx.set(1, 1, 1, 1)  
-    gfx.rect(buttonX, buttonY, buttonWidth, buttonHeight, 1)  
-    gfx.set(0, 0, 0, 1) 
+    local buttonX = gfx.w - buttonWidth - 70  -- Координаты от правого края окна с отступом 120 пикселей
+    local buttonY = gfx.h - 30  -- Координаты от нижнего края окна
+    gfx.set(1, 1, 1, 1)  -- Цвет кнопки
+    gfx.rect(buttonX, buttonY, buttonWidth, buttonHeight, 1)  -- Отрисовка кнопки
+    gfx.set(0, 0, 0, 1)  -- Цвет текста
     gfx.x, gfx.y = buttonX + 7, buttonY + 1
-    gfx.drawstr("One")  
+    gfx.drawstr("One")  -- Текст на кнопке
 end
 
 function drawCreateItemsButton()
     local buttonWidth, buttonHeight = 40, 20
-    local buttonX = gfx.w - buttonWidth - 10  
-    local buttonY = gfx.h - 30  
-    gfx.set(1, 1, 1, 1)  
-    gfx.rect(buttonX, buttonY, buttonWidth, buttonHeight, 1) 
-    gfx.set(0, 0, 0, 1) 
+    local buttonX = gfx.w - buttonWidth - 10  -- Координаты от правого края окна с отступом 10 пикселей
+    local buttonY = gfx.h - 30  -- Координаты от нижнего края окна
+    gfx.set(1, 1, 1, 1)  -- Цвет кнопки
+    gfx.rect(buttonX, buttonY, buttonWidth, buttonHeight, 1)  -- Отрисовка кнопки
+    gfx.set(0, 0, 0, 1)  -- Цвет текста
     gfx.x, gfx.y = buttonX + 4, buttonY + 1
-    gfx.drawstr("Each") 
+    gfx.drawstr("Each")  -- Текст на кнопке
 end
 
 local function drawToggleButtons()
+    -- Кнопка для включения/выключения отображения времени начала
     local startX, startY, startWidth, startHeight = 10, 10, 100, 20
     gfx.set(0.2, 0.2, 0.2, 1)
     gfx.rect(startX, startY, startWidth, startHeight, 1)
@@ -464,6 +471,7 @@ local function drawToggleButtons()
     gfx.x, gfx.y = startX + 5, startY + 2
     gfx.drawstr(showStartTime and "Hide Start" or "Show Start")
 
+    -- Кнопка для включения/выключения отображения продолжительности
     local durationX, durationY, durationWidth, durationHeight = 120, 10, 100, 20
     gfx.set(0.2, 0.2, 0.2, 1)
     gfx.rect(durationX, durationY, durationWidth, durationHeight, 1)
@@ -545,7 +553,7 @@ local function handleMouseClicks()
                         reaper.UpdateArrange()
                     end
                     updateSelection()
-                    needToUpdate = true 
+                    needToUpdate = true  -- Устанавливаем флаг для обновления
                     break
                 end
             end
@@ -580,11 +588,13 @@ function main()
         reaper.defer(main)
     end
 
-    gfx.set(0.2, 0.2, 0.2, 1) 
-    gfx.rect(0, 0, gfx.w, 40, 1) 
+    -- Отрисовка белого прямоугольника в верхней части окна
+    gfx.set(0.2, 0.2, 0.2, 1)  -- Устанавливаем темно-серый цвет
+    gfx.rect(0, 0, gfx.w, 40, 1)  -- Отрисовка прямоугольника
 
-    gfx.set(1, 1, 1)  
-    gfx.rect(0, gfx.h - 40, gfx.w, 50, 1) 
+    -- Отрисовка белого прямоугольника в нижней части окна
+    gfx.set(1, 1, 1)  -- Устанавливаем белый цвет
+    gfx.rect(0, gfx.h - 40, gfx.w, 50, 1)  -- Отрисовка прямоугольника
 
     drawScenarioStatus()  
     drawOpenNotesButton() 
@@ -592,12 +602,13 @@ function main()
     drawCreateSingleItemButton()
     drawToggleButtons()
 
-    handleMouseClicks() 
+    handleMouseClicks() -- Обработка кликов мыши
 
+    -- Добавляем поддержку прокрутки колесиком мышки
     local mouse_wheel = gfx.mouse_wheel
     if mouse_wheel ~= 0 then
-        scrollOffset = scrollOffset + mouse_wheel / 10  
-        gfx.mouse_wheel = 0  
+        scrollOffset = scrollOffset + mouse_wheel / 10  -- Скорость прокрутки
+        gfx.mouse_wheel = 0  -- Сброс значения колесика мышки
         needToUpdate = true
     end
 
