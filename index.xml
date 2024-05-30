@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="5f60827e82fbffabc486ea603d7c50708e6991fd">
+<index version="1" name="Academic-Scripts" commit="d87d6c9849c924fb9a1417a4c19639d6a91e783c">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -439,6 +439,10 @@
       <version name="1.0" author="Amely Suncroll" time="2024-05-29T14:14:34Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/6e060c0cc2f958537e76bb24795d99618d429f52/Other/Piano%20Roll/Amely%20Suncroll%20Deselect%20midi%20notes%20with%20right%20mouse%20click%20(like%20FL%20Studio).lua</source>
+      </version>
+      <version name="1.01" author="Amely Suncroll" time="2024-05-30T11:56:56Z">
+        <changelog><![CDATA[+ Added toolbar icon highlighting]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/d87d6c9849c924fb9a1417a4c19639d6a91e783c/Other/Piano%20Roll/Amely%20Suncroll%20Deselect%20midi%20notes%20with%20right%20mouse%20click%20(like%20FL%20Studio).lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll First remove time selection and then close piano roll.lua" type="script" desc="First remove time selection and then close piano roll">
