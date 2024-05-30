@@ -1,10 +1,10 @@
 -- @description Deselect midi notes with right mouse click (like FL Studio)
+-- @version 1.01
 -- @author Amely Suncroll
--- @version 1.0
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
---    + init @
--- @about Click right mouse click just one time to deselect all midi notes. Hold right mouse click to delete midi notes (if you set up delete notes by right drag) and keep others selected. 
+--    + Added toolbar icon highlighting
+-- @about Click right mouse click just one time to deselect all midi notes. Hold right mouse click to delete midi notes (if you set up delete notes by right drag) and keep others selected.
 
 -- @donation https://www.paypal.com/paypalme/suncroll
 
@@ -26,11 +26,13 @@ function deselect_all_notes(midi_editor)
     end
   end
   
-  local was_right_button_pressed = false
-  local right_button_click_time = 0
-  local right_button_held_threshold = 0.2 
-  
-  function check_right_click()
+local was_right_button_pressed = false
+local right_button_click_time = 0
+local right_button_held_threshold = 0.2
+local command_id = ({reaper.get_action_context()})[4]
+local is_running = true
+
+function check_right_click()
     local is_right_button_pressed = reaper.JS_Mouse_GetState(2) == 2
     
     if is_right_button_pressed and not was_right_button_pressed then
@@ -48,28 +50,34 @@ function deselect_all_notes(midi_editor)
     end
     
     was_right_button_pressed = is_right_button_pressed
-  end
+end
 
-  function focusMidiEditor()
+function focusMidiEditor()
     local focus_midi_editor = reaper.NamedCommandLookup("_SN_FOCUS_MIDI_EDITOR")
     reaper.Main_OnCommand(focus_midi_editor, 0)
-  end
-  
-  function main()
+end
+
+function main()
+    if not is_running then return end
     check_right_click()
     reaper.defer(main)
-  end
-  
-  function start_script()
+end
+
+function start_script()
     reaper.ShowMessageBox("Script working", "Deselect notes with right click", 0)
     focusMidiEditor()
+    reaper.SetToggleCommandState(0, command_id, 1) -- Highlight toolbar button
+    reaper.RefreshToolbar2(0, command_id)
     main()
-  end
-  
-  function stop_script()
+end
+
+function stop_script()
+    is_running = false
     reaper.ShowMessageBox("Script stopped", "Deselect notes with right click", 0)
+    reaper.SetToggleCommandState(0, command_id, 0) -- Remove highlight from toolbar button
+    reaper.RefreshToolbar2(0, command_id)
     focusMidiEditor()
-  end
-  
-  start_script()
-  reaper.atexit(stop_script)
+end
+
+start_script()
+reaper.atexit(stop_script)
