@@ -28,7 +28,7 @@ function deselect_all_notes(midi_editor)
   
 local was_right_button_pressed = false
 local right_button_click_time = 0
-local right_button_held_threshold = 0.2
+local right_button_held_threshold = 0.2 -- hold right click for this time to keep notes selection
 local command_id = ({reaper.get_action_context()})[4]
 local is_running = true
 
