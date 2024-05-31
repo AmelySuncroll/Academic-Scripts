@@ -64,17 +64,17 @@ function main()
 end
 
 function start_script()
-    reaper.ShowMessageBox("Script working", "Deselect notes with right click", 0)
+    reaper.ShowMessageBox("Script working", "Deselect notes with right click", 0) -- delete this line to turn off welcome message
     focusMidiEditor()
-    reaper.SetToggleCommandState(0, command_id, 1) -- Highlight toolbar button
+    reaper.SetToggleCommandState(0, command_id, 1) -- highlight toolbar button
     reaper.RefreshToolbar2(0, command_id)
     main()
 end
 
 function stop_script()
     is_running = false
-    reaper.ShowMessageBox("Script stopped", "Deselect notes with right click", 0)
-    reaper.SetToggleCommandState(0, command_id, 0) -- Remove highlight from toolbar button
+    reaper.ShowMessageBox("Script stopped", "Deselect notes with right click", 0) -- delete this line to turn off "stopped" message
+    reaper.SetToggleCommandState(0, command_id, 0) -- remove highlight from toolbar button
     reaper.RefreshToolbar2(0, command_id)
     focusMidiEditor()
 end
