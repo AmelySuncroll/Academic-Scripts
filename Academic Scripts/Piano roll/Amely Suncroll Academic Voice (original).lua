@@ -1,6 +1,6 @@
 -- @description Academic Voice (original)
 -- @author Amely Suncroll
--- @version 1.0
+-- @version 1.01
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
