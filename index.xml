@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="d87d6c9849c924fb9a1417a4c19639d6a91e783c">
+<index version="1" name="Academic-Scripts" commit="c783d86c220a618b4f08e77e6f363aae1762cc28">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -176,6 +176,10 @@
       <version name="1.0" author="Amely Suncroll" time="2024-05-26T17:42:47Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/e631c56fa3ae24d655ff1125f8dcbe4a01e9529a/Academic%20Scripts/Piano%20roll/Amely%20Suncroll%20Academic%20Voice%20(original).lua</source>
+      </version>
+      <version name="1.01" author="Amely Suncroll" time="2024-05-31T07:02:37Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/c783d86c220a618b4f08e77e6f363aae1762cc28/Academic%20Scripts/Piano%20roll/Amely%20Suncroll%20Academic%20Voice%20(original).lua</source>
       </version>
     </reapack>
   </category>
