@@ -4,6 +4,7 @@
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
+--    + add track send name to header
 -- @about Create send to folder named 'DELAY' (you can change name inside the code)
 
 -- @donation https://www.paypal.com/paypalme/suncroll
@@ -24,7 +25,7 @@ end
 
 local targetTrackName = "Delay"  -- change it to "Delay", "Room", "Stage" or other track names you want
 
-local retval, sendVolume_dB_str = reaper.GetUserInputs("Set Send Volume", 1, "Send Volume in dB:", "0.00")
+local retval, sendVolume_dB_str = reaper.GetUserInputs("Set Send Volume to Delay", 1, "Send Volume in dB:", "0.00")
 if not retval then return end
 
 local sendVolume_dB = tonumber(sendVolume_dB_str)
