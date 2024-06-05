@@ -4,6 +4,7 @@
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
+--    + add track number to header
 -- @about Create send to the THIRD track (include folders)
 
 -- @donation https://www.paypal.com/paypalme/suncroll
@@ -22,7 +23,7 @@ function dBToSlider(dB)
     return 10 ^ (dB / 20)
 end
 
-local retval, sendVolume_dB_str = reaper.GetUserInputs("Set Send Volume", 1, "Send Volume in dB:", "0.00")
+local retval, sendVolume_dB_str = reaper.GetUserInputs("Set Send Volume to Track 03", 1, "Send Volume in dB:", "0.00")
 if not retval then return end
 
 local sendVolume_dB = tonumber(sendVolume_dB_str)
