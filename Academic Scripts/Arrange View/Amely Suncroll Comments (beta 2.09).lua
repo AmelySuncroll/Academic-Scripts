@@ -1,11 +1,13 @@
 -- @description Comments (beta)
 -- @author Amely Suncroll
--- @version 0.2.8
+-- @version 0.2.9
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
 --    + change font and color
 --    + pin docker
+--    + improuve mouse scroll
+--    + keep show time and show duration state
 -- @about see all your empty_notes with text in one window. Navigate between them. Mute it with checkboxes. See where are you by highlights on every empty_note. Create empty_notes for each selection item or just one for all of them. SWS is required.
 
 -- @donation https://www.paypal.com/paypalme/suncroll
@@ -25,7 +27,7 @@ function load_window_params()
 
     return x, y, startWidth, startHeight, dock_state
 end
-  
+
 function save_window_params()
     local dock_state, x, y, width, height = gfx.dock(-1, 0, 0, 0, 0)
     if dock_state == 0 then
@@ -45,27 +47,29 @@ end
 function load_button_states()
     local showStartTimeState = reaper.GetExtState("AmelySuncrollCommentsBETABETABETA", "ShowStartTime")
     local showDurationState = reaper.GetExtState("AmelySuncrollCommentsBETABETABETA", "ShowDuration")
-    showStartTime = showStartTimeState == "true" or showStartTimeState == ""
-    showDuration = showDurationState == "true" or showDurationState == ""
+    showStartTime = showStartTimeState == "true"
+    showDuration = showDurationState == "true"
 end
 
+load_button_states()
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-load_button_states()
-gfx.init("Comments (beta 2.07)", startWidth, startHeight, dock_state, x, y)
-  
+gfx.init("Comments (beta 2.09)", startWidth, startHeight, dock_state, x, y)
+
 local selectedItemIndex = -1
 local textCoords = {}
 local currentScenario = 1
 local checkboxes = {}
-  
-local needToUpdate = false
-local scrollOffset = 0  
 
-local showStartTime = true
-local showDuration = true
+local needToUpdate = false
+local scrollOffset = 0
 
 local mouseWasDown = false
+
+
+local x, y, startWidth, startHeight, dock_state = load_window_params()
+load_button_states()
+gfx.init("Comments (beta 2.08)", startWidth, startHeight, dock_state, x, y)
 
 local function getSortedTextItems()
     local textItems = {}
@@ -310,66 +314,106 @@ local function drawCheckboxes()
 end
 
 local mouseClicked = false
-  
+
 local function drawTextItems(sortedTextItems)
     gfx.clear = 3355443
-    local y = 40 + scrollOffset  
+    local y = 40 - scrollOffset  -- Начальная позиция с учетом прокрутки
     gfx.setfont(1, "Consolas", 16)
     textCoords = {}
     checkboxes = {}
     local maxInfoWidth = 200
+    local lineHeight = 20  -- Фиксированная высота строки
 
-    for _, textItem in ipairs(sortedTextItems) do
-        local itemStart = reaper.GetMediaItemInfo_Value(textItem.item, "D_POSITION")
-        local itemLength = reaper.GetMediaItemInfo_Value(textItem.item, "D_LENGTH")
-        local startTimeStr = string.format("%02d:%02d", math.floor(itemStart / 60), math.floor(itemStart % 60))
-        local durationStr = string.format("%.2f sec", itemLength)
-        local infoText = _ .. ". "
-        
-        if showStartTime then
-            infoText = infoText .. startTimeStr .. " | "
-        end
-        if showDuration then
-            infoText = infoText .. durationStr .. "  "
-        end
+    for index, textItem in ipairs(sortedTextItems) do
+        if y >= 40 and y <= gfx.h - 60 then  -- Проверка на допустимую область отрисовки
+            local itemStart = reaper.GetMediaItemInfo_Value(textItem.item, "D_POSITION")
+            local itemLength = reaper.GetMediaItemInfo_Value(textItem.item, "D_LENGTH")
+            local startTimeStr = string.format("%02d:%02d", math.floor(itemStart / 60), math.floor(itemStart % 60))
+            local durationStr = string.format("%.2f sec", itemLength)
+            local infoText = index .. ". "  -- Нумерация строк начиная с 1
 
-        local note = reaper.ULT_GetMediaItemNote(textItem.item)
+            if showStartTime then
+                infoText = infoText .. startTimeStr .. " | "
+            end
+            if showDuration then
+                infoText = infoText .. durationStr .. "  "
+            end
 
-        -- Сдвиг для чекбоксов и текста
-        local checkboxX = 175
-        if not showStartTime and not showDuration then
-            checkboxX = 35
-            maxInfoWidth = 80
-        elseif not showDuration then
-            checkboxX = 85
-            maxInfoWidth = 130
-        elseif not showStartTime then
-            checkboxX = 107
-            maxInfoWidth = 150
-        end
+            local note = reaper.ULT_GetMediaItemNote(textItem.item)
+            local checkboxX = 178
 
-        if textItem.index == selectedItemIndex then
-            gfx.set(1, 1, 1)
+            if not showStartTime and not showDuration then
+                checkboxX = 35
+                maxInfoWidth = 80
+            elseif not showDuration then
+                checkboxX = 85
+                maxInfoWidth = 130
+            elseif not showStartTime then
+                checkboxX = 114
+                maxInfoWidth = 150
+            end
+
+            if textItem.index == selectedItemIndex then
+                gfx.set(1, 1, 1)
+            else
+                gfx.set(0.5, 0.5, 0.5)
+            end
+
+            gfx.x, gfx.y = 10, y
+            gfx.drawstr(infoText, 0, maxInfoWidth, gfx.y + lineHeight)
+
+            table.insert(checkboxes, {x = checkboxX, y = y, width = 17, height = 17, checked = reaper.GetMediaItemInfo_Value(textItem.item, "B_MUTE") > 0, linkedItemIndex = textItem.index})
+
+            local brokenLines = breakTextToFitWidth(note, gfx.w - maxInfoWidth - 20 - (textItem.level - 1) * 15)
+            for _, line in ipairs(brokenLines) do
+                gfx.x, gfx.y = checkboxX + 30, y
+                gfx.drawstr(line)
+                table.insert(textCoords, {yStart = y, yEnd = y + lineHeight, index = textItem.index})
+                y = y + lineHeight
+            end
         else
-            gfx.set(0.5, 0.5, 0.5)
-        end
-
-        gfx.x, gfx.y = 10, y
-        gfx.drawstr(infoText, 0, maxInfoWidth, gfx.y + 20)
-
-        -- Создание чекбокса
-        table.insert(checkboxes, {x = checkboxX, y = y, width = 17, height = 17, checked = reaper.GetMediaItemInfo_Value(textItem.item, "B_MUTE") > 0, linkedItemIndex = textItem.index})
-
-        local brokenLines = breakTextToFitWidth(note, gfx.w - maxInfoWidth - 20 - (textItem.level - 1) * 15)
-        for _, line in ipairs(brokenLines) do
-            gfx.x, gfx.y = checkboxX + 30, y
-            gfx.drawstr(line)
-            table.insert(textCoords, {yStart = y, yEnd = y + 20, index = textItem.index})
-            y = y + 20
+            y = y + lineHeight * (1 + #breakTextToFitWidth(reaper.ULT_GetMediaItemNote(textItem.item), gfx.w - maxInfoWidth - 20 - (textItem.level - 1) * 15))
         end
     end
     drawCheckboxes()
     gfx.update()
+end
+
+local function handleMouseClicks()
+    local mouseDown = gfx.mouse_cap & 1 == 1
+
+    if mouseDown and not mouseWasDown then
+        local mouseX, mouseY = gfx.mouse_x, gfx.mouse_y
+
+        if not handleCheckboxClick(mouseX, mouseY) then
+            handleToggleButtonClick(mouseX, mouseY)
+            handleOpenNotesButtonClick(mouseX, mouseY)
+            handleCreateItemsButtonClick(mouseX, mouseY)
+            handleCreateSingleItemButtonClick(mouseX, mouseY)
+
+            for _, coords in ipairs(textCoords) do
+                if mouseY >= coords.yStart and mouseY <= coords.yEnd then
+                    selectedItemIndex = coords.index
+                    local item = reaper.GetMediaItem(0, selectedItemIndex)
+                    if currentScenario == 1 then
+                        local itemStart = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
+                        reaper.SetEditCurPos(itemStart, true, true)
+                    elseif currentScenario == 2 then
+                        reaper.SelectAllMediaItems(0, false)
+                        reaper.SetMediaItemSelected(item, true)
+                        reaper.UpdateArrange()
+                    end
+                    updateSelection()
+                    needToUpdate = true  -- Устанавливаем флаг для обновления
+                    break
+                end
+            end
+        end
+
+        mouseWasDown = true
+    elseif not mouseDown then
+        mouseWasDown = false
+    end
 end
   
 local function updateAndDrawCheckboxes(sortedTextItems)
@@ -565,6 +609,23 @@ local function handleMouseClicks()
     end
 end
 
+local function updateScrollOffset(sortedTextItems)
+    local mouse_wheel = gfx.mouse_wheel
+    if mouse_wheel ~= 0 then
+        local lineHeight = 20  -- Фиксированная высота строки
+        local linesInView = math.floor((gfx.h - 80) / lineHeight) -- Количество видимых строк
+        local totalLines = #sortedTextItems -- Общее количество строк
+
+        -- Обновляем смещение прокрутки и ограничиваем его
+        scrollOffset = scrollOffset - math.floor(mouse_wheel / 120) * lineHeight  -- Обновляем смещение прокрутки (инвертируем прокрутку)
+        --scrollOffset = math.max(0, math.min(scrollOffset, (totalLines * lineHeight) - (gfx.h - 80)))  -- Ограничиваем прокрутку
+
+        gfx.mouse_wheel = 0  -- Сброс значения колесика мышки
+        needToUpdate = true
+    end
+end
+
+
 function main()
     local sortedTextItems = getSortedTextItems()
 
@@ -604,13 +665,7 @@ function main()
 
     handleMouseClicks() -- Обработка кликов мыши
 
-    -- Добавляем поддержку прокрутки колесиком мышки
-    local mouse_wheel = gfx.mouse_wheel
-    if mouse_wheel ~= 0 then
-        scrollOffset = scrollOffset + mouse_wheel / 10  -- Скорость прокрутки
-        gfx.mouse_wheel = 0  -- Сброс значения колесика мышки
-        needToUpdate = true
-    end
+    updateScrollOffset(sortedTextItems)
 
     if gfx.w ~= lastWidth or gfx.h ~= lastHeight then
         lastWidth, lastHeight = gfx.w, gfx.h
@@ -624,7 +679,7 @@ function main()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("Comments beta 2.07", startWidth, startHeight, dock_state, x, y)
+gfx.init("Comments beta 2.09", startWidth, startHeight, dock_state, x, y)
 main()
 reaper.atexit(save_window_params)   
 reaper.atexit(save_button_states)   
