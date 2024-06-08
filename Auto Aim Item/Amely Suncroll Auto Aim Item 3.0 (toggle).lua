@@ -4,8 +4,8 @@
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + 2.0 add toggle script
---    + 3.0 add link edit cursor to start, middle or end of the item
--- @about Glue edit cursor to start, mouse position or end of selected item. It has the main script and the switch scriipt. Best solution for working with foleys.
+--    + 3.0 add link edit cursor to start, mouse position or end of the item
+-- @about Glue edit cursor to start, mouse position or end of selected item. It has the main script and the switch scriipt. Best solution for working with foleys. \n \nAn exact copy of the Auto Aim Midi 2.0 script, but applied to items. The kit consists of two components - the "main" and the so-called "switch", or "toggle". When you run the "main", it starts running in the background, while the "toggle" at this time changes the edit cursor binding of the selected item to its beginning, mouse cursor position or end. Once you're done with your work, simply turn off the main part of the script from the background. I recommend use "toggle" script as a mouse modifier to easy to use: Options - Preferences - Mouse Modifiers - Media item bottom half - Double Click - Default Action - Action list.
 
 -- @donation https://www.paypal.com/paypalme/suncroll
 
