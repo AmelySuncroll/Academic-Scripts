@@ -1,3 +1,11 @@
+-- @description Academic Chords+ (test)
+-- @author Amely Suncroll
+-- @version 1.0
+-- @website https://forum.cockos.com/showthread.php?t=291012
+-- @changelog
+--    + init @
+-- @about test test test
+
 local function calculateTotalDuration(note_lengths)
   local total = 0
   for _, length in ipairs(note_lengths) do
