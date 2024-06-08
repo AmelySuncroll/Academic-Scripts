@@ -6,9 +6,9 @@
 --    + init @
 --    + change font and color
 --    + pin docker
---    + improuve mouse scroll
+--    + improve mouse scroll
 --    + keep show time and show duration state
--- @about see all your empty_notes with text in one window. Navigate between them. Mute it with checkboxes. See where are you by highlights on every empty_note. Create empty_notes for each selection item or just one for all of them. SWS is required.
+-- @about See all your empty_notes with text in one window. Navigate between them. Mute it with checkboxes. See where are you by highlights on every empty_note. Create empty_notes for each selection item or just one for all of them. SWS is required.
 
 -- @donation https://www.paypal.com/paypalme/suncroll
 
