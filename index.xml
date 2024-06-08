@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="192d7643e1908b6b49dab96c0084d72b7abd677c">
+<index version="1" name="Academic-Scripts" commit="547043c71cd4bc26f4dfee51b60015b3e5ac1ead">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -17,7 +17,7 @@
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/e5ec27bb2006cbed73b7af0d2057c7fb7e5aef33/Academic%20Scripts/Arrange%20View/Amely%20Suncroll%20Academic%20Piano.lua</source>
       </version>
     </reapack>
-    <reapack name="Amely Suncroll Comments (beta 2.08).lua" type="script" desc="Comments (beta)">
+    <reapack name="Amely Suncroll Comments (beta 2.09).lua" type="script" desc="Comments (beta)">
       <metadata>
         <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
@@ -28,11 +28,13 @@
 ]]></description>
         <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
       </metadata>
-      <version name="0.2.8" author="Amely Suncroll" time="2024-05-29T14:34:55Z">
+      <version name="0.2.9" author="Amely Suncroll" time="2024-06-08T11:08:48Z">
         <changelog><![CDATA[+ init @
 + change font and color
-+ pin docker]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/5f60827e82fbffabc486ea603d7c50708e6991fd/Academic%20Scripts/Arrange%20View/Amely%20Suncroll%20Comments%20(beta%202.08).lua</source>
++ pin docker
++ improuve mouse scroll
++ keep show time and show duration state]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/547043c71cd4bc26f4dfee51b60015b3e5ac1ead/Academic%20Scripts/Arrange%20View/Amely%20Suncroll%20Comments%20(beta%202.09).lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll Conductor Mode (beta 2.0).lua" type="script" desc="Conductor Mode (experimental beta)">
