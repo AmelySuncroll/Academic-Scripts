@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="446ee4d05af835eea064bf40e940adbbeb2bd644">
+<index version="1" name="Academic-Scripts" commit="a28cef80b5b53a6d5744378ace03ab1b219d9e16">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -182,6 +182,60 @@
       <version name="1.01" author="Amely Suncroll" time="2024-05-31T07:02:37Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/c783d86c220a618b4f08e77e6f363aae1762cc28/Academic%20Scripts/Piano%20roll/Amely%20Suncroll%20Academic%20Voice%20(original).lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Auto Aim Item">
+    <reapack name="Amely Suncroll Auto Aim Item 3.0 (main).lua" type="script" desc="Auto Aim Item (main)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Glue edit cursor to start , mouse position or end of selected item. It has the main script and the switch scriipt. Best solution for working with foleys.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="3.0" author="Amely Suncroll" time="2024-06-08T17:55:58Z">
+        <changelog><![CDATA[+ 2.0 add toggle script
++ 3.0 add link edit cursor to start, middle or end of the item]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/a28cef80b5b53a6d5744378ace03ab1b219d9e16/Auto%20Aim%20Item/Amely%20Suncroll%20Auto%20Aim%20Item%203.0%20(main).lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Auto Aim Item 3.0 (toggle).lua" type="script" desc="Auto Aim Item (toggle)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Glue edit cursor to start, mouse position or end of selected item. It has the main script and the switch scriipt. Best solution for working with foleys.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="3.0" author="Amely Suncroll" time="2024-06-08T17:55:58Z">
+        <changelog><![CDATA[+ 2.0 add toggle script
++ 3.0 add link edit cursor to start, middle or end of the item]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/a28cef80b5b53a6d5744378ace03ab1b219d9e16/Auto%20Aim%20Item/Amely%20Suncroll%20Auto%20Aim%20Item%203.0%20(toggle).lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Auto Aim Item 3.01 (two in one script).lua" type="script" desc="Auto Aim Item (two in one)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Glue edit cursor to start, mouse position or end of selected item. It has the main script and the switch scriipt. Best solution for working with foleys.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="3.01" author="Amely Suncroll" time="2024-06-08T17:55:58Z">
+        <changelog><![CDATA[+ 2.0 add toggle script
++ 3.0 add link edit cursor to start, middle or end of the item
++ 3.01 fix not glue cursor while stretch item]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/a28cef80b5b53a6d5744378ace03ab1b219d9e16/Auto%20Aim%20Item/Amely%20Suncroll%20Auto%20Aim%20Item%203.01%20(two%20in%20one%20script).lua</source>
       </version>
     </reapack>
   </category>
