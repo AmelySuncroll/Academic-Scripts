@@ -6,7 +6,8 @@
 --    + 2.0 add toggle script
 --    + 3.0 add link edit cursor to start, middle or end of the item
 --    + 3.01 fix not glue cursor while stretch item
--- @about Glue edit cursor to start, mouse position or end of selected item. It has the main script and the switch scriipt. Best solution for working with foleys.
+
+-- @about Glue edit cursor to start, mouse position or end of selected item. Best solution for working with foleys. \n \nAn exact copy of the Auto Aim Midi 2.0 script, but applied to items. When you run this script and your mouse cursor near the first 5% of selected item, it makes edit cursor binding to item's beginning. If mouse cursor is near the last 5% of selected item, it makes glue edit cursor to item end. Otherwise it is glues edit cursor right to mouse position. To make a break it, just deselect item. I recommend use this script as a mouse modifier to easy to use: Options - Preferences - Mouse Modifiers - Media item bottom half - Double Click - Default Action - Action list.
 
 -- @donation https://www.paypal.com/paypalme/suncroll
 
