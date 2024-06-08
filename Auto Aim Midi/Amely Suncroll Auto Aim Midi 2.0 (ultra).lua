@@ -1,4 +1,4 @@
--- @description Auto Aim Midi (main, ultra)
+-- @description Auto Aim Midi (ultra)
 -- @author Amely Suncroll
 -- @version 2.0
 -- @website https://forum.cockos.com/showthread.php?t=291012
