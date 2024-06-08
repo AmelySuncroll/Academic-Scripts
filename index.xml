@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="cd17de3cd3d97670bb8618d440c83641bff02663">
+<index version="1" name="Academic-Scripts" commit="9e7f0c893326293cb19eaa767191ea40369c5e2f">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -209,7 +209,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Glue edit cursor to start, mouse position or end of selected item. It has the main script and the switch scriipt. Best solution for working with foleys.\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Glue edit cursor to start, mouse position or end of selected item. It has the main script and the switch scriipt. Best solution for working with foleys. \\n \\nAn exact copy of the Auto Aim Midi 2.0 script, but applied to items. The kit consists of two components - the "main" and the so-called "switch", or "toggle". When you run the "main", it starts running in the background, while the "toggle" at this time changes the edit cursor binding of the selected item to its beginning, mouse cursor position or end. Once you're done with your work, simply turn off the main part of the script from the background. I recommend use "toggle" script as a mouse modifier to easy to use: Options - Preferences - Mouse Modifiers - Media item bottom half - Double Click - Default Action - Action list.\par}
 }
 ]]></description>
         <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
