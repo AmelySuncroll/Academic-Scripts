@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="9e7f0c893326293cb19eaa767191ea40369c5e2f">
+<index version="1" name="Academic-Scripts" commit="d01d67231bc471b9f93d69093c88e0c95eb87a1f">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -222,13 +222,6 @@
     </reapack>
     <reapack name="Amely Suncroll Auto Aim Item 3.01 (two in one script).lua" type="script" desc="Auto Aim Item (two in one)">
       <metadata>
-        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
-{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
-\widowctrl\hyphauto
-
-{\pard \ql \f0 \sa180 \li0 \fi0 Glue edit cursor to start, mouse position or end of selected item. It has the main script and the switch scriipt. Best solution for working with foleys.\par}
-}
-]]></description>
         <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
       </metadata>
       <version name="3.01" author="Amely Suncroll" time="2024-06-08T17:55:58Z">
