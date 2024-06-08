@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="8e351fa45e85e52078855967648e202909cc32c3">
+<index version="1" name="Academic-Scripts" commit="87e589ca4a568c9e908074533c56c1a1a3a56db1">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -265,6 +265,15 @@
       <version name="2.0" author="Amely Suncroll" time="2024-06-08T18:06:41Z">
         <changelog><![CDATA[+ 2.0 add toggle script]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/8e351fa45e85e52078855967648e202909cc32c3/Auto%20Aim%20Midi/Amely%20Suncroll%20Auto%20Aim%20Midi%202.0%20(main).lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Auto Aim Midi 2.0 (toggle).lua" type="script" desc="Auto Aim Midi (toggle)">
+      <metadata>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="2.0" author="Amely Suncroll" time="2024-06-08T18:11:11Z">
+        <changelog><![CDATA[+ 2.0 add toggle script]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/1f1c7e9cd1629007ace915568780dddf0ef35e89/Auto%20Aim%20Midi/Amely%20Suncroll%20Auto%20Aim%20Midi%202.0%20(toggle).lua</source>
       </version>
     </reapack>
   </category>
