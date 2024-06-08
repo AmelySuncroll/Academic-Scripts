@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="d01d67231bc471b9f93d69093c88e0c95eb87a1f">
+<index version="1" name="Academic-Scripts" commit="dca5a363a3b9795e82b0fbe7d5595d00dd361646">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -233,22 +233,13 @@
     </reapack>
   </category>
   <category name="Auto Aim Midi">
-    <reapack name="Amely Suncroll Auto Aim Midi 2.0 (main) (Lite).lua" type="script" desc="Auto Aim Midi (main, lite)">
+    <reapack name="Amely Suncroll Auto Aim Midi 2.0 (lite).lua" type="script" desc="Auto Aim Midi (lite)">
       <metadata>
         <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
       </metadata>
-      <version name="2.0" author="Amely Suncroll" time="2024-06-08T18:05:58Z">
+      <version name="2.0" author="Amely Suncroll" time="2024-06-08T18:36:44Z">
         <changelog><![CDATA[+ 2.0 add toggle script]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/77a366793bca915fb02b8992432096972f70db5b/Auto%20Aim%20Midi/Amely%20Suncroll%20Auto%20Aim%20Midi%202.0%20(main)%20(Lite).lua</source>
-      </version>
-    </reapack>
-    <reapack name="Amely Suncroll Auto Aim Midi 2.0 (main) (Ultra).lua" type="script" desc="Auto Aim Midi (main, ultra)">
-      <metadata>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="2.0" author="Amely Suncroll" time="2024-06-08T18:06:23Z">
-        <changelog><![CDATA[+ 2.0 add toggle script]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/b7b4ee1f98c85545bfd7b53e77458b43af68f3b1/Auto%20Aim%20Midi/Amely%20Suncroll%20Auto%20Aim%20Midi%202.0%20(main)%20(Ultra).lua</source>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/f46ff20293f7a559b9fffd38bf1d11063ac365b7/Auto%20Aim%20Midi/Amely%20Suncroll%20Auto%20Aim%20Midi%202.0%20(lite).lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll Auto Aim Midi 2.0 (main).lua" type="script" desc="Auto Aim Midi (main)">
@@ -267,6 +258,15 @@
       <version name="2.0" author="Amely Suncroll" time="2024-06-08T18:11:11Z">
         <changelog><![CDATA[+ 2.0 add toggle script]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/1f1c7e9cd1629007ace915568780dddf0ef35e89/Auto%20Aim%20Midi/Amely%20Suncroll%20Auto%20Aim%20Midi%202.0%20(toggle).lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Auto Aim Midi 2.0 (ultra).lua" type="script" desc="Auto Aim Midi (ultra)">
+      <metadata>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="2.0" author="Amely Suncroll" time="2024-06-08T18:36:19Z">
+        <changelog><![CDATA[+ 2.0 add toggle script]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/ee54f374f8510516dee3a49905f4d8335859281d/Auto%20Aim%20Midi/Amely%20Suncroll%20Auto%20Aim%20Midi%202.0%20(ultra).lua</source>
       </version>
     </reapack>
   </category>
