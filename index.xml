@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="ae0e2b55bd24518deb79df8148716127508c126e">
+<index version="1" name="Academic-Scripts" commit="73065c954b4fbbf35ac453f73ecf5228a1ef7503">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -267,6 +267,17 @@
       <version name="2.0" author="Amely Suncroll" time="2024-06-08T18:36:19Z">
         <changelog><![CDATA[+ 2.0 add toggle script]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/ee54f374f8510516dee3a49905f4d8335859281d/Auto%20Aim%20Midi/Amely%20Suncroll%20Auto%20Aim%20Midi%202.0%20(ultra).lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="MIDI Editor">
+    <reapack name="Amely Suncroll Academic Chords+.lua" type="script" desc="Academic Chords+ (test)">
+      <metadata>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="2.1" author="Amely Suncroll" time="2024-06-09T07:05:36Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/73065c954b4fbbf35ac453f73ecf5228a1ef7503/MIDI%20Editor/Amely%20Suncroll%20Academic%20Chords+.lua</source>
       </version>
     </reapack>
   </category>
