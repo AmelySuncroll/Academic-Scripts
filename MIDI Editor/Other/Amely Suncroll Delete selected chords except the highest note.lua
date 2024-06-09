@@ -12,7 +12,7 @@
 
 -- Support:
 -- https://t.me/yxo_composer_support
--- amelysuncroll@gmail.com
+-- amelysuncroll@gmail.com 
 
 -- Other links:
 -- https://github.com/AmelySuncroll
