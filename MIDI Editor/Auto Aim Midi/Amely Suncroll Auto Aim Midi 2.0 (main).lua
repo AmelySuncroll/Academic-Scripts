@@ -13,7 +13,7 @@
 
 -- Support:
 -- https://t.me/yxo_composer_support
--- amelysuncroll@gmail.com
+-- amelysuncroll@gmail.com 
 
 
 local useEndOfNote = false 
