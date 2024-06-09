@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="1a02cb6da3b2f4e20aeed91c6fdb122453e3c302">
+<index version="1" name="Academic-Scripts" commit="7087a8d9b357f5df1fd58a21f67886c8876ef15d">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -51,6 +51,133 @@
       <version name="0.1.0" author="Amely Suncroll" time="2024-05-12T09:27:38Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/9e5e2174e4ee26d8bebf617570854626ba6f0797/Academic%20Scripts/Arrange%20View/Amely%20Suncroll%20Conductor%20Mode%20(beta%202.0).lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Academic Scripts/MIDI Editor">
+    <reapack name="Amely Suncroll Academic Articulations 1.04.lua" type="script" desc="Academic Articulations">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Make simple articulations in seconds. Be sure they are work as a trigger - they are created one pixel before notes you select. Attention: you need to set your own note names before use (double right click on the key).\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.04" author="Amely Suncroll" time="2024-06-09T07:52:07Z">
+        <changelog><![CDATA[+ init @
++ v1.02 add text events (type: marker)
++ v1.03 add pop-up menu
++ v1.04 add auto-refresh text events (type: marker)]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/7087a8d9b357f5df1fd58a21f67886c8876ef15d/Academic%20Scripts/MIDI%20Editor/Amely%20Suncroll%20Academic%20Articulations%201.04.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Academic Chords 2.1.lua" type="script" desc="Academic Chords">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Get up to 117 chords! Select notes, chords or chords and notes together and go. Make new chords using big library. Get random chord for all notes and chords you select. Get random chords individually to each note and chord you select. Rein this horse by making a filters - and all random chords will contain what you want. Experimental function: make chords and replace them by tonality you will set there. Type 'i' to get instruction inside script.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="2.1" author="Amely Suncroll" time="2024-06-09T07:52:07Z">
+        <changelog><![CDATA[+ init @
++ v2.0 add 117 chords, add random and double random chords (r, rr)
++ v2.01 fix not update arrange view when docked piano roll
++ v2.1 add tonality function]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/7087a8d9b357f5df1fd58a21f67886c8876ef15d/Academic%20Scripts/MIDI%20Editor/Amely%20Suncroll%20Academic%20Chords%202.1.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Academic Dynamic 2.2.lua" type="script" desc="Academic Dynamic">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select midi notes and see how velocity will change by your magic fingers. Use academic dynamics such as ppp, mf or fff etc. Make a crescendo and diminuendo. Replace velocity with X value to Y to to release your quiet notes from the depths of the velocity ocean (X = Y command). Get a random in range. Go away MIDI Editor to Arrange View window to set velocity to each selected item. SWS is required. Type 'i' to get instruction inside script.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="2.2" author="Amely Suncroll" time="2024-06-09T07:52:07Z">
+        <changelog><![CDATA[+ init @
++ v2.0: add function random velocity
++ v2.1: add function select midi item(s) to set dynamic to each of them (in arrange view)
++ v2.11: add keep midi editor focused
++ v2.2: add replace velocity function]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/7087a8d9b357f5df1fd58a21f67886c8876ef15d/Academic%20Scripts/MIDI%20Editor/Amely%20Suncroll%20Academic%20Dynamic%202.2.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Academic Ornaments 1.01.lua" type="script" desc="Academic Ornaments">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Set trills and forshlags here. And now YOU CAN CREATE YOUR OWN ORNAMENTS (instructions is inside the code).\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.01" author="Amely Suncroll" time="2024-06-09T07:52:07Z">
+        <changelog><![CDATA[+ init @
++ v1.01 keep midi editor focused]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/7087a8d9b357f5df1fd58a21f67886c8876ef15d/Academic%20Scripts/MIDI%20Editor/Amely%20Suncroll%20Academic%20Ornaments%201.01.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Academic Pitch 1.11.lua" type="script" desc="Academic Pitch">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Use academic symbols such as "b" or "#" to change a pitch. You can get more with combinate them - bb, ##, /b, /#, b/b or #/#. Use b nat or # nat. Use numeral values from 1 to 16383.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.11" author="Amely Suncroll" time="2024-06-09T07:52:07Z">
+        <changelog><![CDATA[+ init @
++ v1.1 add pitch points to all notes before using script
++ v.11 keep midi editor focused]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/7087a8d9b357f5df1fd58a21f67886c8876ef15d/Academic%20Scripts/MIDI%20Editor/Amely%20Suncroll%20Academic%20Pitch%201.11.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Academic Voice (inverted).lua" type="script" desc="Academic Voice (inverted)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select any voice in selected tracks but upside down: 1 = bass + notes without chords, 2 = tenor, 3 = alto, 4 = soprano, then 5, 6, etc. 0 = all highest notes inside chords.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:52:07Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/7087a8d9b357f5df1fd58a21f67886c8876ef15d/Academic%20Scripts/MIDI%20Editor/Amely%20Suncroll%20Academic%20Voice%20(inverted).lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Academic Voice (original).lua" type="script" desc="Academic Voice (original)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select any voice in selected tracks as original academic symbols: 1 = soprano + notes without chords, 2 = alto, 3 = tenor, 4 = bass, etc. 0 = all lowest notes inside chords.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.01" author="Amely Suncroll" time="2024-06-09T07:52:07Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/7087a8d9b357f5df1fd58a21f67886c8876ef15d/Academic%20Scripts/MIDI%20Editor/Amely%20Suncroll%20Academic%20Voice%20(original).lua</source>
       </version>
     </reapack>
   </category>
