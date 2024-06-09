@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="06f132f7e4a5045506ae38f721371f149b601ab2">
+<index version="1" name="Academic-Scripts" commit="1a02cb6da3b2f4e20aeed91c6fdb122453e3c302">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -232,17 +232,6 @@
       </version>
     </reapack>
   </category>
-  <category name="MIDI Editor">
-    <reapack name="Amely Suncroll Academic Chords+.lua" type="script" desc="Academic Chords+ (test)">
-      <metadata>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="2.1" author="Amely Suncroll" time="2024-06-09T07:05:36Z">
-        <changelog><![CDATA[+ init @]]></changelog>
-        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/73065c954b4fbbf35ac453f73ecf5228a1ef7503/MIDI%20Editor/Amely%20Suncroll%20Academic%20Chords+.lua</source>
-      </version>
-    </reapack>
-  </category>
   <category name="MIDI Editor/Auto Aim Midi">
     <reapack name="Amely Suncroll Auto Aim Midi 2.0 (lite).lua" type="script" desc="Auto Aim Midi (lite)">
       <metadata>
@@ -278,6 +267,233 @@
       <version name="2.0" author="Amely Suncroll" time="2024-06-09T07:25:07Z">
         <changelog><![CDATA[+ 2.0 add toggle script]]></changelog>
         <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/349def3609440d224238919f5f57b136425a702c/MIDI%20Editor/Auto%20Aim%20Midi/Amely%20Suncroll%20Auto%20Aim%20Midi%202.0%20(ultra).lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="MIDI Editor/Other">
+    <reapack name="Amely Suncroll Delete all events on selected midi item.lua" type="script" desc="Delete all events on selected midi item">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Get piano roll and call the script to delete all events such as velocity (will be 100), pitch etc\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Delete%20all%20events%20on%20selected%20midi%20item.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Delete selected chords except the highest note.lua" type="script" desc="Delete selected chords except the highest note">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Delete selected chords except the highest note\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Delete%20selected%20chords%20except%20the%20highest%20note.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Delete selected chords except the lowest note.lua" type="script" desc="Delete selected chords except the lowest note">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Delete selected chords except the lowest note\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Delete%20selected%20chords%20except%20the%20lowest%20note.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Deselect midi notes with right mouse click (like FL Studio).lua" type="script" desc="Deselect midi notes with right mouse click (like FL Studio)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Click right mouse click just one time to deselect all midi notes. Hold right mouse click to delete midi notes (if you set up delete notes by right drag) and keep others selected.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.03" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
+        <changelog><![CDATA[+ Improved toolbar icon handling
++ Remove "working" and "stopped" messages]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Deselect%20midi%20notes%20with%20right%20mouse%20click%20(like%20FL%20Studio).lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll First remove time selection and then close piano roll.lua" type="script" desc="First remove time selection and then close piano roll">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 First remove time selection and then close piano roll\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20First%20remove%20time%20selection%20and%20then%20close%20piano%20roll.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Insert and edit marker at current position in piano roll.lua" type="script" desc="Insert and edit marker at current position in piano roll">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Insert and edit marker at current position in piano roll\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Insert%20and%20edit%20marker%20at%20current%20position%20in%20piano%20roll.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Note Switcher.lua" type="script" desc="Note Switcher">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select notes and replace it. Don't select notes and replace them all.\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Note%20Switcher.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Select all midi notes without notes with name.lua" type="script" desc="Select all midi notes without notes with name">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select all midi notes without notes with name\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Select%20all%20midi%20notes%20without%20notes%20with%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Select all notes after edit cursor.lua" type="script" desc="Select all notes after edit cursor">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select all notes after edit cursor\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Select%20all%20notes%20after%20edit%20cursor.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Select all notes before edit cursor.lua" type="script" desc="Select all notes before edit cursor">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Select all notes before edit cursor\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Select%20all%20notes%20before%20edit%20cursor.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Set notes position to half of measure.lua" type="script" desc="Set notes position to half of each measure">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Set notes position to half of each measure\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Set%20notes%20position%20to%20half%20of%20measure.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Set notes position to start of measure.lua" type="script" desc="Set notes position to start of each measure">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Set notes position to start of each measure\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Set%20notes%20position%20to%20start%20of%20measure.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Show video window in piano roll.lua" type="script" desc="Show video window inside piano roll">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Show video windows inside piano roll\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Show%20video%20window%20in%20piano%20roll.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Toggle metronome in piano roll.lua" type="script" desc="Toggle metronome in piano roll">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Turn on/off metronome inside piano roll (toggle)\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Toggle%20metronome%20in%20piano%20roll.lua</source>
       </version>
     </reapack>
   </category>
