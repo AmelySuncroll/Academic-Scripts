@@ -1,4 +1,4 @@
-e-- @description Academic Ornaments
+-- @description Academic Ornaments
 -- @author Amely Suncroll
 -- @version 1.01
 -- @website https://forum.cockos.com/showthread.php?t=291012
