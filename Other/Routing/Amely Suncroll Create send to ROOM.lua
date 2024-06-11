@@ -11,7 +11,7 @@
 
 -- @website: https://t.me/reaper_ua
 
--- Support:
+-- Support: 
 -- https://t.me/yxo_composer_support
 -- amelysuncroll@gmail.com
 
