@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="eab0d14cc028e9d96222ab46b85bb4caec2f1a39">
+<index version="1" name="Academic-Scripts" commit="ea1f259830869767ed98b65607707892e2cadcc2">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -51,6 +51,22 @@
       <version name="0.1.0" author="Amely Suncroll" time="2024-05-12T09:27:38Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/9e5e2174e4ee26d8bebf617570854626ba6f0797/Academic%20Scripts/Arrange%20View/Amely%20Suncroll%20Conductor%20Mode%20(beta%202.0).lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Text Editor for Comments.lua" type="script" desc="Text Editor for Comments (beta)">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Get empty_items with text as you want it - by each stroke, paragraph, from selection or timecodes with special markers (00:00 and 00:00:00).\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="0.2.4" author="Amely Suncroll" time="2024-06-17T13:57:07Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/ea1f259830869767ed98b65607707892e2cadcc2/Academic%20Scripts/Arrange%20View/Amely%20Suncroll%20Text%20Editor%20for%20Comments.lua</source>
       </version>
     </reapack>
   </category>
