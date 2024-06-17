@@ -1,10 +1,11 @@
 -- @description Deselect midi notes with right mouse click (like FL Studio)
--- @version 1.03
+-- @version 1.04
 -- @author Amely Suncroll
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + Improved toolbar icon handling
 --    + Remove "working" and "stopped" messages
+--    + Fix unmute notes if was muted
 -- @about Click right mouse click just one time to deselect all midi notes. Hold right mouse click to delete midi notes (if you set up delete notes by right drag) and keep others selected.
 
 -- @donation https://www.paypal.com/paypalme/suncroll
@@ -17,7 +18,8 @@ function deselect_all_notes(midi_editor)
         reaper.MIDI_DisableSort(take)
         local _, note_count = reaper.MIDI_CountEvts(take)
         for i = 0, note_count - 1 do
-            reaper.MIDI_SetNote(take, i, false, false, nil, nil, nil, nil, nil, true)
+            local retval, selected, muted, startppqpos, endppqpos, chan, pitch, vel = reaper.MIDI_GetNote(take, i)
+            reaper.MIDI_SetNote(take, i, false, muted, startppqpos, endppqpos, chan, pitch, vel, true)
         end
         reaper.MIDI_Sort(take)
     end
