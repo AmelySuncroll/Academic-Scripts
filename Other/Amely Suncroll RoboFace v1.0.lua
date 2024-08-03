@@ -1935,7 +1935,7 @@ function open_browser(url)
 end
 
 function open_browser_about()
-    open_browser("https://forum.cockos.com/showthread.php?t=291012")
+    open_browser("https://forum.cockos.com/showthread.php?t=293354")
 end
 
 function open_browser_support()
