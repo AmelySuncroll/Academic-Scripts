@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="ea1f259830869767ed98b65607707892e2cadcc2">
+<index version="1" name="Academic-Scripts" commit="40f58ac2d285f067bcda902de87c83224eb44844">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -528,6 +528,24 @@
       <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Toggle%20metronome%20in%20piano%20roll.lua</source>
+      </version>
+    </reapack>
+  </category>
+  <category name="Other">
+    <reapack name="Amely Suncroll RoboFace v1.0.lua" type="script" desc="RoboFace">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Your little friend inside Reaper\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-08-03T11:48:40Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/40f58ac2d285f067bcda902de87c83224eb44844/Other/Amely%20Suncroll%20RoboFace%20v1.0.lua</source>
       </version>
     </reapack>
   </category>
