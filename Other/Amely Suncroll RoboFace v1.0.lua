@@ -626,6 +626,9 @@ function draw_pupils(scale)
             elseif check_script_window_position() == 2 and is_docked then
                 target_x = gfx.w * screen_position_ratio
                 target_y = face_y + eye_offset_y + (eye_size - pupil_size) / 2   -- PUPILS DIRECTION IF PLAYING: 0 = DOWN, 1 = CENTER, 2 = UP
+            else
+                target_x = gfx.w * screen_position_ratio
+                target_y = face_y + eye_offset_y + (eye_size - pupil_size) / 0   -- PUPILS DIRECTION IF PLAYING: 0 = DOWN, 1 = CENTER, 2 = UP
             end
         end
 
