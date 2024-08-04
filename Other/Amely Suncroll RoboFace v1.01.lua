@@ -1,9 +1,10 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.0
+-- @version 1.01
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
+--    + 1.01 fix error when not docked and playing
 -- @about Your little friend inside Reaper
 
 -- @donation https://www.paypal.com/paypalme/suncroll
