@@ -853,7 +853,7 @@ end
 
 local angry_count = 0
 local restore_zoom_time = nil
-local restore_duration = 10   -- (seconds)
+local restore_duration = 180   -- (seconds)
 zoom_out = false
 
 function reduce_robot_zoom()
