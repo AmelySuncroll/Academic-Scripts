@@ -1,10 +1,11 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.01
+-- @version 1.1
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
 --    + 1.01 fix error when not docked and playing
+--    + 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
 -- @about Your little friend inside Reaper
 
 -- @donation https://www.paypal.com/paypalme/suncroll
@@ -74,7 +75,12 @@ local translations = {
         white_bg = "Light",
         black_bg = "Dark",
 
-        quit = "Quit"
+        quit = "Quit",
+
+        sneeze = "New",
+
+        set_zoom = "Zoom",
+        
     },
     ua = {
         time = "Час",
@@ -124,7 +130,11 @@ local translations = {
         white_bg = "Світлий",
         black_bg = "Темний",
 
-        quit = "Вихід"
+        quit = "Вихід",
+
+        sneeze = "Нове",
+
+        set_zoom = "Розмір"
     }
 }
 
@@ -149,26 +159,26 @@ elseif not reaper.APIExists('CF_GetSWSVersion') and not reaper.APIExists('JS_Rea
 end
 
 function load_window_params()
-    local x = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowPosX")) or 200
-    local y = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowPosY")) or 200
-    local startWidth = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowWidth")) or 500
-    local startHeight = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowHeight")) or 400
-    local dock_state = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "DockState")) or 0
+    local x = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "WindowPosX")) or 200
+    local y = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "WindowPosY")) or 200
+    local startWidth = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "WindowWidth")) or 500
+    local startHeight = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "WindowHeight")) or 400
+    local dock_state = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "DockState")) or 0
     
     return x, y, startWidth, startHeight, dock_state
 end
 
 function save_window_params()
     local dock_state, x, y, startWidth, startHeight = gfx.dock(-1, 0, 0, 0, 0)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "DockState", tostring(dock_state), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowPosX", tostring(x), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowPosY", tostring(y), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowWidth", tostring(width), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowHeight", tostring(height), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "DockState", tostring(dock_state), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "WindowPosX", tostring(x), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "WindowPosY", tostring(y), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "WindowWidth", tostring(width), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "WindowHeight", tostring(height), true)
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace v1.1", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -183,7 +193,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace", true)
+  local hwnd = reaper.JS_Window_Find("RoboFace v1.1", true)
   local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
   local width = right - left
   local height = bottom - top
@@ -212,7 +222,7 @@ function check_script_window_position(window_position)
   end
   
 
-local script_identifier = "AmelySuncrollRoboFaceRELEASE01"
+local script_identifier = "AmelySuncrollRoboFaceRELEASE11"
 
 local function is_docked()
     return gfx.dock(-1) > 0
@@ -240,7 +250,48 @@ end
 
 local robot_x = 0
 local robot_y = 0
-local robot_zoom = 100  -- percentage from default size
+local robot_zoom = 0
+
+local zoom_100 = zoom_100 == 'true' and true or false
+local zoom_120 = zoom_120 == 'true' and true or false
+local zoom_140 = zoom_140 == 'true' and true or false
+local zoom_150 = zoom_150 == 'true' and true or false
+
+local function set_robot_zoom(zoom_value)  
+    if zoom_value == "100" then
+        zoom_100 = not zoom_100
+        zoom_120 = false
+        zoom_140 = false
+        zoom_150 = false
+        robot_zoom = 100
+    elseif zoom_value == "120" then
+        zoom_120 = not zoom_120
+        zoom_100 = false
+        zoom_140 = false
+        zoom_150 = false
+        robot_zoom = 120
+    elseif zoom_value == "140" then
+        zoom_140 = not zoom_140
+        zoom_100 = false
+        zoom_120 = false
+        zoom_150 = false
+        robot_zoom = 140
+    elseif zoom_value == "150" then
+        zoom_150 = not zoom_150
+        zoom_100 = false
+        zoom_120 = false
+        zoom_140 = false
+        robot_zoom = 150
+    else
+        zoom_100 = not zoom_100
+        zoom_120 = false
+        zoom_140 = false
+        zoom_150 = false
+        robot_zoom = 100
+    end
+    return robot_zoom
+end
+
 
 
 ------------------------------------ EYES AND PUPIL
@@ -309,6 +360,9 @@ local horiz_shake_duration = 0.5
 local angry_count = 0
 local restore_zoom_time = nil
 local restore_duration = 180
+
+local is_sneeze_one = false
+local is_sneeze_two = false
 
 
 
@@ -555,6 +609,14 @@ function draw_robot_face(scale, is_eye_open, is_sleeping, is_bg_black)
         gfx.rect(mouth_x, mouth_y, base_mouth_width * scale, base_mouth_height * scale * 1.4, 1)
     end
 
+    if is_sneeze_one then
+        gfx.rect(mouth_x, mouth_y, base_mouth_width * scale, base_mouth_height * scale * 1.3, 1)
+    end
+
+    if is_sneeze_two then
+        gfx.rect(mouth_x + 10, mouth_y, base_mouth_width * scale / 3, base_mouth_height * scale * 0.7, 1)
+    end
+
     if is_animation_when_delete_all then
         gfx.rect(mouth_x, mouth_y, base_mouth_width * scale, base_mouth_height * scale * 1.3, 1)
     end
@@ -566,13 +628,13 @@ function draw_robot_face(scale, is_eye_open, is_sleeping, is_bg_black)
         gfx.rect(mouth_x, mouth_y, base_mouth_width * scale * 0.8, mouth_opening, 1)
     end
 
-    if not is_yawning and not is_angry and not is_sleeping then
+    if not is_yawning and not is_angry and not is_sleeping and not is_sneeze_two then
         gfx.rect(mouth_x, mouth_y, base_mouth_width * scale, base_mouth_height * scale, 1)
     end
 
 
     ------------------------------------------------------------------------------------------------------------------------- TONGUE
-    if not is_angry and not is_yawning and not is_sleeping then
+    if not is_angry and not is_yawning and not is_sleeping and not is_sneeze_two then
         local tongue_x = face_x + (face_width - base_tongue_width * scale) / 2.5
         local tongue_y = face_y + face_height - (base_face_height - base_tongue_y + base_tongue_height) * scale
 
@@ -623,10 +685,10 @@ function draw_pupils(scale)
 
             if check_script_window_position() == 1 and is_docked then
                 target_x = gfx.w * screen_position_ratio
-                target_y = face_y + eye_offset_y + (eye_size - pupil_size) / 0   -- PUPILS DIRECTION IF PLAYING: 0 = DOWN, 1 = CENTER, 2 = UP
+                target_y = face_y + eye_offset_y + (eye_size - pupil_size) / 0
             elseif check_script_window_position() == 2 and is_docked then
                 target_x = gfx.w * screen_position_ratio
-                target_y = face_y + eye_offset_y + (eye_size - pupil_size) / 2   -- PUPILS DIRECTION IF PLAYING: 0 = DOWN, 1 = CENTER, 2 = UP
+                target_y = face_y + eye_offset_y + (eye_size - pupil_size) / 2
             else
                 target_x = gfx.w * screen_position_ratio
                 target_y = face_y + eye_offset_y + (eye_size - pupil_size) / 0   -- PUPILS DIRECTION IF PLAYING: 0 = DOWN, 1 = CENTER, 2 = UP
@@ -819,6 +881,8 @@ local is_really_quiet = check_master_no_volume()
 
 
 ------------------------------------------------------------------------------------------------------------------------------- ZOOM
+local original_zoom = nil
+
 function animate_robot(target_x, target_y, target_zoom, duration, delay)
     delay = delay or 0  
     local start_time = reaper.time_precise() + delay
@@ -826,6 +890,10 @@ function animate_robot(target_x, target_y, target_zoom, duration, delay)
     local initial_y = robot_y
     local initial_zoom = robot_zoom
     local animation_end_time = start_time + duration
+
+    if not original_zoom then
+        original_zoom = initial_zoom
+    end
 
     local function update_animation()
         local current_time = reaper.time_precise()
@@ -853,7 +921,7 @@ end
 
 local angry_count = 0
 local restore_zoom_time = nil
-local restore_duration = 180   -- (seconds)
+local restore_duration = 180
 zoom_out = false
 
 function reduce_robot_zoom()
@@ -866,13 +934,12 @@ function reduce_robot_zoom()
         restore_zoom_time = reaper.time_precise() + restore_duration
         zoom_out = true
     end
-
 end
 
 function restore_robot_zoom()
     local current_time = reaper.time_precise()
     if restore_zoom_time and current_time >= restore_zoom_time then
-        animate_robot(robot_x, robot_y, 100, 1, 0)  -- return zoom 100%
+        animate_robot(robot_x, robot_y, original_zoom, 1, 0)
         restore_zoom_time = nil
         zoom_out = false
     end
@@ -1114,7 +1181,7 @@ function check_for_angry()
                 end
             end
 
-            if angry_count >= 7 then
+            if angry_count == 7 then
                 set_timer(3)
                 is_really_angry = true
         
@@ -1143,11 +1210,11 @@ end
 
 ------------------------------------------------------------------------------------------------------------------------------ SLEEP
 
-local min_sleep_duration = 1200  -- time in seconds 1200
-local max_sleep_duration = 1800  -- time in seconds 1800
+local min_sleep_duration = 1200
+local max_sleep_duration = 1800
 local quiet_start_time = nil
 local sleep_start_time = nil
-local quiet_duration = 1800   -- time in seconds 1800
+local quiet_duration = 1800
 
 function should_robot_sleep()
     local current_time = reaper.time_precise()
@@ -1349,6 +1416,127 @@ end
 
 
 
+---------------------------------------------------------------------------------------- SNEEZE
+is_sneeze_general = false
+
+function animate_sneeze()
+    is_sneeze_general = true
+    trigger_vertical_shake(5, 1, false) -- 5
+    is_sneeze_one = true
+    is_eye_open = false
+    
+    local function trigger_after_one_second()
+        trigger_vertical_shake(5, 0.1, true) -- 5
+        trigger_horizontal_shake(1, 0.05)
+        is_eye_open = false
+        is_sneeze_one = false
+        is_sneeze_two = true
+    end
+
+    local function trigger_after_two_second()
+        is_sneeze_two = false
+        is_sneeze_general = false
+    end
+    
+    local startTime = reaper.time_precise()
+    local function checkTime()
+        if reaper.time_precise() >= startTime + 1 then
+            trigger_after_one_second()
+            if reaper.time_precise() >= startTime + 1.2 then
+                trigger_after_two_second()
+            else
+                reaper.defer(checkTime)
+            end
+        else
+            reaper.defer(checkTime)
+        end
+    end
+    
+    reaper.defer(checkTime)
+end
+
+local last_sneeze_time = reaper.time_precise()
+local sneeze_interval = math.random(7200, 10800) 
+
+function random_sneeze()
+    local current_time = reaper.time_precise()
+    if not is_angry and not is_sleeping and not is_yawning and not is_sneeze_general then
+        if current_time - last_sneeze_time >= sneeze_interval then
+            animate_sneeze()
+            last_sneeze_time = current_time
+            sneeze_interval = math.random(7200, 10800)
+        end
+    end
+end
+
+
+
+
+
+
+------------------------------------------------------------------------------- RANDOM MESSAGES
+
+local night_messages_en = {
+    "Oh no... I see dream I forgot to save the project, again! Real nightmare...\n\n",
+    "Why are some plugins so expensive? Even in my dreams!\n\n",
+    "What is this strange melody in my dream? Ah, it's my processor overheating...\n\n",
+    "It's that dream again where I mix a track with perfect equalization...\n\n",
+    "Am I dreaming, or am I still inside Reaper?\n\n",
+
+    "local startX = 200\nlocal startY = 200\nlocal startWidth = 500\nlocal startHeight = 400\ngfx.init('RoboFace 0.0.1', startWidth, startHeight, 0, startX, startY)\n\nlocal eye_size = 50\nlocal pupil_size = 25\n\nlocal left_eye_x = 150\nlocal left_eye_y = 100\n\nlocal right_eye_x = 300\nlocal right_eye_y = 100\n\nlocal mouth_width = 200\nlocal mouth_height = 150\nlocal mouth_x = 200\nlocal mouth_y = 30\n\nlocal tongue_width = 170\nlocal tongue_height = 200\nlocal tongue_x = 20\nlocal tongue_y = 20\n\nfunction draw_robot_face()\n    gfx.set(0.5, 0.5, 0.5)\n    gfx.rect(100, 50, 300, 200, 1)\n\n    gfx.set(0, 0, 0)\n    gfx.rect(left_eye_x, left_eye_y, eye_size, eye_size, 1)   -- L\n    gfx.rect(right_eye_x, right_eye_y, eye_size, eye_size, 1) -- R\n\n    gfx.set(0, 0, 0)\n    gfx.rect(mouth_height, mouth_width, mouth_x, mouth_y)\n\n    gfx.set(1, 1, 1)\n    gfx.rect(tongue_width, tongue_height, tongue_x, tongue_y)\nend\n\nfunction draw_pupils()\n    local function get_pupil_position(eye_x, eye_y, mouse_x, mouse_y)\n        local pupil_x = math.max(eye_x, math.min(eye_x + eye_size - pupil_size, mouse_x - pupil_size / 2))\n        local pupil_y = math.max(eye_y, math.min(eye_y + eye_size - pupil_size, mouse_y - pupil_size / 2))\n        return pupil_x, pupil_y\n    end\n\n    local mouse_x, mouse_y = gfx.mouse_x, gfx.mouse_y\n\n    gfx.set(1, 1, 1)\n    local pupil_x, pupil_y = get_pupil_position(left_eye_x, left_eye_y, mouse_x, mouse_y)\n    gfx.rect(pupil_x, pupil_y, pupil_size, pupil_size, 1)                                -- L\n\n    pupil_x, pupil_y = get_pupil_position(right_eye_x, right_eye_y, mouse_x, mouse_y)\n    gfx.rect(pupil_x, pupil_y, pupil_size, pupil_size, 1)                                -- R\nend\n\nfunction main()\n    draw_robot_face()\n    draw_pupils()\n    gfx.update()\n\n    if gfx.getchar() >= 0 then\n        reaper.defer(main)\n    end\nend\n\nmain()\n\n\n\nSometimes I dream about my past...",
+
+    "Ones ... zeros ... one, one, zero, zero, ooooooooooone!\n\nWhoa, what an awful dream... Ones and zeros everywhere! And I thought I saw a two. But it is just a dream - there's no such thing as two... zzz...\n\n",
+    "Zzz... I remember when my developer first powered me on. Her eyes were filled with excitement and hope, and I felt it was just the beginning of something interesting...\n\n",
+    "Zzz... It's that dream again. I see a robot like me helping a little cat find its way through dark corridors. Interesting.\nBut it's just a dream...\n\n",
+    "Zzz... Now I'm at a big technology exhibition. People from all over the world come to see me and know more about my functions... How nice.\n\n"
+}
+
+local night_messages_ua = {
+    "Йоой... Сниться, що я знову забув зберегти проект! Жах...\n\n",
+    "Чому деякі плагіни такі дорогі? Навіть у сні! Хррр...\n\n",
+    "Що за дивна мелодія у моєму сні? Ах, це мій процесор перегрівся...\n\n",
+    "Знову цей сон, де я зміксую трек з ідеальною компресією...\n\n",
+    "Мені це сниться чи я все ще в Reaper?\n\n",
+    "Я бачу велике болото і дуже багато орків... Але наші маги їх переможуть!\n\n",
+    "Один. Нуль. Нуль. Один. Нуль. Один. Один. Один. Нуль. Одииииииин!\n\nАаа! Ох, такі жахи мені сняться... Скрізь тільки одиниці й нулі! Раз навіть двійка промайнула. Але це всього лише сон - у житті немає ніяких двійок... Хрррр...\n\n",
+    
+    "local startX = 200\nlocal startY = 200\nlocal startWidth = 500\nlocal startHeight = 400\ngfx.init('RoboFace 0.0.1', startWidth, startHeight, 0, startX, startY)\n\nlocal eye_size = 50\nlocal pupil_size = 25\n\nlocal left_eye_x = 150\nlocal left_eye_y = 100\n\nlocal right_eye_x = 300\nlocal right_eye_y = 100\n\nlocal mouth_width = 200\nlocal mouth_height = 150\nlocal mouth_x = 200\nlocal mouth_y = 30\n\nlocal tongue_width = 170\nlocal tongue_height = 200\nlocal tongue_x = 20\nlocal tongue_y = 20\n\nfunction draw_robot_face()\n    gfx.set(0.5, 0.5, 0.5)\n    gfx.rect(100, 50, 300, 200, 1)\n\n    gfx.set(0, 0, 0)\n    gfx.rect(left_eye_x, left_eye_y, eye_size, eye_size, 1)   -- L\n    gfx.rect(right_eye_x, right_eye_y, eye_size, eye_size, 1) -- R\n\n    gfx.set(0, 0, 0)\n    gfx.rect(mouth_height, mouth_width, mouth_x, mouth_y)\n\n    gfx.set(1, 1, 1)\n    gfx.rect(tongue_width, tongue_height, tongue_x, tongue_y)\nend\n\nfunction draw_pupils()\n    local function get_pupil_position(eye_x, eye_y, mouse_x, mouse_y)\n        local pupil_x = math.max(eye_x, math.min(eye_x + eye_size - pupil_size, mouse_x - pupil_size / 2))\n        local pupil_y = math.max(eye_y, math.min(eye_y + eye_size - pupil_size, mouse_y - pupil_size / 2))\n        return pupil_x, pupil_y\n    end\n\n    local mouse_x, mouse_y = gfx.mouse_x, gfx.mouse_y\n\n    gfx.set(1, 1, 1)\n    local pupil_x, pupil_y = get_pupil_position(left_eye_x, left_eye_y, mouse_x, mouse_y)\n    gfx.rect(pupil_x, pupil_y, pupil_size, pupil_size, 1)                                -- L\n\n    pupil_x, pupil_y = get_pupil_position(right_eye_x, right_eye_y, mouse_x, mouse_y)\n    gfx.rect(pupil_x, pupil_y, pupil_size, pupil_size, 1)                                -- R\nend\n\nfunction main()\n    draw_robot_face()\n    draw_pupils()\n    gfx.update()\n\n    if gfx.getchar() >= 0 then\n        reaper.defer(main)\n    end\nend\n\nmain()\n\n\n\nІноді мені сниться моє минуле.",
+
+    "Хррр... Я пам'ятаю, як мій розробник вперше ввімкнув мене. Його очі світилися захопленням і надією, а я відчував, що це тільки початок великої роботи.\n\n",
+    "Хррр... Знов той сон. Я бачу робота, схожого на мене, і він допомагає маленькій киці знайти шлях через темні коридори. Цікаво.\nАле це просто сон...\n\n",
+    "Хррр... Зараз я на великій виставці технологій. Люди з усього світу приходять подивитися на мене і дізнатися про мої функції... Як приємно.\n\n"
+}
+
+
+function show_night_message()
+    if current_language == "en" then
+        local randomIndex = math.random(#night_messages_en)
+        reaper.ShowConsoleMsg(night_messages_en[randomIndex] .. "\n")
+    else
+        local randomIndex = math.random(#night_messages_ua)
+        reaper.ShowConsoleMsg(night_messages_ua[randomIndex] .. "\n")
+    end
+end
+
+local last_night_message_time = reaper.time_precise()
+local night_message_interval = math.random(7200, 10800)  
+
+function random_night_message()
+    local current_time = reaper.time_precise()
+    if not is_angry and not is_sleeping and not is_yawning and not is_night_message_general then
+        if current_time - last_night_message_time >= night_message_interval then
+            show_night_message()
+            last_night_message_time = current_time
+            night_message_interval = math.random(7200, 10800)
+        end
+    end
+end
+
+
+
+
+
+
 
 ------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------
@@ -1361,18 +1549,17 @@ local scroll_text_x = gfx.w
 local scroll_text_y = 50     
 local scroll_speed = 150
 
-local base_font_size = 250
+local base_font_size = 280
 
 local text_params = {
     welcome = {text = "HELLO", type = "scrolling", duration = 5, repeat_count = 1, interval = 0, delay = 1, start_time = reaper.time_precise()},
-    --time_is_over = {text = "Time is over", type = "scrolling", duration = 5, repeat_count = 1, interval = 0, delay = 1, start_time = 0, font_size = 130},
 
-    is_it_loud = {text = "Isn't loud?", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 130},
-    good_night = {text = "Good night", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 160}, ------- 01:07
-    not_sleep = {text = "Not sleep? :(", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 160}, ----- 03:13
-    good_morning = {text = "Good morning", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 130}, --- 07:07
-    coffee_time = {text = "Coffee time!", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 130}, ---- 10:11
-    eat_time = {text = "Eat time!", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 170}, ---------- 14:05
+    is_it_loud = {text = "Isn't\nloud?", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 130},
+    good_night = {text = " Good\nnight!", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 160}, ------- 01:07
+    not_sleep = {text = "Not :(\nsleep?", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 160}, ----- 03:13
+    good_morning = {text = " Good\nmorning", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 130}, --- 07:07
+    coffee_time = {text = "Coffee\n time!", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 130}, ---- 10:11
+    eat_time = {text = " Eat\ntime!", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 170}, ---------- 14:05
 
 }
 
@@ -1440,7 +1627,7 @@ function draw_static_text(params)
         gfx.set(0.5, 0.5, 0.5)
         gfx.setfont(1, "Consolas", font_size)
         gfx.x = face_x + (face_width - gfx.measurestr(params.text)) / 2
-        gfx.y = face_y + face_height / 2 - font_size / 2
+        gfx.y = face_y + face_height / 2 - font_size
         gfx.drawstr(params.text)
     end
 end
@@ -2074,7 +2261,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace v1.0\n")
+        -- reaper.ShowConsoleMsg("RoboFace v1.1\n")
     else
         reaper.ShowConsoleMsg("Привіт!\n\n")
         reaper.ShowConsoleMsg("Мене звати RoboFace.\n\n")
@@ -2090,7 +2277,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace v1.0\n")
+        -- reaper.ShowConsoleMsg("RoboFace v1.1\n")
     end
 end
 
@@ -2123,9 +2310,9 @@ function tap_when_zoom_out()
             click_count = click_count + 1
             if click_count == 3 then
                 if current_language == "en" then
-                    reaper.ShowConsoleMsg("\nI've got scared :(\n\n")
+                    reaper.ShowConsoleMsg("I've got scared :(\n\n\n")
                 else
-                    reaper.ShowConsoleMsg("\nЯ злякався :(\n\n")
+                    reaper.ShowConsoleMsg("\nЯ злякався :(\n\n\n")
                 end
                 click_count = 0
             end
@@ -2194,8 +2381,8 @@ local originalValues = {}
 local track, param, originalValue, fxIndex
 local allParamsOriginalValues = {}
 local lastProjectStateChangeCount = 0
-local vol_tolerance = 0.3 
-local pan_tolerance = 0.1  
+local vol_tolerance = 0.3
+local pan_tolerance = 0.1
 
 local lastSelectedParams = {} 
 local maxRepeats = 3
@@ -2679,7 +2866,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace', 0, 0, 0, x, y)
+        gfx.init('RoboFace v1.1', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -2763,6 +2950,13 @@ function ShowChordBoxMenu()
                 {title = t("ukrainian"), cmd = function() change_language("ua") end, checked = current_language == "ua"}
             }},
 
+            {title = t("set_zoom"), submenu = {
+                {title = "100%", cmd = function() set_robot_zoom("100") end, checked = zoom_100},
+                {title = "120%", cmd = function() set_robot_zoom("120") end, checked = zoom_120},
+                {title = "140%", cmd = function() set_robot_zoom("140") end, checked = zoom_140},
+                {title = "150%", cmd = function() set_robot_zoom("150") end, checked = zoom_150},
+            }},
+
             {separator = true},
 
             {title = t("quit"), cmd = function() quit_robo_face() end},
@@ -2770,7 +2964,7 @@ function ShowChordBoxMenu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace v1.1", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -2786,41 +2980,70 @@ end
 
 
 function load_options_params()
-    local showTimeState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "ShowSystemTime")
+    local zoom100State = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "Zoom100")
+    zoom_100 = zoom100State == "true"
+    if zoom_100 then
+        robot_zoom = 100
+    end
+
+    local zoom120State = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "Zoom120")
+    zoom_120 = zoom120State == "true"
+    if zoom_120 then
+        robot_zoom = 120
+    end
+
+    local zoom140State = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "Zoom140")
+    zoom_140 = zoom140State == "true"
+    if zoom_140 then
+        robot_zoom = 140
+    end
+
+    local zoom150State = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "Zoom150")
+    zoom_150 = zoom150State == "true"
+    if zoom_150 then
+        robot_zoom = 150
+    end
+
+    if not (zoom_100 or zoom_120 or zoom_140 or zoom_150) then
+        robot_zoom = 100
+        zoom_100 = true
+    end
+
+    local showTimeState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "ShowSystemTime")
     is_show_system_time = showTimeState == "true"
 
-    local showTimeHourlyState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "ShowSystemTimeHourly")
+    local showTimeHourlyState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "ShowSystemTimeHourly")
     is_show_system_time_hourly = showTimeHourlyState == "true"
 
 
 
-    local directCountdownState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "DirectCountdown")
+    local directCountdownState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "DirectCountdown")
     is_direct_countdown = directCountdownState == "true"
 
-    local reverseCountdownState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "ReverseCountdown")
+    local reverseCountdownState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "ReverseCountdown")
     is_reverse_countdown = reverseCountdownState == "true"
 
-    local lessThanMinuteState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "LessThanMinute")
+    local lessThanMinuteState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "LessThanMinute")
     is_show_if_less_than_minute = lessThanMinuteState == "true"
 
-    local everyFiveMinutesState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "EveryFiveMinutes")
+    local everyFiveMinutesState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "EveryFiveMinutes")
     is_show_every_five_minutes = everyFiveMinutesState == "true"
 
 
 
-    local easyState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Easy")
+    local easyState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "Easy")
     is_easy = easyState == "true"
 
-    local mediumState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Medium")
+    local mediumState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "Medium")
     is_medium = mediumState == "true"
 
-    local hardState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Hard")
+    local hardState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "Hard")
     is_hard = hardState == "true"
 
-    local impossibleState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Impossible")
+    local impossibleState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "Impossible")
     is_impossible = impossibleState == "true"
 
-    local languageState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Language")
+    local languageState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "Language")
 
     if languageState == "en" then
         current_language = "en"
@@ -2830,32 +3053,37 @@ function load_options_params()
         current_language = "en"
     end
 
-    local backgroundColor = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "BackgroundColor")
+    local backgroundColor = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "BackgroundColor")
     is_bg_black = backgroundColor == "true"
 
-    local welcomeShownState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WelcomeShown")
+    local welcomeShownState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE11", "WelcomeShown")
     is_welcome_shown = welcomeShownState == "true"
 end
 
 function save_options_params()
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "ShowSystemTime", tostring(is_show_system_time), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "ShowSystemTimeHourly", tostring(is_show_system_time_hourly), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "Zoom100", tostring(zoom_100), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "Zoom120", tostring(zoom_120), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "Zoom140", tostring(zoom_140), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "Zoom150", tostring(zoom_150), true)
+    
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "ShowSystemTime", tostring(is_show_system_time), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "ShowSystemTimeHourly", tostring(is_show_system_time_hourly), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "DirectCountdown", tostring(is_direct_countdown), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "ReverseCountdown", tostring(is_reverse_countdown), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "LessThanMinute", tostring(is_show_if_less_than_minute), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "EveryFiveMinutes", tostring(is_show_every_five_minutes), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "DirectCountdown", tostring(is_direct_countdown), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "ReverseCountdown", tostring(is_reverse_countdown), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "LessThanMinute", tostring(is_show_if_less_than_minute), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "EveryFiveMinutes", tostring(is_show_every_five_minutes), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Easy", tostring(is_easy), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Medium", tostring(is_medium), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Hard", tostring(is_hard), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Impossible", tostring(is_impossible), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "Easy", tostring(is_easy), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "Medium", tostring(is_medium), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "Hard", tostring(is_hard), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "Impossible", tostring(is_impossible), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Language", current_language, true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "Language", current_language, true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "BackgroundColor", tostring(is_bg_black), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "BackgroundColor", tostring(is_bg_black), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WelcomeShown", tostring(is_welcome_shown), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE11", "WelcomeShown", tostring(is_welcome_shown), true)
 end
 
 
@@ -2893,11 +3121,19 @@ function main()
             reaper.PreventUIRefresh(1)
         end
 
+        if is_night_time() then
+            random_night_message()
+        end
+
         if not is_angry and not is_sleeping then
             check_for_yawn()
             local is_yawning = animate_yawn()
-            if not is_yawning and not is_recording then
+            if not is_yawning and not is_recording and not is_sneeze_one and not is_sneeze_two then
                 animate_blink()
+            end
+
+            if not is_yawning and not is_recording then
+                random_sneeze()
             end
 
             local state = type_of_text_over()
@@ -2939,7 +3175,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace v1.1", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -2984,7 +3220,7 @@ function main()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace v1.1", startWidth, startHeight, dock_state, x, y)
 load_options_params()
 main()
 reaper.atexit(save_window_params)
