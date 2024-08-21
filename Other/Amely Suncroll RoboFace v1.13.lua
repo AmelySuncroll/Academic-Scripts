@@ -1,11 +1,13 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.1
+-- @version 1.13
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
 --    + 1.01 fix error when not docked and playing
 --    + 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
+--    + 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
+
 -- @about Your little friend inside Reaper
 
 -- @donation https://www.paypal.com/paypalme/suncroll
@@ -80,6 +82,8 @@ local translations = {
         sneeze = "New",
 
         set_zoom = "Zoom",
+
+        start_up = "Run on startup"
         
     },
     ua = {
@@ -134,7 +138,9 @@ local translations = {
 
         sneeze = "Нове",
 
-        set_zoom = "Розмір"
+        set_zoom = "Розмір",
+
+        start_up = "Автозапуск"
     }
 }
 
@@ -178,7 +184,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace v1.1", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace Home", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -193,7 +199,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace v1.1", true)
+  local hwnd = reaper.JS_Window_Find("RoboFace Home", true)
   local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
   local width = right - left
   local height = bottom - top
@@ -234,6 +240,159 @@ local function toggle_dock()
     reaper.SetExtState(script_identifier, "dock_state", tostring(dock_state), true)
     gfx.update()
 end
+
+local previous_state = "closed"
+local is_paused = false
+
+function get_midi_editor_state()
+    local midi_editor = reaper.MIDIEditor_GetActive()
+    local is_me_open, is_me_closed, is_me_docked = false, false, false
+    
+    if not midi_editor then
+        is_me_closed = true
+        is_paused = false
+        return is_me_open, is_me_closed, is_me_docked
+    end
+    
+    is_me_open = true
+    local is_docked_value = reaper.DockIsChildOfDock(midi_editor)
+    if is_docked_value > 0 then
+        is_me_docked = true
+    end
+
+    local current_state = ""
+    if is_me_open and is_me_docked then
+        current_state = "docked"
+        is_paused = false
+    elseif is_me_open then
+        current_state = "open"
+        is_paused = true
+    elseif is_me_closed then
+        current_state = "closed"
+        is_paused = false
+    end
+
+    if current_state ~= previous_state then
+        previous_state = current_state
+    end
+    
+    return is_me_open, is_me_closed, is_me_docked
+end
+
+
+
+local extname = 'AmelySuncroll.RoboFace'
+
+function ConcatPath(...) return table.concat({...}, package.config:sub(1, 1)) end
+
+function GetStartupHookCommandID()
+    -- Note: Startup hook commands have to be in the main section
+    local _, script_file, section, cmd_id = reaper.get_action_context()
+    if section == 0 then
+        -- Save command name when main section script is run first
+        local cmd_name = '_' .. reaper.ReverseNamedCommandLookup(cmd_id)
+        reaper.SetExtState(extname, 'hook_cmd_name', cmd_name, true)
+    else
+        -- Look for saved command name by main section script
+        local cmd_name = reaper.GetExtState(extname, 'hook_cmd_name')
+        cmd_id = reaper.NamedCommandLookup(cmd_name)
+        if cmd_id == 0 then
+            -- Add the script to main section (to get cmd id)
+            cmd_id = reaper.AddRemoveReaScript(true, 0, script_file, true)
+            if cmd_id ~= 0 then
+                -- Save command name to avoid adding script on next run
+                cmd_name = '_' .. reaper.ReverseNamedCommandLookup(cmd_id)
+                reaper.SetExtState(extname, 'hook_cmd_name', cmd_name, true)
+            end
+        end
+    end
+    return cmd_id
+end
+
+local is_startup = is_startup == 'true' and true or false
+
+function IsStartupHookEnabled()
+    -- reaper.ShowConsoleMsg("Entering IsStartupHookEnabled\n")
+    is_startup = false
+    local res_path = reaper.GetResourcePath()
+    local startup_path = ConcatPath(res_path, 'Scripts', '__startup.lua')
+    local cmd_id = GetStartupHookCommandID()
+    local cmd_name = reaper.ReverseNamedCommandLookup(cmd_id)
+
+    if reaper.file_exists(startup_path) then
+        -- Read content of __startup.lua
+        local startup_file = io.open(startup_path, 'r')
+        if not startup_file then return false end
+        local content = startup_file:read('*a')
+        startup_file:close()
+
+        -- Find line that contains command id (also next line if available)
+        local pattern = '[^\n]+' .. cmd_name .. '\'?\n?[^\n]+'
+        local s, e = content:find(pattern)
+
+        -- Check if line exists and whether it is commented out
+        if s and e then
+            local hook = content:sub(s, e)
+            local comment = hook:match('[^\n]*%-%-[^\n]*reaper%.Main_OnCommand')
+            if not comment then return true end
+        end
+    end
+    -- reaper.ShowConsoleMsg("Exiting IsStartupHookEnabled\n")
+    is_startup = true
+    return false
+end
+
+function SetStartupHookEnabled(is_enabled, comment, var_name)
+    local res_path = reaper.GetResourcePath()
+    local startup_path = ConcatPath(res_path, 'Scripts', '__startup.lua')
+    local cmd_id = GetStartupHookCommandID()
+    local cmd_name = reaper.ReverseNamedCommandLookup(cmd_id)
+
+    local content = ''
+    local hook_exists = false
+
+    -- Check startup script for existing hook
+    if reaper.file_exists(startup_path) then
+        local startup_file = io.open(startup_path, 'r')
+        if not startup_file then return end
+        content = startup_file:read('*a')
+        startup_file:close()
+
+        -- Find line that contains command id (also next line if available)
+        local pattern = '[^\n]+' .. cmd_name .. '\'?\n?[^\n]+'
+        local s, e = content:find(pattern)
+
+        if s and e then
+            -- Add/remove comment from existing startup hook
+            local hook = content:sub(s, e)
+            local repl = (is_enabled and '' or '-- ') .. 'reaper.Main_OnCommand'
+            hook = hook:gsub('[^\n]*reaper%.Main_OnCommand', repl, 1)
+            content = content:sub(1, s - 1) .. hook .. content:sub(e + 1)
+
+            -- Write changes to file
+            local new_startup_file = io.open(startup_path, 'w')
+            if not new_startup_file then return end
+            new_startup_file:write(content)
+            new_startup_file:close()
+
+            hook_exists = true
+        end
+    end
+
+    -- Create startup hook
+    if is_enabled and not hook_exists then
+        comment = comment and '-- ' .. comment .. '\n' or ''
+        var_name = var_name or 'cmd_name'
+        local hook = '%slocal %s = \'_%s\'\nreaper.\z
+            Main_OnCommand(reaper.NamedCommandLookup(%s), 0)\n\n'
+        hook = hook:format(comment, var_name, cmd_name, var_name)
+        local startup_file = io.open(startup_path, 'w')
+        if not startup_file then return end
+        startup_file:write(hook .. content)
+        startup_file:close()
+    end
+end
+
 
 
 
@@ -866,6 +1025,7 @@ function check_master_no_volume()
 end
 
 local is_really_quiet = check_master_no_volume()
+
 
 
 
@@ -1554,6 +1714,7 @@ local base_font_size = 280
 local text_params = {
     welcome = {text = "HELLO", type = "scrolling", duration = 5, repeat_count = 1, interval = 0, delay = 1, start_time = reaper.time_precise()},
 
+    is_it_paused = {text = "paused\n  ||", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 170},
     is_it_loud = {text = "Isn't\nloud?", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 130},
     good_night = {text = " Good\nnight!", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 160}, ------- 01:07
     not_sleep = {text = "Not :(\nsleep?", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 160}, ----- 03:13
@@ -1669,6 +1830,10 @@ function type_of_text_over()
 
     if check_master_fader_volume() == true then
         current_state = "is_it_loud"
+    end
+
+    if is_paused then
+        current_state = "is_it_paused"
     end
 
 
@@ -2261,7 +2426,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace v1.1\n")
+        -- reaper.ShowConsoleMsg("RoboFace Home\n")
     else
         reaper.ShowConsoleMsg("Привіт!\n\n")
         reaper.ShowConsoleMsg("Мене звати RoboFace.\n\n")
@@ -2277,7 +2442,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace v1.1\n")
+        -- reaper.ShowConsoleMsg("RoboFace Home\n")
     end
 end
 
@@ -2866,7 +3031,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace v1.1', 0, 0, 0, x, y)
+        gfx.init('RoboFace Home', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -2940,16 +3105,6 @@ function ShowChordBoxMenu()
 
             {separator = true},
 
-            {title = t("set_background_color"), submenu = {
-                {title = t("black_bg"), cmd = function() set_background_color("black") end, checked = is_bg_black},
-                {title = t("white_bg"), cmd = function() set_background_color("white") end, checked = not is_bg_black},
-            }},
-            
-            {title = t("language"), submenu = {
-                {title = t("english"), cmd = function() change_language("en") end, checked = current_language == "en"},
-                {title = t("ukrainian"), cmd = function() change_language("ua") end, checked = current_language == "ua"}
-            }},
-
             {title = t("set_zoom"), submenu = {
                 {title = "100%", cmd = function() set_robot_zoom("100") end, checked = zoom_100},
                 {title = "120%", cmd = function() set_robot_zoom("120") end, checked = zoom_120},
@@ -2957,6 +3112,26 @@ function ShowChordBoxMenu()
                 {title = "150%", cmd = function() set_robot_zoom("150") end, checked = zoom_150},
             }},
 
+            {title = t("language"), submenu = {
+                {title = t("english"), cmd = function() change_language("en") end, checked = current_language == "en"},
+                {title = t("ukrainian"), cmd = function() change_language("ua") end, checked = current_language == "ua"}
+            }},
+
+            {title = t("set_background_color"), submenu = {
+                {title = t("black_bg"), cmd = function() set_background_color("black") end, checked = is_bg_black},
+                {title = t("white_bg"), cmd = function() set_background_color("white") end, checked = not is_bg_black},
+            }},
+
+            {title = t("start_up"),
+            cmd = function()
+                local is_enabled = IsStartupHookEnabled()
+                local comment = 'StFart script: Amely Suncroll RoboFace'
+                local var_name = 'robo_face_cmd_name'
+                SetStartupHookEnabled(not is_enabled, comment, var_name)
+            end,
+            checked = is_startup
+            },
+            
             {separator = true},
 
             {title = t("quit"), cmd = function() quit_robo_face() end},
@@ -2964,7 +3139,7 @@ function ShowChordBoxMenu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace v1.1", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace Home", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3058,6 +3233,9 @@ function load_options_params()
 
     local welcomeShownState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WelcomeShown")
     is_welcome_shown = welcomeShownState == "true"
+
+    local startupState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "StartupIsOn")
+    is_startup = startupState == "true"
 end
 
 function save_options_params()
@@ -3084,6 +3262,8 @@ function save_options_params()
     reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "BackgroundColor", tostring(is_bg_black), true)
 
     reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WelcomeShown", tostring(is_welcome_shown), true)
+
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "StartupIsOn", tostring(is_startup), true)
 end
 
 
@@ -3104,56 +3284,67 @@ function main()
     check_script_window_position()
     check_welcome_message()
 
-    if not is_show_system_time and not is_showing_cube then
-        local scale = get_scale_factor()
-        local is_angry = check_for_angry()
-        local is_really_quiet = check_master_no_volume()
-        local is_recording = is_recording()
-        
-        get_shake_intensity()
-        local is_sleeping = should_robot_sleep()
+    local is_me_open, is_me_closed, is_me_docked = get_midi_editor_state()
 
-        draw_robot_face(scale, is_eye_open, is_angry, is_bg_black)
-        draw_pupils(scale)
-        
+                                                                            if is_me_closed or is_me_docked and not is_paused then
+        if not is_show_system_time and not is_showing_cube then
+            local scale = get_scale_factor()
+            local is_angry = check_for_angry()
+            local is_really_quiet = check_master_no_volume()
+            local is_recording = is_recording()
+            
+            get_shake_intensity()
+            local is_sleeping = should_robot_sleep()
 
-        if is_angry then
-            reaper.PreventUIRefresh(1)
-        end
-
-        if is_night_time() then
-            random_night_message()
-        end
-
-        if not is_angry and not is_sleeping then
-            check_for_yawn()
-            local is_yawning = animate_yawn()
-            if not is_yawning and not is_recording and not is_sneeze_one and not is_sneeze_two then
-                animate_blink()
+            draw_robot_face(scale, is_eye_open, is_angry, is_bg_black)
+            draw_pupils(scale)
+            
+            
+            if is_angry then
+                reaper.PreventUIRefresh(1)
             end
 
-            if not is_yawning and not is_recording then
-                random_sneeze()
-            end
+            if not is_angry and not is_sleeping and not is_recording then
+                check_for_yawn()
+                local is_yawning = animate_yawn()
+                if not is_yawning and not is_recording and not is_sneeze_one and not is_sneeze_two then
+                    animate_blink()
+                end
 
-            local state = type_of_text_over()
-            if text_params[state] then
-                if text_params[state].type == "scrolling" then
-                    draw_scrolling_text(text_params[state])
-                elseif text_params[state].type == "static" then
-                    draw_static_text(text_params[state])
+                if not is_yawning and not is_recording and not is_sleeping and not is_angry then
+                    random_sneeze()
+                end
+
+                local state = type_of_text_over()
+                if text_params[state] then
+                    if text_params[state].type == "scrolling" then
+                        draw_scrolling_text(text_params[state])
+                    elseif text_params[state].type == "static" then
+                        draw_static_text(text_params[state])
+                    end
                 end
             end
+
+            restore_robot_zoom()
         end
+    elseif is_me_open and is_paused then
+        local state = type_of_text_over()
+        if text_params[state] then
+            if text_params[state].type == "scrolling" then
+                draw_scrolling_text(text_params[state])
+            elseif text_params[state].type == "static" then
+                draw_static_text(text_params[state])
+            end
+        end
+                                                                                                                                end
 
-        restore_robot_zoom()
+    if is_night_time() then
+        random_night_message()
     end
-
-
 
     if is_show_system_time_hourly and is_start_of_hour() and not is_show_system_time then
         is_show_system_time = true
-        time_display_end_time = reaper.time_precise() + 60 -- Display time for one minute
+        time_display_end_time = reaper.time_precise() + 60
         show_system_time()
     end
 
@@ -3175,7 +3366,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace v1.1", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace Home", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -3220,7 +3411,7 @@ function main()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace v1.1", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace Home", startWidth, startHeight, dock_state, x, y)
 load_options_params()
 main()
 reaper.atexit(save_window_params)
