@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="a8af9e66ccb963e4b7baa329af4d40b1abf7c69b">
+<index version="1" name="Academic-Scripts" commit="4cccac164d70cbb2a7c68312c9e15bdfb3a6a390">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -270,15 +270,6 @@
         <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/349def3609440d224238919f5f57b136425a702c/MIDI%20Editor/Auto%20Aim%20Midi/Amely%20Suncroll%20Auto%20Aim%20Midi%202.0%20(lite).lua</source>
       </version>
     </reapack>
-    <reapack name="Amely Suncroll Auto Aim Midi 2.0 (main).lua" type="script" desc="Auto Aim Midi (main)">
-      <metadata>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="2.0" author="Amely Suncroll" time="2024-06-09T07:25:07Z">
-        <changelog><![CDATA[+ 2.0 add toggle script]]></changelog>
-        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/349def3609440d224238919f5f57b136425a702c/MIDI%20Editor/Auto%20Aim%20Midi/Amely%20Suncroll%20Auto%20Aim%20Midi%202.0%20(main).lua</source>
-      </version>
-    </reapack>
     <reapack name="Amely Suncroll Auto Aim Midi 2.0 (toggle).lua" type="script" desc="Auto Aim Midi (toggle)">
       <metadata>
         <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
@@ -295,6 +286,16 @@
       <version name="2.0" author="Amely Suncroll" time="2024-06-09T07:25:07Z">
         <changelog><![CDATA[+ 2.0 add toggle script]]></changelog>
         <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/349def3609440d224238919f5f57b136425a702c/MIDI%20Editor/Auto%20Aim%20Midi/Amely%20Suncroll%20Auto%20Aim%20Midi%202.0%20(ultra).lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Auto Aim Midi 2.01 (main).lua" type="script" desc="Auto Aim Midi (main)">
+      <metadata>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="2.0" author="Amely Suncroll" time="2024-08-21T11:25:45Z">
+        <changelog><![CDATA[+ 2.0 add toggle script
++ 2.01 fix focus on midi editor]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/4cccac164d70cbb2a7c68312c9e15bdfb3a6a390/MIDI%20Editor/Auto%20Aim%20Midi/Amely%20Suncroll%20Auto%20Aim%20Midi%202.01%20(main).lua</source>
       </version>
     </reapack>
   </category>
