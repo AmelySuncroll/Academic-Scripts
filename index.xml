@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="f049fb2c8d62ff6922de98062238f0d04f49bc91">
+<index version="1" name="Academic-Scripts" commit="a8af9e66ccb963e4b7baa329af4d40b1abf7c69b">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -532,22 +532,16 @@
     </reapack>
   </category>
   <category name="Other">
-    <reapack name="Amely Suncroll RoboFace v1.1.lua" type="script" desc="RoboFace">
+    <reapack name="Amely Suncroll RoboFace v1.13.lua" type="script" desc="RoboFace">
       <metadata>
-        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
-{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
-\widowctrl\hyphauto
-
-{\pard \ql \f0 \sa180 \li0 \fi0 Your little friend inside Reaper\par}
-}
-]]></description>
         <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
       </metadata>
-      <version name="1.1" author="Amely Suncroll" time="2024-08-14T13:01:14Z">
+      <version name="1.13" author="Amely Suncroll" time="2024-08-21T08:36:14Z">
         <changelog><![CDATA[+ init @
 + 1.01 fix error when not docked and playing
-+ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/f049fb2c8d62ff6922de98062238f0d04f49bc91/Other/Amely%20Suncroll%20RoboFace%20v1.1.lua</source>
++ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
++ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/a8af9e66ccb963e4b7baa329af4d40b1abf7c69b/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
       </version>
     </reapack>
   </category>
