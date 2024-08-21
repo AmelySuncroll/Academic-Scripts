@@ -4,6 +4,7 @@
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + 2.0 add toggle script
+--    + 2.01 fix focus on midi editor
 
 -- @about Glue edit cursor to start or end of selected note or notes. It has the main script and the switch scriipt. Best solution for working with foleys. \n \nAn exact copy of the Auto Aim Item 2.0 script, but applied to notes. The kit consists of two components - the "main" and the so-called "switch", or "toggle". When you run the "main", it starts running in the background, while the "toggle" at this time changes the edit cursor binding of the selected note to its beginning or end. Once you're done with your work, simply turn off the main part of the script from the background. I recommend use "toggle" script as a mouse modifier to easy to use: Options - Preferences - Mouse Modifiers - MIDI Note - Double Click - Default Action - Action list.-- @about Glue edit cursor to start or end of selected note or notes. It has the main script and the switch scriipt. Best solution for working with foleys. \n \nAn exact copy of the Auto Aim Item 2.0 script, but applied to notes. The kit consists of two components - the "main" and the so-called "switch", or "toggle". When you run the "main", it starts running in the background, while the "toggle" at this time changes the edit cursor binding of the selected note to its beginning or end. Once you're done with your work, simply turn off the main part of the script from the background. I recommend use "toggle" script as a mouse modifier to easy to use: Options - Preferences - Mouse Modifiers - MIDI Note - Double Click - Default Action - Action list.
 
@@ -49,6 +50,11 @@ local function SetScriptToggle(state)
     end
 end
 
+function focusMidiEditor()
+    local focus_midi_editor = reaper.NamedCommandLookup("_SN_FOCUS_MIDI_EDITOR")
+    reaper.Main_OnCommand(focus_midi_editor, 0)
+end
+
 local last_time = reaper.time_precise()
 
 function Main()
@@ -59,18 +65,22 @@ function Main()
     end
     
     reaper.defer(Main)
+    focusMidiEditor()
 end
 
 function Exit()
     reaper.MB("Script terminated", "Auto Aim Midi 2.0", 0)
     SetScriptToggle(false)
+    focusMidiEditor()
 end
 
 if not IsScriptToggledOn() then
     reaper.MB("Script working", "Auto Aim Midi 2.0", 0)
     SetScriptToggle(true)
     reaper.defer(Main)
+    focusMidiEditor()
 else
+    focusMidiEditor()
     Exit()
 end
 
