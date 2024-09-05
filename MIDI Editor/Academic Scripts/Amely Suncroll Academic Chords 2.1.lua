@@ -8,6 +8,7 @@
 --    + v2.01 fix not update arrange view when docked piano roll
 --    + v2.1 add tonality function
 --    + v2.11 fix overlaps notes in tonality function
+--    + v2.12 fix undo block in tonality function, add more info to instruction
 -- @about Get up to 117 chords! Select notes, chords or chords and notes together and go. Make new chords using big library. Get random chord for all notes and chords you select. Get random chords individually to each note and chord you select. Rein this horse by making a filters - and all random chords will contain what you want. Experimental function: make chords and replace them by tonality you will set there. Type 'i' to get instruction inside script.
 -- Try to type next:
 -- list - full list of chords
@@ -1190,7 +1191,7 @@ function main()
     user_input = user_input:lower()
 
     if user_input == "instruction" or user_input == "i" then
-      reaper.ShowMessageBox("Thank you to download this script! \n \n \nYou can type here any chord you know. \nExample: major or 7b9b13#11 \n \nType just R or RR to get one or more random chord(s) \n \nType #9 or 7 after the chord to filter it only with what you type \n \nType LIST to get chords list.   \n \n \nYou can support me via PayPal: \n@suncroll \n \nBest, Amely Suncroll", "Instruction", 0)
+      reaper.ShowMessageBox("Thank you to download this script! \n \n \nYou can type here any chord you know. \nExample: major or 7b9b13#11 \n \nType just R or RR to get one or more random chord(s) \n \nType #9 or 7 after the chord to filter it only with what you type \n \nType LIST to get chords list  \n\nSet any tonality: just type cm or f#m or bb, etc.   \n \n \nYou can support me via PayPal: \n@suncroll \n \nBest, Amely Suncroll", "Instruction", 0)
       return
     end
 
