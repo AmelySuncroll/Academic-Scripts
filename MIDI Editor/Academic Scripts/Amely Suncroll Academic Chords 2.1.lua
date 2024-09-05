@@ -1,6 +1,6 @@
 -- @description Academic Chords
 -- @author Amely Suncroll
--- @version 2.11
+-- @version 2.12
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
