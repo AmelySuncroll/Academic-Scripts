@@ -1,12 +1,13 @@
 -- @description Academic Chords
 -- @author Amely Suncroll
--- @version 2.1
+-- @version 2.11
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
 --    + v2.0 add 117 chords, add random and double random chords (r, rr)
 --    + v2.01 fix not update arrange view when docked piano roll
 --    + v2.1 add tonality function
+--    + v2.11 fix overlaps notes in tonality function
 -- @about Get up to 117 chords! Select notes, chords or chords and notes together and go. Make new chords using big library. Get random chord for all notes and chords you select. Get random chords individually to each note and chord you select. Rein this horse by making a filters - and all random chords will contain what you want. Experimental function: make chords and replace them by tonality you will set there. Type 'i' to get instruction inside script.
 -- Try to type next:
 -- list - full list of chords
@@ -14,19 +15,17 @@
 -- #9 or 7 or smth else after the chord to filter them with what you type
 -- R - one random chord to all notes and chords you select
 -- RR - different random chords to all notes and chords you select
--- Gm, G, F#m, C - set tonality (experimental function)
+-- Gm, G, F#m, C - set tonality
     
 -- @donation https://www.paypal.com/paypalme/suncroll
 
 -- @website: https://t.me/reaper_ua
 
 -- Support:
--- https://t.me/yxo_composer_support
 -- amelysuncroll@gmail.com
 
 -- Other links:
 -- https://github.com/AmelySuncroll
--- https://www.youtube.com/@yxo_composer
 
 math.randomseed(os.time())
 
@@ -1065,7 +1064,26 @@ function count_chords_and_notes2(take, notecnt)
     return chordCount, singleNotes, startPositions, notesToDelete, notes
 end
 
+function delete_lowest_notes()
+    local editor = reaper.MIDIEditor_GetActive()
+    local take = reaper.MIDIEditor_GetTake(editor)
 
+    if not take or not reaper.ValidatePtr(take, "MediaItem_Take*") then
+        reaper.ShowMessageBox("No active MIDI take found.", "Error", 0)
+        return
+    end
+
+    local notecnt, _, _ = reaper.MIDI_CountEvts(take)
+    local _, _, _, notesToDelete, _ = count_chords_and_notes2(take, notecnt)
+    table.sort(notesToDelete, function(a, b) return a > b end)  
+
+    for _, noteIdx in ipairs(notesToDelete) do
+        reaper.MIDI_DeleteNote(take, noteIdx)
+    end
+
+    reaper.MIDI_Sort(take)
+    reaper.MIDIEditor_OnCommand(editor, 40435)  -- Unselect all notes
+end
 
 
 
@@ -1107,6 +1125,7 @@ function note_to_scale_degree(note, tonic, scale_type)
 end
 
 function apply_chords_by_scale(take, tonic, scale_type)
+    reaper.Undo_BeginBlock()
     local chordCount, singleNotes, startPositions, notesToDelete, notes = count_chords_and_notes2(take, notecnt)
     local chord_types = {
         major = {'major', 'minor', 'minor', 'major', '7', 'minor', 'diminished'},
@@ -1149,6 +1168,7 @@ function apply_chords_by_scale(take, tonic, scale_type)
     if editor then
         forceMidiEditorRedraw(editor)
     end
+    reaper.Undo_EndBlock("Set tonality", -1)
 end
 
 
@@ -1221,6 +1241,7 @@ function main()
       local tonic_note, minor = user_input:match("^([A-Ga-g][#b]?)(m?)$")
       tonic_note = note_to_midi_number(tonic_note) 
       local scale_type = minor == 'm' and 'minor' or 'major'
+      delete_lowest_notes()
       apply_chords_by_scale(take, tonic_note, scale_type)
       return
     end
