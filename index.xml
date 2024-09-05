@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="178e9a7b0d82f7c53547a7cadf2cd57d1545a083">
+<index version="1" name="Academic-Scripts" commit="01da9f6a8abc9bae16fcea7cfc03fda821ad0458">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -162,6 +162,15 @@
 + v2.1 add tonality function
 + v2.11 fix overlaps notes in tonality function]]></changelog>
         <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/178e9a7b0d82f7c53547a7cadf2cd57d1545a083/MIDI%20Editor/Academic%20Scripts/Amely%20Suncroll%20Academic%20Chords%202.1.lua</source>
+      </version>
+      <version name="2.12" author="Amely Suncroll" time="2024-09-05T23:29:30Z">
+        <changelog><![CDATA[+ init @
++ v2.0 add 117 chords, add random and double random chords (r, rr)
++ v2.01 fix not update arrange view when docked piano roll
++ v2.1 add tonality function
++ v2.11 fix overlaps notes in tonality function
++ v2.12 fix undo block in tonality function, add more info to instruction]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/01da9f6a8abc9bae16fcea7cfc03fda821ad0458/MIDI%20Editor/Academic%20Scripts/Amely%20Suncroll%20Academic%20Chords%202.1.lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll Academic Dynamic 2.2.lua" type="script" desc="Academic Dynamic">
