@@ -1184,7 +1184,7 @@ function main()
   local ornament_function
   repeat
     local retval
-    retval, user_input = reaper.GetUserInputs("Academic Chords 2.1", 1, "Type of chord (i to get info):", "")
+    retval, user_input = reaper.GetUserInputs("Academic Chords 2.11", 1, "Type of chord (i to get info):", "")
     if not retval then return end
 
     user_input = user_input:lower()
