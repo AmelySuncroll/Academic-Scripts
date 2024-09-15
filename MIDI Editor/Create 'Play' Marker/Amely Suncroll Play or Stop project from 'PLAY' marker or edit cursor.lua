@@ -1,4 +1,4 @@
--- @description Amely Suncroll Play or Stop project from 'PLAY' marker or edit cursor
+-- @description Play or Stop project from 'PLAY' marker or edit cursor
 -- @author Amely Suncroll
 -- @version 1.0
 -- @website https://forum.cockos.com/showthread.php?t=291012
