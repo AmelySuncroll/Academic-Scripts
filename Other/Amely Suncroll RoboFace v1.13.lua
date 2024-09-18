@@ -1625,7 +1625,7 @@ function random_sneeze()
         if current_time - last_sneeze_time >= sneeze_interval then
             animate_sneeze()
             last_sneeze_time = current_time
-            sneeze_interval = math.random(7200, 10800)
+            sneeze_interval = math.random(4800, 8500)
         end
     end
 end
