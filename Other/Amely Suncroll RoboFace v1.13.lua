@@ -1,16 +1,17 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.13
+-- @version 1.14
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
 --    + 1.01 fix error when not docked and playing
 --    + 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
 --    + 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
+--    + 1.14 better sneeze emotion, change donate link and fix some small things
 
 -- @about Your little friend inside Reaper
 
--- @donation https://www.paypal.com/paypalme/suncroll
+-- @donation https://www.paypal.com/ncp/payment/S8C8GEXK68TNC
 
 -- @website https://t.me/reaper_ua
 
@@ -123,7 +124,7 @@ local translations = {
         welcome = "Ласкаво просимо!",
         dock = "Закріпити",
         undock = "Відкріпити",
-        support = "Підтримати автора ($)",
+        support = "Підтримати автора",
         about = "Форум RoboFace",
 
         language = "Мова",
@@ -1581,12 +1582,12 @@ is_sneeze_general = false
 
 function animate_sneeze()
     is_sneeze_general = true
-    trigger_vertical_shake(5, 1, false) -- 5
+    trigger_vertical_shake(5, 2, false)
     is_sneeze_one = true
     is_eye_open = false
     
     local function trigger_after_one_second()
-        trigger_vertical_shake(5, 0.1, true) -- 5
+        trigger_vertical_shake(5, 0.1, true)
         trigger_horizontal_shake(1, 0.05)
         is_eye_open = false
         is_sneeze_one = false
@@ -1600,9 +1601,9 @@ function animate_sneeze()
     
     local startTime = reaper.time_precise()
     local function checkTime()
-        if reaper.time_precise() >= startTime + 1 then
+        if reaper.time_precise() >= startTime + 2 then
             trigger_after_one_second()
-            if reaper.time_precise() >= startTime + 1.2 then
+            if reaper.time_precise() >= startTime + 2.2 then
                 trigger_after_two_second()
             else
                 reaper.defer(checkTime)
@@ -1616,7 +1617,7 @@ function animate_sneeze()
 end
 
 local last_sneeze_time = reaper.time_precise()
-local sneeze_interval = math.random(7200, 10800) 
+local sneeze_interval = math.random(4800, 8500) 
 
 function random_sneeze()
     local current_time = reaper.time_precise()
@@ -2295,7 +2296,7 @@ function open_browser_about()
 end
 
 function open_browser_support()
-    open_browser("https://www.paypal.com/paypalme/suncroll")
+    open_browser("https://www.paypal.com/ncp/payment/S8C8GEXK68TNC")
 end
 
 function open_browser_font()
