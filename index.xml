@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="72b710a8c10126d4f5dfc6c21879812d7e4c68b4">
+<index version="1" name="Academic-Scripts" commit="167db8c0594ac0cc056b4bc5617a79619dd2d632">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -333,6 +333,15 @@
       <version name="1.0" author="Amely Suncroll" time="2024-09-15T13:32:49Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/5d257697068826012ce85ad0481ea75eed2e8780/MIDI%20Editor/Create%20'Play'%20Marker/Amely%20Suncroll%20Move%20'PLAY'%20marker%20to%20edit%20cursor.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Move 'PLAY' marker to midi editor start.lua" type="script" desc="Move 'PLAY' marker to midi editor start">
+      <metadata>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-09-19T00:04:51Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/167db8c0594ac0cc056b4bc5617a79619dd2d632/MIDI%20Editor/Create%20'Play'%20Marker/Amely%20Suncroll%20Move%20'PLAY'%20marker%20to%20midi%20editor%20start.lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll Move 'PLAY' marker to next marker.lua" type="script" desc="Move 'PLAY' marker to next marker">
