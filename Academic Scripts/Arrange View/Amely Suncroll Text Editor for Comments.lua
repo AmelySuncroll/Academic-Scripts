@@ -46,6 +46,7 @@ function load_window_params()
   local lines = {""}
   local font_size = 16
   local line_spacing = 4
+  local spacing = 0    -- space between buttons
   local cursor_pos = 1 
   local current_line = 1
   local cursor_visible = true
@@ -719,8 +720,6 @@ end
   ------------------------------------------------------------------------------------------------------------------ DRAW BUTTONS
   local buttonWidth, buttonHeight = 100, 20
   local buttonY = gfx.h - 30
-  
-  local spacing = 0 
   
   local buttonX = 10
   local stroke_button_x = buttonX + buttonWidth - 45 + spacing
