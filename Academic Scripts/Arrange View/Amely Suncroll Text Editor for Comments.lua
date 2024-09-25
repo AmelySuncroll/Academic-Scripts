@@ -720,13 +720,16 @@ end
   local buttonWidth, buttonHeight = 100, 20
   local buttonY = gfx.h - 30
   
+  local spacing = 0 
+  
   local buttonX = 10
-  local stroke_button_x = buttonX + buttonWidth - 45
-  local paragraph_button_x = stroke_button_x + buttonWidth - 40
-  local selection_button_x = paragraph_button_x + buttonWidth - 10
-  local timecode_button_x = selection_button_x + buttonWidth - 20
-  local about_button_x = timecode_button_x + buttonWidth - 15
+  local stroke_button_x = buttonX + buttonWidth - 45 + spacing
+  local paragraph_button_x = stroke_button_x + buttonWidth - 40 + spacing
+  local selection_button_x = paragraph_button_x + buttonWidth - 10 + spacing
+  local timecode_button_x = selection_button_x + buttonWidth - 20 + spacing
+  local about_button_x = timecode_button_x + buttonWidth - 15 + spacing
   local amely_suncroll_button_x = gfx.w - 190
+  
   
   function color_buttons()
     if show_about then
@@ -735,6 +738,8 @@ end
         gfx.set(1, 1, 1, 1) 
     end
   end
+
+  
   
   local function draw_split_button()
     if window_width >= 460 then
