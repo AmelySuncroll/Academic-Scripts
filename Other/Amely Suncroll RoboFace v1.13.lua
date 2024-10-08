@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.14
+-- @version 1.15
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -8,6 +8,7 @@
 --    + 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
 --    + 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
 --    + 1.14 better sneeze emotion, change donate link and fix some small things
+--    + 1.15 fix cube zoom
 
 -- @about Your little friend inside Reaper
 
@@ -55,7 +56,7 @@ local translations = {
 
         cube = "Cube",
 
-        swch_game = "Swch game",
+        swch_game = "Something Was Changed?",
         play = "Play",
         rules = "Rules",
         easy = "Easy",
@@ -84,7 +85,9 @@ local translations = {
 
         set_zoom = "Zoom",
 
-        start_up = "Run on startup"
+        start_up = "Run on startup",
+
+        games = "Games"
         
     },
     ua = {
@@ -112,7 +115,7 @@ local translations = {
 
         cube = "Кубик",
 
-        swch_game = "Гра Swch",
+        swch_game = "Щось змінилося?",
         play = "Грати",
         rules = "Правила",
         easy = "Легкий",
@@ -141,7 +144,9 @@ local translations = {
 
         set_zoom = "Розмір",
 
-        start_up = "Автозапуск"
+        start_up = "Автозапуск",
+
+        games = "Ігри"
     }
 }
 
@@ -185,7 +190,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace Home", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.15", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -200,7 +205,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace Home", true)
+  local hwnd = reaper.JS_Window_Find("RoboFace 1.15", true)
   local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
   local width = right - left
   local height = bottom - top
@@ -2113,8 +2118,8 @@ end
 
 function draw_cube(number)
     local scale_factor = get_scale_factor()
-    local cube_size = 200 * scale_factor
-    local dot_size = 45 * scale_factor
+    local cube_size = robot_zoom * 2 * scale_factor
+    local dot_size = robot_zoom / 2.3 * scale_factor
     local half_dot_size = dot_size / 2
 
     local face_x = (gfx.w - cube_size) / 2
@@ -2427,7 +2432,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace Home\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.15\n")
     else
         reaper.ShowConsoleMsg("Привіт!\n\n")
         reaper.ShowConsoleMsg("Мене звати RoboFace.\n\n")
@@ -2443,7 +2448,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace Home\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.15\n")
     end
 end
 
@@ -2955,6 +2960,29 @@ end
 
 
 
+--------------------------------------------------------------------------------------------------------------------- ROBOMAZE (GAME)
+function open_robo_maze()
+    local labyrinth_command = reaper.NamedCommandLookup("_RSc65d9c586c79e7fa9d43e026cf743905e93054651")
+    if labyrinth_command == 0 then
+        local script_path = reaper.GetResourcePath() .. "/Scripts/Academic-Scripts/Other/Amely Suncroll RoboMaze1.lua"
+        local file = io.open(script_path, "r")
+
+        if file then
+            io.close(file)
+            dofile(script_path) 
+        else
+            -- reaper.ShowMessageBox("Can not found script here: " .. script_path, ":)", 0)
+            reaper.ShowMessageBox("Coming soon...", ":)", 0)
+        end
+    else
+        reaper.Main_OnCommand(labyrinth_command, 0) 
+    end
+end
+
+
+
+
+
 
 
 
@@ -3032,7 +3060,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace Home', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.15', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -3080,17 +3108,28 @@ function ShowChordBoxMenu()
 
         {title = t("cube"), cmd = shake_with_show_random_cube},
 
-        {title = t("swch_game"), submenu = {
-            {title = t("play"), cmd = something_was_changed_game},
-            {title = t("rules"), cmd = about_swch_game},
 
-            {separator = true},
-            
-            {title = t("easy"), cmd = function() set_difficulty_level("Easy") end, checked = is_easy},
-            {title = t("medium"), cmd = function() set_difficulty_level("Medium") end, checked = is_medium},
-            {title = t("hard"), cmd = function() set_difficulty_level("Hard") end, checked = is_hard},
-            {title = t("impossible"), cmd = function() set_difficulty_level("Impossible") end, checked = is_impossible},
-        }},
+        {title = t("games"), submenu = {
+
+            {title = t("swch_game"), submenu = {
+                {title = t("play"), cmd = something_was_changed_game},
+                {title = t("rules"), cmd = about_swch_game},
+
+                {separator = true},
+                
+                {title = t("easy"), cmd = function() set_difficulty_level("Easy") end, checked = is_easy},
+                {title = t("medium"), cmd = function() set_difficulty_level("Medium") end, checked = is_medium},
+                {title = t("hard"), cmd = function() set_difficulty_level("Hard") end, checked = is_hard},
+                {title = t("impossible"), cmd = function() set_difficulty_level("Impossible") end, checked = is_impossible},
+            }},
+
+            {title = "RoboMaze", cmd = open_robo_maze},
+
+            -- {title = "EarPuzzle", cmd = open_ear_puzzle},
+
+            },
+
+        },
 
         {separator = true},
 
@@ -3140,7 +3179,7 @@ function ShowChordBoxMenu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace Home", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.15", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3367,7 +3406,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace Home", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.15", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -3412,7 +3451,7 @@ function main()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace Home", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.15", startWidth, startHeight, dock_state, x, y)
 load_options_params()
 main()
 reaper.atexit(save_window_params)
