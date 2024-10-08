@@ -8,7 +8,7 @@
 --    + 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
 --    + 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
 --    + 1.14 better sneeze emotion, change donate link and fix some small things
---    + 1.15 fix cube zoom
+--    + 1.15 fix cube zoom, adding "Games" folder
 
 -- @about Your little friend inside Reaper
 
@@ -2962,9 +2962,9 @@ end
 
 --------------------------------------------------------------------------------------------------------------------- ROBOMAZE (GAME)
 function open_robo_maze()
-    local labyrinth_command = reaper.NamedCommandLookup("_RSc65d9c586c79e7fa9d43e026cf743905e93054651")
+    local labyrinth_command = reaper.NamedCommandLookup("_RSc65d9c586c79e7fa9d43e026cf743905e9305465")
     if labyrinth_command == 0 then
-        local script_path = reaper.GetResourcePath() .. "/Scripts/Academic-Scripts/Other/Amely Suncroll RoboMaze1.lua"
+        local script_path = reaper.GetResourcePath() .. "/Scripts/Academic-Scripts/Other/Amely Suncroll RoboMaze.lua"
         local file = io.open(script_path, "r")
 
         if file then
