@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="4f934821c2f0b0101bb70686e0cfb9d5aabb28bb">
+<index version="1" name="Academic-Scripts" commit="391a30564817166e5dcb018889fb17b121b739c8">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -240,6 +240,13 @@
 + v1.1 add pitch points to all notes before using script
 + v.11 keep midi editor focused]]></changelog>
         <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/0f44082d5c36b12ee84fbeeb7526b29d7f3b71a2/MIDI%20Editor/Academic%20Scripts/Amely%20Suncroll%20Academic%20Pitch%201.11.lua</source>
+      </version>
+      <version name="2.0" author="Amely Suncroll" time="2024-10-25T11:20:33Z">
+        <changelog><![CDATA[+ init @
++ v1.1 add pitch points to all notes before using script
++ v.11 keep midi editor focused
++ 2.0 add random function and four commands (r; r X; r X Y; r b #), add slide function (X to Y), change 'b nat' and '# nat' to 'bn' and '#n']]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/391a30564817166e5dcb018889fb17b121b739c8/MIDI%20Editor/Academic%20Scripts/Amely%20Suncroll%20Academic%20Pitch%201.11.lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll Academic Voice (inverted).lua" type="script" desc="Academic Voice (inverted)">
