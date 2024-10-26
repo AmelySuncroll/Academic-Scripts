@@ -9,6 +9,7 @@
 --    + v2.1 add tonality function
 --    + v2.11 fix overlaps notes in tonality function
 --    + v2.12 fix undo block in tonality function, add more info to instruction
+--    + v2.13 fix undo block name to 'Insert Chord', not 'Insert Ornament'
 -- @about Get up to 117 chords! Select notes, chords or chords and notes together and go. Make new chords using big library. Get random chord for all notes and chords you select. Get random chords individually to each note and chord you select. Rein this horse by making a filters - and all random chords will contain what you want. Experimental function: make chords and replace them by tonality you will set there. Type 'i' to get instruction inside script.
 -- Try to type next:
 -- list - full list of chords
@@ -1288,4 +1289,4 @@ end
 reaper.Undo_BeginBlock()
 main()
 focusMidiEditor()
-reaper.Undo_EndBlock("Insert Ornament", -1)
+reaper.Undo_EndBlock("Insert Chord", -1)
