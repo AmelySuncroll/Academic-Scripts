@@ -7,6 +7,7 @@
 --    + v1.1 add pitch points to all notes before using script
 --    + v.11 keep midi editor focused
 --    + 2.0 add random function and four commands (r; r X; r X Y; r b #), add slide function (X to Y), change 'b nat' and '# nat' to 'bn' and '#n'
+--    + 2.01 changed command 'r X Y' to 'X r Y'
 -- @about Use academic symbols such as "b" or "#" to change a pitch. You can get more with combinate them - bb, ##, /b, /#, b/b or #/#. Use b nat or # nat. Use numeral values from 1 to 16383.
     
 -- @donation https://www.paypal.com/paypalme/suncroll
@@ -228,10 +229,10 @@ local function getUserInput()
         table.insert(params, word)
     end
 
-    if params[1] == 'r' then
+    if params[2] == 'r' then
         if #params == 3 then
-            -- Handling 'r X Y'
-            local xInput = params[2]
+            -- Handling 'X r Y'
+            local xInput = params[1]
             local yInput = params[3]
             local stepsDownMax = parsePitchValue(xInput)
             local stepsUpMax = parsePitchValue(yInput)
@@ -239,7 +240,7 @@ local function getUserInput()
             if stepsDownMax and stepsUpMax then
                 return {type = 'random', stepsDownMax = stepsDownMax, stepsUpMax = stepsUpMax}
             else
-                reaper.ShowMessageBox("Invalid input! \n\nPlease enter the command in the format 'r X Y', where X and Y are numerical values or alterations.", ":(", 0)
+                reaper.ShowMessageBox("Invalid input! \n\nPlease enter the command in the format 'X r Y', where X and Y are numerical values or alterations.", ":(", 0)
                 return false
             end
         elseif #params == 2 then
