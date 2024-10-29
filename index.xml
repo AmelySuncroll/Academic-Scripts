@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="391a30564817166e5dcb018889fb17b121b739c8">
+<index version="1" name="Academic-Scripts" commit="ddffb31deda4f86eca8de8dbeb78ccdc2a1e53fd">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -707,6 +707,15 @@
       <version name="1.0" author="Amely Suncroll" time="2024-05-12T09:02:36Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/8b52a395197c8a12b133f20e915df4681f9a5e64/Other/Arrange%20View/Amely%20Suncroll%20Delete%20markers%20by%20name.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Optimize VST (move them from one track to anothers inside new folder to reduce CPU).lua" type="script" desc="Optimize VST (move them from one track to anothers inside new folder to reduce CPU)">
+      <metadata>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-10-29T23:43:00Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/ddffb31deda4f86eca8de8dbeb78ccdc2a1e53fd/Other/Arrange%20View/Amely%20Suncroll%20Optimize%20VST%20(move%20them%20from%20one%20track%20to%20anothers%20inside%20new%20folder%20to%20reduce%20CPU).lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll Select all items after edit cursor.lua" type="script" desc="Select all items after edit cursor">
