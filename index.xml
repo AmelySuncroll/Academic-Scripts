@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="6e77a840010dbd2b41b6c03db6f21417fa78f7e5">
+<index version="1" name="Academic-Scripts" commit="34db6d9471e4d8e568d0c834990ffe583e1a5775">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -622,7 +622,7 @@
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 Turn on/off metronome inside piano roll (toggle)\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 Turn on metronome inside piano roll (toggle)\par}
 }
 ]]></description>
         <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
