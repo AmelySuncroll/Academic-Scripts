@@ -12,12 +12,7 @@
 -- @website: https://t.me/reaper_ua
 
 -- Support:
--- https://t.me/yxo_composer_support
 -- amelysuncroll@gmail.com
-
--- Other links:
--- https://github.com/AmelySuncroll
--- https://www.youtube.com/@yxo_composer
 
 local cursor_pos = reaper.GetCursorPosition()
 
