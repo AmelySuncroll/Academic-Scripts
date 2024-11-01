@@ -11,12 +11,6 @@
 -- @website: https://t.me/reaper_ua
 
 -- Support:
--- https://t.me/yxo_composer_support
 -- amelysuncroll@gmail.com
 
--- Other links:
--- https://github.com/AmelySuncroll
--- https://www.youtube.com/@yxo_composer
-
-local actionId = 50125
-reaper.Main_OnCommand(actionId, 0)
+reaper.Main_OnCommand(50125, 0)
