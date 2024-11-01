@@ -11,12 +11,7 @@
 -- @website: https://t.me/reaper_ua
 
 -- Support:
--- https://t.me/yxo_composer_support
 -- amelysuncroll@gmail.com
-
--- Other links:
--- https://github.com/AmelySuncroll
--- https://www.youtube.com/@yxo_composer
 
 function getActiveMIDITake()
     local take = reaper.MIDIEditor_GetTake(reaper.MIDIEditor_GetActive())
