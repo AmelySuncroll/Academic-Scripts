@@ -4,7 +4,7 @@
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
--- @about Turn on/off metronome inside piano roll (toggle)
+-- @about Turn on metronome inside piano roll (toggle)
 
 -- @donation https://www.paypal.com/paypalme/suncroll
 
@@ -22,3 +22,4 @@ local midiEditor = reaper.MIDIEditor_GetActive()
 if midiEditor ~= nil then
     reaper.Main_OnCommand(40364, 0)
 end
+
