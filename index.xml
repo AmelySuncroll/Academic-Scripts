@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="ddffb31deda4f86eca8de8dbeb78ccdc2a1e53fd">
+<index version="1" name="Academic-Scripts" commit="6e77a840010dbd2b41b6c03db6f21417fa78f7e5">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -222,6 +222,11 @@
       <version name="1.0" author="Amely Suncroll" time="2024-06-09T08:46:33Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/87b4979709621336db2f44a0e2362c3d50a7f66f/MIDI%20Editor/Academic%20Scripts/Amely%20Suncroll%20Academic%20Piano.lua</source>
+      </version>
+      <version name="1.01" author="Amely Suncroll" time="2024-11-01T00:50:51Z">
+        <changelog><![CDATA[+ init @
++ v1.01 add focus on midi editor after script message box (if it is open)]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/6e77a840010dbd2b41b6c03db6f21417fa78f7e5/MIDI%20Editor/Academic%20Scripts/Amely%20Suncroll%20Academic%20Piano.lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll Academic Pitch 1.11.lua" type="script" desc="Academic Pitch">
