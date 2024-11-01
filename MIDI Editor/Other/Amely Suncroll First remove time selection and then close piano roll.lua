@@ -14,10 +14,6 @@
 -- https://t.me/yxo_composer_support
 -- amelysuncroll@gmail.com
 
--- Other links:
--- https://github.com/AmelySuncroll
--- https://www.youtube.com/@yxo_composer
-
 
 local midiEditor = reaper.MIDIEditor_GetActive()
 if midiEditor ~= nil then
