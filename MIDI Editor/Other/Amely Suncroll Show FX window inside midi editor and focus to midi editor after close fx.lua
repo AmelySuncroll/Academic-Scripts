@@ -4,7 +4,7 @@
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
--- @about 
+-- @about Show FX window inside midi editor and focus to midi editor after close fx
 
 -- @donation https://www.paypal.com/paypalme/suncroll
 
