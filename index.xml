@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="34db6d9471e4d8e568d0c834990ffe583e1a5775">
+<index version="1" name="Academic-Scripts" commit="bf1bc8858f6ea8b97c1babc295e8b9ddce8a8242">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -598,6 +598,22 @@
       <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Set%20notes%20position%20to%20start%20of%20measure.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Show FX window inside midi editor and focus to midi editor after close fx.lua" type="script" desc="Show FX window inside midi editor and focus to midi editor after close fx">
+      <metadata>
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
+\widowctrl\hyphauto
+
+{\pard \ql \f0 \sa180 \li0 \fi0 Show FX window inside midi editor and focus to midi editor after close fx\par}
+}
+]]></description>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2024-11-01T02:53:55Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/bf1bc8858f6ea8b97c1babc295e8b9ddce8a8242/MIDI%20Editor/Other/Amely%20Suncroll%20Show%20FX%20window%20inside%20midi%20editor%20and%20focus%20to%20midi%20editor%20after%20close%20fx.lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll Show video window in piano roll.lua" type="script" desc="Show video window inside piano roll">
