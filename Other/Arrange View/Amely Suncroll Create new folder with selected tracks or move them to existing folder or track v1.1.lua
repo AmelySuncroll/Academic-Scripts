@@ -23,7 +23,7 @@ local script_title = "Create new folder with selected tracks or move them to exi
 reaper.Undo_BeginBlock()
 reaper.PreventUIRefresh(1)
 
-local min_height = 24  -- minimal height folder
+local min_height = 24  -- minimal height folder, depends by your theme
 
 
 local retval, folder_name = reaper.GetUserInputs("Create Folder from Selected Tracks ...", 1, "... or move to already existing:", "")
