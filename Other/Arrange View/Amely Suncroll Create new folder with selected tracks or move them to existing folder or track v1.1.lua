@@ -5,6 +5,7 @@
 -- @changelog
 --    + init @
 --    + v.1.1 add track folder height lock
+--    + v.1.11 add select color
 -- @about Select tracks and call the script. If you type "DRUMS" but you have this track or folder already - all selected tracks will move there
     
 -- @donation https://www.paypal.com/paypalme/suncroll
@@ -23,8 +24,7 @@ local script_title = "Create new folder with selected tracks or move them to exi
 reaper.Undo_BeginBlock()
 reaper.PreventUIRefresh(1)
 
-local min_height = 24  -- minimal height folder, depends by your theme
-
+local min_height = 24  -- minimal height folder (depends on your theme)
 
 local retval, folder_name = reaper.GetUserInputs("Create Folder from Selected Tracks ...", 1, "... or move to already existing:", "")
 if not retval then
@@ -71,9 +71,10 @@ else
 
     local last_track_idx = idx + reaper.CountSelectedTracks(0)
     local last_track = reaper.GetTrack(0, last_track_idx)
-    --reaper.SetMediaTrackInfo_Value(new_folder_track, "I_FOLDERDEPTH", 1) -- Set as start of folder
-    reaper.SetMediaTrackInfo_Value(last_track, "I_FOLDERDEPTH", -1) -- Set as end of folder
+    --reaper.SetMediaTrackInfo_Value(new_folder_track, "I_FOLDERDEPTH", 1) -- set as start of folder
+    reaper.SetMediaTrackInfo_Value(last_track, "I_FOLDERDEPTH", -1) -- set as end of folder
     reaper.SetOnlyTrackSelected(new_folder_track)
+    reaper.Main_OnCommand(40357, 1) -- set color
 end
 
 reaper.PreventUIRefresh(-1)
