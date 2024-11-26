@@ -14,7 +14,7 @@
 -- https://t.me/amely_suncroll_support
 -- amelysuncroll@gmail.com
 
-function getNextTrackNumber(baseName)
+function get_next_track(baseName)
     local maxNum = 0
     for i = 0, reaper.CountTracks(0) - 1 do
         local track = reaper.GetTrack(0, i)
@@ -27,11 +27,11 @@ function getNextTrackNumber(baseName)
     return maxNum + 1
 end
 
-function renameTrack(track, newName)
+function rename_track(track, newName)
     reaper.GetSetMediaTrackInfo_String(track, "P_NAME", newName, true)
 end
 
-function findInsertIndex(baseName)
+function find_index(baseName)
     local insertIndex = -1
     for i = 0, reaper.CountTracks(0) - 1 do
         local track = reaper.GetTrack(0, i)
@@ -44,16 +44,15 @@ function findInsertIndex(baseName)
     return insertIndex
 end
 
-function duplicateTrack(track, insertIndex)
+function dupl_track(track, insertIndex)
     reaper.InsertTrackAtIndex(insertIndex + 1, true)
     local newTrack = reaper.GetTrack(0, insertIndex + 1)
-
-    -- Copy all track settings
     local _, trackState = reaper.GetTrackStateChunk(track, "", false)
+
     reaper.SetTrackStateChunk(newTrack, trackState, true)
 
-    -- Copy all items from the original track
     local itemCount = reaper.CountTrackMediaItems(track)
+
     for i = 0, itemCount - 1 do
         local item = reaper.GetTrackMediaItem(track, i)
         local itemState = reaper.GetItemStateChunk(item, "", false)
@@ -72,9 +71,9 @@ function main()
     local selectedTrack = reaper.GetSelectedTrack(0, 0)
     if not selectedTrack then return end
 
-    -- Get the name of the selected track
     local _, trackName = reaper.GetSetMediaTrackInfo_String(selectedTrack, "P_NAME", "", false)
     local baseName, num = string.match(trackName, "^(.*) (%d+)$")
+
     if not baseName then
         baseName = trackName
         num = 0
@@ -82,8 +81,8 @@ function main()
         num = tonumber(num)
     end
 
-    -- Check if base track name already exists without a number
     local baseTrackExists = false
+
     for i = 0, reaper.CountTracks(0) - 1 do
         local track = reaper.GetTrack(0, i)
         local _, tName = reaper.GetSetMediaTrackInfo_String(track, "P_NAME", "", false)
@@ -93,43 +92,26 @@ function main()
         end
     end
 
-    -- If base track name exists and selected track has no number, rename the selected track
     if baseTrackExists and num == 0 then
         local newName1 = baseName .. " 1"
-        renameTrack(selectedTrack, newName1)
+        rename_track(selectedTrack, newName1)
         trackName = newName1
         baseName, num = string.match(trackName, "^(.*) (%d+)$")
         num = tonumber(num)
     end
 
-    -- Get the next number for the new track
-    local nextNum = getNextTrackNumber(baseName)
+    local nextNum = get_next_track(baseName)
+    local insertIndex = find_index(baseName)
+    local newTrack = dupl_track(selectedTrack, insertIndex)
 
-    -- Find the insert index for the new track
-    local insertIndex = findInsertIndex(baseName)
-
-    -- Duplicate the selected track
-    local newTrack = duplicateTrack(selectedTrack, insertIndex)
-
-    -- Rename the duplicated track
-    renameTrack(newTrack, baseName .. " " .. nextNum)
-
-    -- Unselect all tracks
+    rename_track(newTrack, baseName .. " " .. nextNum)
     reaper.Main_OnCommand(40297, 0)
-
-    -- Select the new track
     reaper.SetTrackSelected(newTrack, true)
-
-    -- Select all MIDI items on new track
     reaper.Main_OnCommand(40421, 0)
-
-    -- Unpool it
     reaper.Main_OnCommand(41613, 0)
-
-    -- Unselect all MIDI items on new track
     reaper.Main_OnCommand(40289, 0)
 
-    reaper.Undo_EndBlock("Duplicate and rename track", -1)
+    reaper.Undo_EndBlock("Smart duplicate track", -1)
 end
 
 main()
