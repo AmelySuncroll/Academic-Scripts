@@ -1,9 +1,10 @@
 -- @description Smart duplicate tracks
 -- @author Amely Suncroll
--- @version 1.0
+-- @version 1.01
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
+--    + if you have Track 01 and Track 03 this script will add Track 02, exactly next to Track 01 
 -- @about Smart duplicate track with name by formula X+1. Example: original track named "FX" after use this script will change name to "FX 1" and duplicated track will change name to "FX 2". Etc.
 
 -- @donation https://www.paypal.com/paypalme/suncroll
@@ -15,34 +16,47 @@
 -- amelysuncroll@gmail.com
 
 function get_next_track(baseName)
-    local maxNum = 0
+    local usedNums = {}
+    
     for i = 0, reaper.CountTracks(0) - 1 do
         local track = reaper.GetTrack(0, i)
         local _, trackName = reaper.GetSetMediaTrackInfo_String(track, "P_NAME", "", false)
         local name, num = string.match(trackName, "^(.*) (%d+)$")
-        if name == baseName then
-            maxNum = math.max(maxNum, tonumber(num))
+        if name == baseName and num then
+            usedNums[tonumber(num)] = true
         end
     end
-    return maxNum + 1
+
+    local nextNum = 1
+    while usedNums[nextNum] do
+        nextNum = nextNum + 1
+    end
+    
+    return nextNum
 end
+
 
 function rename_track(track, newName)
     reaper.GetSetMediaTrackInfo_String(track, "P_NAME", newName, true)
 end
 
-function find_index(baseName)
+function find_index(baseName, targetNum)
     local insertIndex = -1
+
     for i = 0, reaper.CountTracks(0) - 1 do
         local track = reaper.GetTrack(0, i)
         local _, trackName = reaper.GetSetMediaTrackInfo_String(track, "P_NAME", "", false)
         local name, trackNum = string.match(trackName, "^(.*) (%d+)$")
-        if name == baseName then
+        trackNum = tonumber(trackNum)
+        
+        if name == baseName and trackNum and trackNum <= targetNum then
             insertIndex = i
         end
     end
+
     return insertIndex
 end
+
 
 function dupl_track(track, insertIndex)
     reaper.InsertTrackAtIndex(insertIndex + 1, true)
@@ -101,7 +115,7 @@ function main()
     end
 
     local nextNum = get_next_track(baseName)
-    local insertIndex = find_index(baseName)
+    local insertIndex = find_index(baseName, nextNum - 1)
     local newTrack = dupl_track(selectedTrack, insertIndex)
 
     rename_track(newTrack, baseName .. " " .. nextNum)
