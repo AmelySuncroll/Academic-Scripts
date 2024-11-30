@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.15
+-- @version 1.16
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -9,6 +9,7 @@
 --    + 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
 --    + 1.14 better sneeze emotion, change donate link and fix some small things
 --    + 1.15 fix cube zoom, adding "Games" folder
+--    + 1.16 optimisated terrible load grafics if midi editor is open
 
 -- @about Your little friend inside Reaper
 
@@ -156,7 +157,8 @@ end
 
 local function change_language(lang)
     current_language = lang
-    ShowChordBoxMenu()
+    show_r_click_menu()
+    save_maze_settings()
 end
 
 
@@ -171,26 +173,26 @@ elseif not reaper.APIExists('CF_GetSWSVersion') and not reaper.APIExists('JS_Rea
 end
 
 function load_window_params()
-    local x = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowPosX")) or 200
-    local y = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowPosY")) or 200
-    local startWidth = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowWidth")) or 500
-    local startHeight = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowHeight")) or 400
-    local dock_state = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "DockState")) or 0
+    local x = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceHome", "WindowPosX")) or 200
+    local y = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceHome", "WindowPosY")) or 200
+    local startWidth = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceHome", "WindowWidth")) or 500
+    local startHeight = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceHome", "WindowHeight")) or 400
+    local dock_state = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceHome", "DockState")) or 0
     
     return x, y, startWidth, startHeight, dock_state
 end
 
 function save_window_params()
     local dock_state, x, y, startWidth, startHeight = gfx.dock(-1, 0, 0, 0, 0)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "DockState", tostring(dock_state), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowPosX", tostring(x), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowPosY", tostring(y), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowWidth", tostring(width), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowHeight", tostring(height), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "DockState", tostring(dock_state), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "WindowPosX", tostring(x), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "WindowPosY", tostring(y), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "WindowWidth", tostring(width), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "WindowHeight", tostring(height), true)
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.15", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.16", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -205,7 +207,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace 1.15", true)
+  local hwnd = reaper.JS_Window_Find("RoboFace 1.16", true)
   local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
   local width = right - left
   local height = bottom - top
@@ -234,7 +236,8 @@ function check_script_window_position(window_position)
   end
   
 
-local script_identifier = "AmelySuncrollRoboFaceRELEASE01"
+-- local script_identifier = "AmelySuncrollRoboFaceRELEASE01" -- original
+local script_identifier = "AmelySuncrollRoboFaceHome"
 
 local function is_docked()
     return gfx.dock(-1) > 0
@@ -1388,8 +1391,12 @@ function should_robot_sleep()
     local is_really_quiet = check_master_no_volume()
     local is_recording = is_recording()
 
-    if is_night_time() and not is_recording then
-        return true
+    local is_me_open, is_me_closed, is_me_docked = get_midi_editor_state()
+
+    if is_night_time() and not is_recording and not is_robo_maze_open() then
+        if not is_me_open then
+            return true
+        end
     end
 
     if is_recording then
@@ -1718,7 +1725,7 @@ local scroll_speed = 150
 local base_font_size = 280
 
 local text_params = {
-    welcome = {text = "HELLO", type = "scrolling", duration = 5, repeat_count = 1, interval = 0, delay = 1, start_time = reaper.time_precise()},
+    welcome = {text = "HELLO", type = "scrolling", duration = 5, repeat_count = 1, interval = 0, delay = 1, start_time = reaper.time_precise() + 1},
 
     is_it_paused = {text = "paused\n  ||", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 170},
     is_it_loud = {text = "Isn't\nloud?", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 130},
@@ -2432,7 +2439,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.15\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.16\n")
     else
         reaper.ShowConsoleMsg("Привіт!\n\n")
         reaper.ShowConsoleMsg("Мене звати RoboFace.\n\n")
@@ -2448,7 +2455,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.15\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.16\n")
     end
 end
 
@@ -2961,7 +2968,17 @@ end
 
 
 --------------------------------------------------------------------------------------------------------------------- ROBOMAZE (GAME)
+function is_robo_maze_open()
+    local hwnd = reaper.JS_Window_Find("RoboMaze Game", true)
+    return hwnd ~= nil
+end
+
 function open_robo_maze()
+    if is_robo_maze_open() then
+        reaper.ShowMessageBox("RoboMaze is already open!", ":)", 0)
+        return
+    end
+
     local labyrinth_command = reaper.NamedCommandLookup("_RSc65d9c586c79e7fa9d43e026cf743905e9305465")
     if labyrinth_command == 0 then
         local script_path = reaper.GetResourcePath() .. "/Scripts/Academic-Scripts/Other/Amely Suncroll RoboMaze.lua"
@@ -2971,13 +2988,104 @@ function open_robo_maze()
             io.close(file)
             dofile(script_path) 
         else
-            -- reaper.ShowMessageBox("Can not found script here: " .. script_path, ":)", 0)
             reaper.ShowMessageBox("Coming soon...", ":)", 0)
         end
     else
-        reaper.Main_OnCommand(labyrinth_command, 0) 
+        reaper.Main_OnCommand(labyrinth_command, 0)
     end
 end
+
+
+
+local maze_difficulty_is = ''  -- 'easy', 'medium', 'hard'
+local total_heart = 0
+
+local is_easy_m = is_easy_m == 'true' and true or false
+local is_medium_m = is_medium_m == 'true' and true or false
+local is_hard_m = is_hard_m == 'true' and true or false
+local is_impo_m = is_impo_m == 'true' and true or false
+
+local function set_maze_difficulty(difficulty)
+    maze_difficulty_is = difficulty
+
+    if maze_difficulty_is == "easy" then
+        is_easy_m = not is_easy_m
+        is_medium_m = false
+        is_hard_m = false
+        is_impo_m = false
+        total_heart = 1000
+    elseif maze_difficulty_is == "medium" then
+        is_medium_m = not is_medium_m
+        is_easy_m = false
+        is_hard_m = false
+        is_impo_m = false
+        total_heart = 10
+    elseif maze_difficulty_is == "hard" then
+        is_hard_m = not is_hard_m
+        is_easy_m = false
+        is_medium_m = false
+        is_impo_m = false
+        total_heart = 3
+    elseif maze_difficulty_is == "impo" then
+        is_impo_m = not is_impo_m
+        is_easy_m = false
+        is_medium_m = false
+        is_hard_m = false
+        total_heart = 1
+    end
+end
+
+function save_maze_settings()
+    local file = io.open(reaper.GetResourcePath() .. "/Robomaze_settings.txt", "w")
+    
+    if file then
+        file:write(maze_difficulty_is .. "\n")
+        file:write(tostring(total_heart) .. "\n")
+        file:write(tostring(is_easy_m) .. "\n")
+        file:write(tostring(is_medium_m) .. "\n")
+        file:write(tostring(is_hard_m) .. "\n")
+        file:write(tostring(is_impo_m) .. "\n")
+        file:write(current_language .. "\n")
+        
+        file:close()
+    end
+end
+
+
+function about_maze_game()
+    if current_language == "en" then
+        reaper.ShowConsoleMsg("Welcome to the game 'Something Was Changed'!\n\n")
+
+        reaper.ShowConsoleMsg("Game rules:\n")
+        reaper.ShowConsoleMsg("The robot will change a random parameter - volume, pan or will mute one fx - of one of the tracks, which is unmute and has audio or midi.\n")
+        reaper.ShowConsoleMsg("Your task is to return the parameter to it's original value.\n")
+        reaper.ShowConsoleMsg("You can try to change up to three parameters (if you selected hard difficult or level is not selected) before the game is lost.\n\n")
+
+        reaper.ShowConsoleMsg("Attention! Playing the project or selecting tracks is also considered a change.\n")
+        reaper.ShowConsoleMsg("Edit cursor moving is not considered a change.\n\n")
+
+        reaper.ShowConsoleMsg("On higher difficulty levels, I recommend you to open the mixer before playing.\n\n")
+
+        reaper.ShowConsoleMsg("Good luck!\n\n")
+
+    else
+        reaper.ShowConsoleMsg("Ласкаво просимо до гри 'Щось Змінилося'!\n\n")
+
+        reaper.ShowConsoleMsg("Правила гри:\n")
+        reaper.ShowConsoleMsg("Робот змінить випадковий параметр (гучність або панораму або вимкне один fx) однієї з доріжок, яка не замьючена і має аудіо або міді.\n")
+        reaper.ShowConsoleMsg("Ваше завдання - повернути параметр до його початкового значення.\n")
+        reaper.ShowConsoleMsg("Ви можете спробувати змінити до трьох параметрів (наприклад, якщо обран важкий рівень або ніякої), перш ніж гра буде програна.\n\n")
+
+        reaper.ShowConsoleMsg("Увага! Відтворення проекту або виділення доріжок також вважаються змінами.\n")
+        reaper.ShowConsoleMsg("Переміщення курсору редагування не вважається зміною.\n\n")
+
+        reaper.ShowConsoleMsg("На вищих рівнях складності рекомендуємо відкрити мікшер перед початком гри.\n\n")
+
+        reaper.ShowConsoleMsg("Успіхів!\n\n")
+
+    end
+end
+
 
 
 
@@ -3060,14 +3168,14 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.15', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.16', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
     return ret
 end
 
-function ShowChordBoxMenu()
+function show_r_click_menu()
     local is_docked = is_docked()
     local dock_menu_title = is_docked and t("undock") or t("dock")
     local menu = {
@@ -3123,7 +3231,33 @@ function ShowChordBoxMenu()
                 {title = t("impossible"), cmd = function() set_difficulty_level("Impossible") end, checked = is_impossible},
             }},
 
-            {title = "RoboMaze", cmd = open_robo_maze},
+            {title = "RoboMaze", submenu = {
+                {title = t("play"), cmd = open_robo_maze},
+                {title = t("rules"), cmd = about_maze_game},
+            
+                {separator = true},
+                
+                {title = t("easy"), cmd = function() 
+                    set_maze_difficulty("easy") 
+                    save_maze_settings()  -- Зберігаємо налаштування після зміни складності
+                end, checked = is_easy_m},
+            
+                {title = t("medium"), cmd = function() 
+                    set_maze_difficulty("medium") 
+                    save_maze_settings()  -- Зберігаємо налаштування після зміни складності
+                end, checked = is_medium_m},
+            
+                {title = t("hard"), cmd = function() 
+                    set_maze_difficulty("hard") 
+                    save_maze_settings()  -- Зберігаємо налаштування після зміни складності
+                end, checked = is_hard_m},
+            
+                {title = t("impossible"), cmd = function() 
+                    set_maze_difficulty("impo") 
+                    save_maze_settings()  -- Зберігаємо налаштування після зміни складності
+                end, checked = is_impo_m},
+            }}
+            
 
             -- {title = "EarPuzzle", cmd = open_ear_puzzle},
 
@@ -3179,7 +3313,7 @@ function ShowChordBoxMenu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.15", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.16", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3195,25 +3329,25 @@ end
 
 
 function load_options_params()
-    local zoom100State = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom100")
+    local zoom100State = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Zoom100")
     zoom_100 = zoom100State == "true"
     if zoom_100 then
         robot_zoom = 100
     end
 
-    local zoom120State = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom120")
+    local zoom120State = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Zoom120")
     zoom_120 = zoom120State == "true"
     if zoom_120 then
         robot_zoom = 120
     end
 
-    local zoom140State = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom140")
+    local zoom140State = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Zoom140")
     zoom_140 = zoom140State == "true"
     if zoom_140 then
         robot_zoom = 140
     end
 
-    local zoom150State = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom150")
+    local zoom150State = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Zoom150")
     zoom_150 = zoom150State == "true"
     if zoom_150 then
         robot_zoom = 150
@@ -3224,41 +3358,54 @@ function load_options_params()
         zoom_100 = true
     end
 
-    local showTimeState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "ShowSystemTime")
+    local showTimeState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "ShowSystemTime")
     is_show_system_time = showTimeState == "true"
 
-    local showTimeHourlyState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "ShowSystemTimeHourly")
+    local showTimeHourlyState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "ShowSystemTimeHourly")
     is_show_system_time_hourly = showTimeHourlyState == "true"
 
 
 
-    local directCountdownState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "DirectCountdown")
+    local directCountdownState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "DirectCountdown")
     is_direct_countdown = directCountdownState == "true"
 
-    local reverseCountdownState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "ReverseCountdown")
+    local reverseCountdownState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "ReverseCountdown")
     is_reverse_countdown = reverseCountdownState == "true"
 
-    local lessThanMinuteState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "LessThanMinute")
+    local lessThanMinuteState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "LessThanMinute")
     is_show_if_less_than_minute = lessThanMinuteState == "true"
 
-    local everyFiveMinutesState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "EveryFiveMinutes")
+    local everyFiveMinutesState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "EveryFiveMinutes")
     is_show_every_five_minutes = everyFiveMinutesState == "true"
 
 
 
-    local easyState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Easy")
+    local easyState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Easy")
     is_easy = easyState == "true"
 
-    local mediumState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Medium")
+    local mediumState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Medium")
     is_medium = mediumState == "true"
 
-    local hardState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Hard")
+    local hardState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Hard")
     is_hard = hardState == "true"
 
-    local impossibleState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Impossible")
+    local impossibleState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Impossible")
     is_impossible = impossibleState == "true"
 
-    local languageState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Language")
+
+    local easyStateM = reaper.GetExtState("AmelySuncrollRoboFaceHome", "easy")
+    is_easy_m = easyStateM == "true"
+
+    local mediumStateM = reaper.GetExtState("AmelySuncrollRoboFaceHome", "medium")
+    is_medium_m = mediumStateM == "true"
+
+    local hardStateM = reaper.GetExtState("AmelySuncrollRoboFaceHome", "hard")
+    is_hard_m = hardStateM == "true"
+
+    local impossibleStateM = reaper.GetExtState("AmelySuncrollRoboFaceHome", "impo")
+    is_impo_m = impossibleStateM == "true"
+
+    local languageState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Language")
 
     if languageState == "en" then
         current_language = "en"
@@ -3268,42 +3415,47 @@ function load_options_params()
         current_language = "en"
     end
 
-    local backgroundColor = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "BackgroundColor")
+    local backgroundColor = reaper.GetExtState("AmelySuncrollRoboFaceHome", "BackgroundColor")
     is_bg_black = backgroundColor == "true"
 
-    local welcomeShownState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WelcomeShown")
+    local welcomeShownState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "WelcomeShown")
     is_welcome_shown = welcomeShownState == "true"
 
-    local startupState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "StartupIsOn")
+    local startupState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "StartupIsOn")
     is_startup = startupState == "true"
 end
 
 function save_options_params()
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom100", tostring(zoom_100), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom120", tostring(zoom_120), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom140", tostring(zoom_140), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom150", tostring(zoom_150), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Zoom100", tostring(zoom_100), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Zoom120", tostring(zoom_120), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Zoom140", tostring(zoom_140), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Zoom150", tostring(zoom_150), true)
     
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "ShowSystemTime", tostring(is_show_system_time), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "ShowSystemTimeHourly", tostring(is_show_system_time_hourly), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "ShowSystemTime", tostring(is_show_system_time), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "ShowSystemTimeHourly", tostring(is_show_system_time_hourly), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "DirectCountdown", tostring(is_direct_countdown), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "ReverseCountdown", tostring(is_reverse_countdown), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "LessThanMinute", tostring(is_show_if_less_than_minute), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "EveryFiveMinutes", tostring(is_show_every_five_minutes), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "DirectCountdown", tostring(is_direct_countdown), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "ReverseCountdown", tostring(is_reverse_countdown), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "LessThanMinute", tostring(is_show_if_less_than_minute), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "EveryFiveMinutes", tostring(is_show_every_five_minutes), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Easy", tostring(is_easy), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Medium", tostring(is_medium), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Hard", tostring(is_hard), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Impossible", tostring(is_impossible), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Easy", tostring(is_easy), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Medium", tostring(is_medium), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Hard", tostring(is_hard), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Impossible", tostring(is_impossible), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Language", current_language, true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Easy", tostring(is_easy_m), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Medium", tostring(is_medium_m), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Hard", tostring(is_hard_m), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Impossible", tostring(is_impo_m), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "BackgroundColor", tostring(is_bg_black), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Language", current_language, true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WelcomeShown", tostring(is_welcome_shown), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "BackgroundColor", tostring(is_bg_black), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "StartupIsOn", tostring(is_startup), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "WelcomeShown", tostring(is_welcome_shown), true)
+
+    reaper.SetExtState("AmelySuncrollRoboFaceHome", "StartupIsOn", tostring(is_startup), true)
 end
 
 
@@ -3382,31 +3534,34 @@ function main()
         random_night_message()
     end
 
-    if is_show_system_time_hourly and is_start_of_hour() and not is_show_system_time then
-        is_show_system_time = true
-        time_display_end_time = reaper.time_precise() + 60
-        show_system_time()
-    end
+    if is_me_closed or is_me_docked and not is_paused then
 
-    if is_show_system_time then
-        show_system_time()
-    end
+        if is_show_system_time_hourly and is_start_of_hour() and not is_show_system_time then
+            is_show_system_time = true
+            time_display_end_time = reaper.time_precise() + 60
+            show_system_time()
+        end
 
-    if is_timer_running then
-        show_timer_time()
-    end
+        if is_show_system_time then
+            show_system_time()
+        end
 
+        if is_timer_running then
+            show_timer_time()
+        end
+
+        animation_when_delete_all()
+        animation_when_start_or_end()
+        
+    end
+    
     if is_showing_cube then
         draw_random_cube()
     end
 
-    animation_when_delete_all()
-    animation_when_start_or_end()
-
-
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.15", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.16", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -3421,7 +3576,7 @@ function main()
             end
 
             if is_rclick then
-                ShowChordBoxMenu()
+                show_r_click_menu()
             end
         end
     end
@@ -3451,7 +3606,7 @@ function main()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.15", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.16", startWidth, startHeight, dock_state, x, y)
 load_options_params()
 main()
 reaper.atexit(save_window_params)
