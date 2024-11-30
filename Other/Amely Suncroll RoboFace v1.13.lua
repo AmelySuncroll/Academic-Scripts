@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.16
+-- @version 1.17
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -9,7 +9,7 @@
 --    + 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
 --    + 1.14 better sneeze emotion, change donate link and fix some small things
 --    + 1.15 fix cube zoom, adding "Games" folder
---    + 1.16 optimisated terrible load grafics if midi editor is open and add script state to action window
+--    + 1.16 optimisated terrible load grafics if midi editor is open, add script state to action window
 
 -- @about Your little friend inside Reaper
 
@@ -19,7 +19,7 @@
 
 -- font website https://nalgames.com/fonts/iregula
 
--- Personal support:
+-- Support:
 -- https://t.me/amely_suncroll_support
 -- amelysuncroll@gmail.com
 
@@ -193,7 +193,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.16", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.17", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -208,7 +208,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace 1.16", true)
+  local hwnd = reaper.JS_Window_Find("RoboFace 1.17", true)
   local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
   local width = right - left
   local height = bottom - top
@@ -2440,7 +2440,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.16\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.17\n")
     else
         reaper.ShowConsoleMsg("Привіт!\n\n")
         reaper.ShowConsoleMsg("Мене звати RoboFace.\n\n")
@@ -2456,7 +2456,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.16\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.17\n")
     end
 end
 
@@ -3169,7 +3169,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.16', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.17', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -3314,7 +3314,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.16", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.17", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3562,7 +3562,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.16", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.17", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -3614,7 +3614,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.16", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.17", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     main()
