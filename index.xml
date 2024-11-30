@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="9e6032d28b8c3991f30ecbef35d072f1c93ed16f">
+<index version="1" name="Academic-Scripts" commit="716f36f8d1601a9ae431f5e21252cd0765f97a86">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -601,6 +601,16 @@
 + 1.15 fix cube zoom, adding "Games" folder
 + 1.16 optimisated terrible load grafics if midi editor is open]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/9e6032d28b8c3991f30ecbef35d072f1c93ed16f/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
+      </version>
+      <version name="1.17" author="Amely Suncroll" time="2024-11-30T02:47:28Z">
+        <changelog><![CDATA[+ init @
++ 1.01 fix error when not docked and playing
++ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
++ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
++ 1.14 better sneeze emotion, change donate link and fix some small things
++ 1.15 fix cube zoom, adding "Games" folder
++ 1.16 optimisated terrible load grafics if midi editor is open, add script state to action window]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/716f36f8d1601a9ae431f5e21252cd0765f97a86/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
       </version>
     </reapack>
   </category>
