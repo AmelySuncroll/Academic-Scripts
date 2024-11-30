@@ -19,7 +19,7 @@
 
 -- font website https://nalgames.com/fonts/iregula
 
--- Support:
+-- Personal support:
 -- https://t.me/amely_suncroll_support
 -- amelysuncroll@gmail.com
 
