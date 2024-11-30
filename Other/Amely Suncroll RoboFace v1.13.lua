@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.19
+-- @version 1.20
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -11,7 +11,8 @@
 --    + 1.15 fix cube zoom, adding "Games" folder
 --    + 1.17 optimisated: terrible load grafics if midi editor is open, add script state to action window
 --    + 1.18 optimisated: pause sleeping animation when click and drag mouse (anywhere)
---    + 1.19 fix get sleep in one second after sxript start
+--    + 1.19 add Patreon link
+--    + 1.20 fix get sleep in one second after script start
 
 -- @about Your little friend inside Reaper
 
@@ -72,7 +73,7 @@ local translations = {
         welcome = "About",
         dock = "Dock",
         undock = "Undock",
-        support = "Support (PayPal)",
+        support = "Donate link",
         about = "RoboFace forum",
 
         language = "Language",
@@ -91,7 +92,9 @@ local translations = {
 
         start_up = "Run on startup",
 
-        games = "Games"
+        games = "Games",
+
+        patreon = "My Patreon"
         
     },
     ua = {
@@ -131,7 +134,7 @@ local translations = {
         welcome = "Ласкаво просимо!",
         dock = "Закріпити",
         undock = "Відкріпити",
-        support = "Підтримати автора",
+        support = "Підтримати авторку",
         about = "Форум RoboFace",
 
         language = "Мова",
@@ -150,7 +153,9 @@ local translations = {
 
         start_up = "Автозапуск",
 
-        games = "Ігри"
+        games = "Ігри",
+
+        patreon = "Мій Patreon"
     }
 }
 
@@ -195,7 +200,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.19", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.20", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -210,7 +215,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace 1.19", true)
+  local hwnd = reaper.JS_Window_Find("RoboFace 1.20", true)
   local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
   local width = right - left
   local height = bottom - top
@@ -2330,6 +2335,9 @@ function open_browser_font()
     open_browser("https://nalgames.com/fonts/iregula")
 end
 
+function open_browser_patreon()
+    open_browser("https://www.patreon.com/c/AmelySuncroll")
+end
 
 
 
@@ -2454,7 +2462,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.19\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.20\n")
     else
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -2471,7 +2479,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.19\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.20\n")
     end
 end
 
@@ -3184,7 +3192,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.19', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.20', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -3196,7 +3204,7 @@ function show_r_click_menu()
     local dock_menu_title = is_docked and t("undock") or t("dock")
     local menu = {
 
-        {title = "NEW", cmd = welcome_message},
+        -- {title = "NEW", cmd = welcome_message},
 
         {title = t("time"), submenu = {
             {title = t("current"), cmd = toggle_show_system_time, checked = is_show_system_time},
@@ -3292,6 +3300,8 @@ function show_r_click_menu()
             {separator = true},
 
             {title = t("support"), cmd = open_browser_support},
+
+            {title = t("patreon"), cmd = open_browser_patreon},
             
             {title = t("about"), cmd = open_browser_about},
 
@@ -3331,7 +3341,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.19", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.20", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3579,7 +3589,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.19", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.20", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -3631,7 +3641,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.19", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.20", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     main()
