@@ -9,7 +9,7 @@
 --    + 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
 --    + 1.14 better sneeze emotion, change donate link and fix some small things
 --    + 1.15 fix cube zoom, adding "Games" folder
---    + 1.16 optimisated terrible load grafics if midi editor is open, add script state to action window
+--    + 1.17 optimizated terrible load grafics if midi editor is open, add script state to action window
 
 -- @about Your little friend inside Reaper
 
