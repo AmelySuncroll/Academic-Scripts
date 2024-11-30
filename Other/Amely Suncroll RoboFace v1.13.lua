@@ -9,7 +9,7 @@
 --    + 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
 --    + 1.14 better sneeze emotion, change donate link and fix some small things
 --    + 1.15 fix cube zoom, adding "Games" folder
---    + 1.16 optimizated terrible load grafics if midi editor is open
+--    + 1.16 optimisated terrible load grafics if midi editor is open, add script state to action window
 
 -- @about Your little friend inside Reaper
 
@@ -23,6 +23,7 @@
 -- https://t.me/amely_suncroll_support
 -- amelysuncroll@gmail.com
 
+is_running = false
 
 local is_us_lang = is_us_lang == 'true' and true or false
 
@@ -173,22 +174,22 @@ elseif not reaper.APIExists('CF_GetSWSVersion') and not reaper.APIExists('JS_Rea
 end
 
 function load_window_params()
-    local x = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceHome", "WindowPosX")) or 200
-    local y = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceHome", "WindowPosY")) or 200
-    local startWidth = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceHome", "WindowWidth")) or 500
-    local startHeight = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceHome", "WindowHeight")) or 400
-    local dock_state = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceHome", "DockState")) or 0
+    local x = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowPosX")) or 200
+    local y = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowPosY")) or 200
+    local startWidth = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowWidth")) or 500
+    local startHeight = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowHeight")) or 400
+    local dock_state = tonumber(reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "DockState")) or 0
     
     return x, y, startWidth, startHeight, dock_state
 end
 
 function save_window_params()
     local dock_state, x, y, startWidth, startHeight = gfx.dock(-1, 0, 0, 0, 0)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "DockState", tostring(dock_state), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "WindowPosX", tostring(x), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "WindowPosY", tostring(y), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "WindowWidth", tostring(width), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "WindowHeight", tostring(height), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "DockState", tostring(dock_state), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowPosX", tostring(x), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowPosY", tostring(y), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowWidth", tostring(width), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WindowHeight", tostring(height), true)
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
@@ -237,7 +238,7 @@ function check_script_window_position(window_position)
   
 
 -- local script_identifier = "AmelySuncrollRoboFaceRELEASE01" -- original
-local script_identifier = "AmelySuncrollRoboFaceHome"
+local script_identifier = "AmelySuncrollRoboFaceRELEASE01"
 
 local function is_docked()
     return gfx.dock(-1) > 0
@@ -3329,25 +3330,25 @@ end
 
 
 function load_options_params()
-    local zoom100State = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Zoom100")
+    local zoom100State = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom100")
     zoom_100 = zoom100State == "true"
     if zoom_100 then
         robot_zoom = 100
     end
 
-    local zoom120State = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Zoom120")
+    local zoom120State = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom120")
     zoom_120 = zoom120State == "true"
     if zoom_120 then
         robot_zoom = 120
     end
 
-    local zoom140State = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Zoom140")
+    local zoom140State = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom140")
     zoom_140 = zoom140State == "true"
     if zoom_140 then
         robot_zoom = 140
     end
 
-    local zoom150State = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Zoom150")
+    local zoom150State = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom150")
     zoom_150 = zoom150State == "true"
     if zoom_150 then
         robot_zoom = 150
@@ -3358,54 +3359,54 @@ function load_options_params()
         zoom_100 = true
     end
 
-    local showTimeState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "ShowSystemTime")
+    local showTimeState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "ShowSystemTime")
     is_show_system_time = showTimeState == "true"
 
-    local showTimeHourlyState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "ShowSystemTimeHourly")
+    local showTimeHourlyState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "ShowSystemTimeHourly")
     is_show_system_time_hourly = showTimeHourlyState == "true"
 
 
 
-    local directCountdownState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "DirectCountdown")
+    local directCountdownState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "DirectCountdown")
     is_direct_countdown = directCountdownState == "true"
 
-    local reverseCountdownState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "ReverseCountdown")
+    local reverseCountdownState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "ReverseCountdown")
     is_reverse_countdown = reverseCountdownState == "true"
 
-    local lessThanMinuteState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "LessThanMinute")
+    local lessThanMinuteState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "LessThanMinute")
     is_show_if_less_than_minute = lessThanMinuteState == "true"
 
-    local everyFiveMinutesState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "EveryFiveMinutes")
+    local everyFiveMinutesState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "EveryFiveMinutes")
     is_show_every_five_minutes = everyFiveMinutesState == "true"
 
 
 
-    local easyState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Easy")
+    local easyState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Easy")
     is_easy = easyState == "true"
 
-    local mediumState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Medium")
+    local mediumState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Medium")
     is_medium = mediumState == "true"
 
-    local hardState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Hard")
+    local hardState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Hard")
     is_hard = hardState == "true"
 
-    local impossibleState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Impossible")
+    local impossibleState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Impossible")
     is_impossible = impossibleState == "true"
 
 
-    local easyStateM = reaper.GetExtState("AmelySuncrollRoboFaceHome", "easy")
+    local easyStateM = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "easy")
     is_easy_m = easyStateM == "true"
 
-    local mediumStateM = reaper.GetExtState("AmelySuncrollRoboFaceHome", "medium")
+    local mediumStateM = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "medium")
     is_medium_m = mediumStateM == "true"
 
-    local hardStateM = reaper.GetExtState("AmelySuncrollRoboFaceHome", "hard")
+    local hardStateM = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "hard")
     is_hard_m = hardStateM == "true"
 
-    local impossibleStateM = reaper.GetExtState("AmelySuncrollRoboFaceHome", "impo")
+    local impossibleStateM = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "impo")
     is_impo_m = impossibleStateM == "true"
 
-    local languageState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "Language")
+    local languageState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Language")
 
     if languageState == "en" then
         current_language = "en"
@@ -3415,47 +3416,47 @@ function load_options_params()
         current_language = "en"
     end
 
-    local backgroundColor = reaper.GetExtState("AmelySuncrollRoboFaceHome", "BackgroundColor")
+    local backgroundColor = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "BackgroundColor")
     is_bg_black = backgroundColor == "true"
 
-    local welcomeShownState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "WelcomeShown")
+    local welcomeShownState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WelcomeShown")
     is_welcome_shown = welcomeShownState == "true"
 
-    local startupState = reaper.GetExtState("AmelySuncrollRoboFaceHome", "StartupIsOn")
+    local startupState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "StartupIsOn")
     is_startup = startupState == "true"
 end
 
 function save_options_params()
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Zoom100", tostring(zoom_100), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Zoom120", tostring(zoom_120), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Zoom140", tostring(zoom_140), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Zoom150", tostring(zoom_150), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom100", tostring(zoom_100), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom120", tostring(zoom_120), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom140", tostring(zoom_140), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Zoom150", tostring(zoom_150), true)
     
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "ShowSystemTime", tostring(is_show_system_time), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "ShowSystemTimeHourly", tostring(is_show_system_time_hourly), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "ShowSystemTime", tostring(is_show_system_time), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "ShowSystemTimeHourly", tostring(is_show_system_time_hourly), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "DirectCountdown", tostring(is_direct_countdown), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "ReverseCountdown", tostring(is_reverse_countdown), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "LessThanMinute", tostring(is_show_if_less_than_minute), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "EveryFiveMinutes", tostring(is_show_every_five_minutes), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "DirectCountdown", tostring(is_direct_countdown), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "ReverseCountdown", tostring(is_reverse_countdown), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "LessThanMinute", tostring(is_show_if_less_than_minute), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "EveryFiveMinutes", tostring(is_show_every_five_minutes), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Easy", tostring(is_easy), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Medium", tostring(is_medium), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Hard", tostring(is_hard), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Impossible", tostring(is_impossible), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Easy", tostring(is_easy), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Medium", tostring(is_medium), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Hard", tostring(is_hard), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Impossible", tostring(is_impossible), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Easy", tostring(is_easy_m), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Medium", tostring(is_medium_m), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Hard", tostring(is_hard_m), true)
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Impossible", tostring(is_impo_m), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Easy", tostring(is_easy_m), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Medium", tostring(is_medium_m), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Hard", tostring(is_hard_m), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Impossible", tostring(is_impo_m), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "Language", current_language, true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Language", current_language, true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "BackgroundColor", tostring(is_bg_black), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "BackgroundColor", tostring(is_bg_black), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "WelcomeShown", tostring(is_welcome_shown), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WelcomeShown", tostring(is_welcome_shown), true)
 
-    reaper.SetExtState("AmelySuncrollRoboFaceHome", "StartupIsOn", tostring(is_startup), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "StartupIsOn", tostring(is_startup), true)
 end
 
 
@@ -3605,9 +3606,30 @@ function main()
     end
 end
 
-local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.16", startWidth, startHeight, dock_state, x, y)
-load_options_params()
-main()
-reaper.atexit(save_window_params)
-reaper.atexit(save_options_params)
+function start_script()
+    is_running = true
+
+    local _, _, section_id, command_id = reaper.get_action_context()
+    reaper.SetToggleCommandState(section_id, command_id, 1)
+    reaper.RefreshToolbar2(section_id, command_id)
+
+    local x, y, startWidth, startHeight, dock_state = load_window_params()
+    gfx.init("RoboFace 1.16", startWidth, startHeight, dock_state, x, y)
+
+    load_options_params()
+    main()
+end
+
+function stop_script()
+    is_running = false
+
+    local _, _, section_id, command_id = reaper.get_action_context()
+    reaper.SetToggleCommandState(section_id, command_id, 0)
+    reaper.RefreshToolbar2(section_id, command_id)
+
+    save_window_params()
+    save_options_params()
+end
+
+start_script()
+reaper.atexit(stop_script)
