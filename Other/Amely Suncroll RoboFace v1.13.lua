@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.17
+-- @version 1.18
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -9,7 +9,8 @@
 --    + 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
 --    + 1.14 better sneeze emotion, change donate link and fix some small things
 --    + 1.15 fix cube zoom, adding "Games" folder
---    + 1.17 optimizated terrible load grafics if midi editor is open, add script state to action window
+--    + 1.17 optimisated: terrible load grafics if midi editor is open, add script state to action window
+--    + 1.18 optimisated: pause sleeping animation when click and drag mouse (anywhere)
 
 -- @about Your little friend inside Reaper
 
@@ -193,7 +194,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.17", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.18", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -208,7 +209,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace 1.17", true)
+  local hwnd = reaper.JS_Window_Find("RoboFace 1.18", true)
   local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
   local width = right - left
   local height = bottom - top
@@ -1384,7 +1385,7 @@ local min_sleep_duration = 1200
 local max_sleep_duration = 1800
 local quiet_start_time = nil
 local sleep_start_time = nil
-local quiet_duration = 1800
+local quiet_duration = 1 -- 1800
 
 function should_robot_sleep()
     local current_time = reaper.time_precise()
@@ -1435,7 +1436,18 @@ function animate_sleep()
     local cycle_position = (current_time % sleep_duration) / sleep_duration
     local shake_offset = sleep_intensity * math.sin(cycle_position * 2 * math.pi)
 
-    return shake_offset
+    local mouse_state = reaper.JS_Mouse_GetState(0xFF)
+
+    local m_click = (mouse_state & 64) == 64
+    local l_click = (mouse_state & 1) == 1
+    local r_click = (mouse_state & 2) == 2
+
+    if not (m_click or l_click or r_click) then
+        -- reaper.ShowConsoleMsg("1")
+        return shake_offset
+    end
+    
+    return 0
 end
 
 
@@ -1693,15 +1705,16 @@ function show_night_message()
 end
 
 local last_night_message_time = reaper.time_precise()
-local night_message_interval = math.random(7200, 10800)  
+local night_message_interval = math.random(3600, 10800)  
 
 function random_night_message()
     local current_time = reaper.time_precise()
     if not is_angry and not is_sleeping and not is_yawning and not is_night_message_general then
         if current_time - last_night_message_time >= night_message_interval then
             show_night_message()
+
             last_night_message_time = current_time
-            night_message_interval = math.random(7200, 10800)
+            night_message_interval = math.random(3600, 10800)
         end
     end
 end
@@ -1728,7 +1741,7 @@ local base_font_size = 280
 local text_params = {
     welcome = {text = "HELLO", type = "scrolling", duration = 5, repeat_count = 1, interval = 0, delay = 1, start_time = reaper.time_precise() + 1},
 
-    is_it_paused = {text = "paused\n  ||", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 170},
+    -- is_it_paused = {text = "paused\n  ||", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 170},
     is_it_loud = {text = "Isn't\nloud?", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 130},
     good_night = {text = " Good\nnight!", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 160}, ------- 01:07
     not_sleep = {text = "Not :(\nsleep?", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 160}, ----- 03:13
@@ -2440,8 +2453,9 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.17\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.18\n")
     else
+        reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
         reaper.ShowConsoleMsg("Мене звати RoboFace.\n\n")
         reaper.ShowConsoleMsg("Я люблю Reaper DAW та музику. Також мені подобається дотримуватися режиму сну та пити каву вранці. Але якщо ти будеш необережний зі мною, я можу зробити щось погане.\n\n")
@@ -2449,14 +2463,14 @@ function welcome_message()
         reaper.ShowConsoleMsg("Мої можливості включають:\n")
         reaper.ShowConsoleMsg("1. Відображення поточного або щогодинного часу.\n")
         reaper.ShowConsoleMsg("2. Налаштування таймера та його відображення.\n")
-        reaper.ShowConsoleMsg("3. Гру 'Щось змінилося', де потрібно знайти змінений параметр та повернути його назад. Дивіться правила, щоб дізнатися більше.\n")
+        reaper.ShowConsoleMsg("3. Гру 'Щось змінилося?', де потрібно знайти змінений параметр та повернути його назад. Дивіться правила, щоб дізнатися більше.\n")
         reaper.ShowConsoleMsg("4. Анімації: моргання, позіхання, злість та інші.\n")
         reaper.ShowConsoleMsg("5. Режим 'Тап Темпо', за допомогою якого можна встановити власний темп кліком миші.\n")
         reaper.ShowConsoleMsg("6. Тощо.\n\n")
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.17\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.18\n")
     end
 end
 
@@ -3169,7 +3183,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.17', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.18', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -3180,6 +3194,8 @@ function show_r_click_menu()
     local is_docked = is_docked()
     local dock_menu_title = is_docked and t("undock") or t("dock")
     local menu = {
+
+        {title = "NEW", cmd = welcome_message},
 
         {title = t("time"), submenu = {
             {title = t("current"), cmd = toggle_show_system_time, checked = is_show_system_time},
@@ -3240,22 +3256,22 @@ function show_r_click_menu()
                 
                 {title = t("easy"), cmd = function() 
                     set_maze_difficulty("easy") 
-                    save_maze_settings()  -- Зберігаємо налаштування після зміни складності
+                    save_maze_settings()
                 end, checked = is_easy_m},
             
                 {title = t("medium"), cmd = function() 
                     set_maze_difficulty("medium") 
-                    save_maze_settings()  -- Зберігаємо налаштування після зміни складності
+                    save_maze_settings()
                 end, checked = is_medium_m},
             
                 {title = t("hard"), cmd = function() 
                     set_maze_difficulty("hard") 
-                    save_maze_settings()  -- Зберігаємо налаштування після зміни складності
+                    save_maze_settings()
                 end, checked = is_hard_m},
             
                 {title = t("impossible"), cmd = function() 
                     set_maze_difficulty("impo") 
-                    save_maze_settings()  -- Зберігаємо налаштування після зміни складності
+                    save_maze_settings()
                 end, checked = is_impo_m},
             }}
             
@@ -3289,7 +3305,7 @@ function show_r_click_menu()
 
             {title = t("language"), submenu = {
                 {title = t("english"), cmd = function() change_language("en") end, checked = current_language == "en"},
-                {title = t("ukrainian"), cmd = function() change_language("ua") end, checked = current_language == "ua"}
+                {title = t("ukrainian"), cmd = function() change_language("ua") welcome_message() end, checked = current_language == "ua"}
             }},
 
             {title = t("set_background_color"), submenu = {
@@ -3314,7 +3330,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.17", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.18", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3479,7 +3495,7 @@ function main()
 
     local is_me_open, is_me_closed, is_me_docked = get_midi_editor_state()
 
-                                                                            if is_me_closed or is_me_docked and not is_paused then
+    if is_me_closed or is_me_docked and not is_paused then
         if not is_show_system_time and not is_showing_cube then
             local scale = get_scale_factor()
             local is_angry = check_for_angry()
@@ -3529,7 +3545,7 @@ function main()
                 draw_static_text(text_params[state])
             end
         end
-                                                                                                                                end
+    end
 
     if is_night_time() then
         random_night_message()
@@ -3562,7 +3578,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.17", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.18", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -3614,7 +3630,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.17", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.18", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     main()
