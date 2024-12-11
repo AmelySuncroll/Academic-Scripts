@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.20
+-- @version 1.21
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -13,6 +13,7 @@
 --    + 1.18 optimisated: pause sleeping animation when click and drag mouse (anywhere)
 --    + 1.19 add Patreon link
 --    + 1.20 fix get sleep in one second after script start
+--    + 1.21 add clock format option: 12 or 24 hours (with am/pm)
 
 -- @about Your little friend inside Reaper
 
@@ -94,12 +95,15 @@ local translations = {
 
         games = "Games",
 
-        patreon = "My Patreon"
+        patreon = "My Patreon",
+
+        format_title = "AM/PM",
+        vert_am_title = "Vertical"
         
     },
     ua = {
-        time = "Час",
-        current = "Поточний",
+        time = "Від. часу",
+        current = "Поточне",
         hourly = "Щогодини",
 
         set_timer = "Таймер",
@@ -155,7 +159,10 @@ local translations = {
 
         games = "Ігри",
 
-        patreon = "Мій Patreon"
+        patreon = "Мій Patreon",
+
+        format_title = "12 або 24",
+        vert_am_title = "У два рядки"
     }
 }
 
@@ -200,7 +207,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.20", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.21", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -215,7 +222,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace 1.20", true)
+  local hwnd = reaper.JS_Window_Find("RoboFace 1.21", true)
   local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
   local width = right - left
   local height = bottom - top
@@ -919,12 +926,29 @@ function global_os_time()
     end
 end
 
+local is_12_h_sel = false
+
 function global_os_time_without_seconds()
     if time_format_12hr then
-        return os.date("%I:%M %p")  -- 12 AM/PM
+        return os.date("%I:%M %p")
     else
-        return os.date("%H:%M")     -- 24 hours
+        if is_12_h_sel then 
+            local hour = tonumber(os.date("%H"))
+            local minute = os.date("%M")            
+            local am_pm = (hour < 12) and "AM" or "PM"
+            local hour_12 = hour % 12
+
+            if hour_12 == 0 then hour_12 = 12 end
+
+            return hour_12, minute, am_pm  -- Повертаємо окремі значення
+        else
+            return os.date("%H:%M")
+        end
     end
+end
+
+function what_format_is()
+    is_12_h_sel = not is_12_h_sel
 end
 
 function is_start_of_hour()
@@ -1947,9 +1971,14 @@ function toggle_show_system_time_hourly()
     end
 end
 
+local is_am_pm_under = false
+
+function is_ampm_under()
+    is_am_pm_under = not is_am_pm_under
+end
+
 function show_system_time()
     local os_type = get_os_type()
-
     local current_time = os.date("*t")
     local current_seconds = os.time(current_time)
 
@@ -1968,28 +1997,62 @@ function show_system_time()
     end
 
     local scale_factor = get_scale_factor()
-    local font_size = 200 * scale_factor 
-    local currentTime = global_os_time_without_seconds()
-    local displayTime = currentTime
+    local font_size = 200 * scale_factor
+    local displayTime
+    local hour_12, minute, am_pm
+
+    if is_12_h_sel then
+        hour_12, minute, am_pm = global_os_time_without_seconds()
+        displayTime = string.format("%02d:%02d\n%s", hour_12, minute, am_pm)
+    else
+        displayTime = global_os_time_without_seconds()
+    end
 
     if is_bg_black then
         gfx.set(0, 0, 0, 1)
     else
         gfx.set(0.8, 0.8, 0.8, 1)
     end
-    
     gfx.rect(0, 0, gfx.w, gfx.h, 1)
 
-    
     gfx.set(0.5, 0.5, 0.5)
     gfx.setfont(1, "Iregula", font_size)
 
-    local text_width, text_height = gfx.measurestr(displayTime)
+    if is_12_h_sel then
+        if is_am_pm_under then
+            local time_text = string.format("%02d:%02d", hour_12, minute)
+            local am_pm_text = am_pm
 
-    gfx.x = (gfx.w - text_width) / 2
-    gfx.y = (gfx.h - text_height) / 2
+            local time_w, time_h = gfx.measurestr(time_text)
+            local am_pm_w, am_pm_h = gfx.measurestr(am_pm_text)
 
-    gfx.drawstr(displayTime)
+            local center_x = gfx.w / 2
+            local center_y = gfx.h / 2
+
+            gfx.x = center_x - time_w / 2
+            gfx.y = center_y - time_h
+            gfx.drawstr(time_text)
+
+            gfx.x = center_x - am_pm_w / 2
+            gfx.y = center_y
+            gfx.drawstr(am_pm_text)
+        else
+            local time_text = string.format("%02d:%02d %s", hour_12, minute, am_pm)
+            local time_w, time_h = gfx.measurestr(time_text)
+
+            local center_x = gfx.w / 2
+            local center_y = gfx.h / 2
+
+            gfx.x = center_x - time_w / 2
+            gfx.y = center_y - time_h / 2
+            gfx.drawstr(time_text)
+        end
+    else
+        local text_width, text_height = gfx.measurestr(displayTime)
+        gfx.x = (gfx.w - text_width) / 2
+        gfx.y = (gfx.h - text_height) / 2
+        gfx.drawstr(displayTime)
+    end
 
     gfx.update()
 
@@ -2462,7 +2525,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.20\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.21\n")
     else
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -2479,7 +2542,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.20\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.21\n")
     end
 end
 
@@ -2954,34 +3017,10 @@ end
 
 function about_swch_game()
     if current_language == "en" then
-        reaper.ShowConsoleMsg("Welcome to the game 'Something Was Changed'!\n\n")
-
-        reaper.ShowConsoleMsg("Game rules:\n")
-        reaper.ShowConsoleMsg("The robot will change a random parameter - volume, pan or will mute one fx - of one of the tracks, which is unmute and has audio or midi.\n")
-        reaper.ShowConsoleMsg("Your task is to return the parameter to it's original value.\n")
-        reaper.ShowConsoleMsg("You can try to change up to three parameters (if you selected hard difficult or level is not selected) before the game is lost.\n\n")
-
-        reaper.ShowConsoleMsg("Attention! Playing the project or selecting tracks is also considered a change.\n")
-        reaper.ShowConsoleMsg("Edit cursor moving is not considered a change.\n\n")
-
-        reaper.ShowConsoleMsg("On higher difficulty levels, I recommend you to open the mixer before playing.\n\n")
-
-        reaper.ShowConsoleMsg("Good luck!\n\n")
+        reaper.ShowConsoleMsg("Welcome to the game 'RoboMaze'!\n\n")
 
     else
-        reaper.ShowConsoleMsg("Ласкаво просимо до гри 'Щось Змінилося'!\n\n")
-
-        reaper.ShowConsoleMsg("Правила гри:\n")
-        reaper.ShowConsoleMsg("Робот змінить випадковий параметр (гучність або панораму або вимкне один fx) однієї з доріжок, яка не замьючена і має аудіо або міді.\n")
-        reaper.ShowConsoleMsg("Ваше завдання - повернути параметр до його початкового значення.\n")
-        reaper.ShowConsoleMsg("Ви можете спробувати змінити до трьох параметрів (наприклад, якщо обран важкий рівень або ніякої), перш ніж гра буде програна.\n\n")
-
-        reaper.ShowConsoleMsg("Увага! Відтворення проекту або виділення доріжок також вважаються змінами.\n")
-        reaper.ShowConsoleMsg("Переміщення курсору редагування не вважається зміною.\n\n")
-
-        reaper.ShowConsoleMsg("На вищих рівнях складності рекомендуємо відкрити мікшер перед початком гри.\n\n")
-
-        reaper.ShowConsoleMsg("Успіхів!\n\n")
+        reaper.ShowConsoleMsg("Ласкаво просимо до гри 'RoboMaze'!\n\n")
 
     end
 end
@@ -3005,7 +3044,7 @@ function open_robo_maze()
 
     local labyrinth_command = reaper.NamedCommandLookup("_RSc65d9c586c79e7fa9d43e026cf743905e9305465")
     if labyrinth_command == 0 then
-        local script_path = reaper.GetResourcePath() .. "/Scripts/Academic-Scripts/Other/Amely Suncroll RoboMaze.lua"
+        local script_path = reaper.GetResourcePath() .. "/Scripts/Academic-Scripts/Other/Amely Suncroll RoboMaze Game.lua"
         local file = io.open(script_path, "r")
 
         if file then
@@ -3192,7 +3231,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.20', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.21', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -3209,6 +3248,11 @@ function show_r_click_menu()
         {title = t("time"), submenu = {
             {title = t("current"), cmd = toggle_show_system_time, checked = is_show_system_time},
             {title = t("hourly"), cmd = toggle_show_system_time_hourly, checked = is_show_system_time_hourly},
+            
+            {separator = true},
+            
+            {title = t("format_title"), cmd = what_format_is, checked = is_12_h_sel},
+            {title = t("vert_am_title"), cmd = is_ampm_under, checked = is_am_pm_under},
         }},
 
         {title = t("set_timer"), submenu = {
@@ -3260,7 +3304,8 @@ function show_r_click_menu()
             {title = "RoboMaze", submenu = {
                 {title = t("play"), cmd = open_robo_maze},
                 {title = t("rules"), cmd = about_maze_game},
-            
+
+            --[[
                 {separator = true},
                 
                 {title = t("easy"), cmd = function() 
@@ -3282,6 +3327,8 @@ function show_r_click_menu()
                     set_maze_difficulty("impo") 
                     save_maze_settings()
                 end, checked = is_impo_m},
+                ]]--
+
             }}
             
 
@@ -3341,7 +3388,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.20", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.21", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3451,6 +3498,12 @@ function load_options_params()
 
     local startupState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "StartupIsOn")
     is_startup = startupState == "true"
+
+    local whatFormatIs = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "whatFormat")
+    is_12_h_sel = whatFormatIs == "true"
+
+    local isAmPmUnder = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "isUnder")
+    is_am_pm_under = isAmPmUnder == "true"
 end
 
 function save_options_params()
@@ -3484,6 +3537,10 @@ function save_options_params()
     reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "WelcomeShown", tostring(is_welcome_shown), true)
 
     reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "StartupIsOn", tostring(is_startup), true)
+
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "whatFormat", tostring(is_12_h_sel), true)
+
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "isUnder", tostring(is_am_pm_under), true)
 end
 
 
@@ -3589,7 +3646,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.20", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.21", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -3641,10 +3698,19 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.20", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.21", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
-    main()
+
+    local mouse_state = reaper.JS_Mouse_GetState(0xFF)
+
+    local m_click = (mouse_state & 64) == 64
+    local l_click = (mouse_state & 1) == 1
+    local r_click = (mouse_state & 2) == 2
+
+    if not (m_click or l_click or r_click) then
+        main()
+    end
 end
 
 function stop_script()
