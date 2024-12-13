@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.21
+-- @version 1.22
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -14,6 +14,7 @@
 --    + 1.19 add Patreon link
 --    + 1.20 fix get sleep in one second after script start
 --    + 1.21 add clock format option: 12 or 24 hours (with am/pm)
+--    + 1.22 changed patreon link to ko-fi link
 
 -- @about Your little friend inside Reaper
 
@@ -95,7 +96,7 @@ local translations = {
 
         games = "Games",
 
-        patreon = "My Patreon",
+        patreon = "My Ko-Fi page",
 
         format_title = "AM/PM",
         vert_am_title = "Vertical"
@@ -159,7 +160,7 @@ local translations = {
 
         games = "Ігри",
 
-        patreon = "Мій Patreon",
+        patreon = "Сторінка Ko-Fi",
 
         format_title = "12 або 24",
         vert_am_title = "У два рядки"
@@ -207,7 +208,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.21", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.22", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -222,7 +223,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace 1.21", true)
+  local hwnd = reaper.JS_Window_Find("RoboFace 1.22", true)
   local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
   local width = right - left
   local height = bottom - top
@@ -2399,7 +2400,7 @@ function open_browser_font()
 end
 
 function open_browser_patreon()
-    open_browser("https://www.patreon.com/c/AmelySuncroll")
+    open_browser("https://ko-fi.com/amelysuncroll")
 end
 
 
@@ -2525,7 +2526,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.21\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.22\n")
     else
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -2542,7 +2543,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.21\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.22\n")
     end
 end
 
@@ -3231,7 +3232,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.21', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.22', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -3346,7 +3347,7 @@ function show_r_click_menu()
 
             {separator = true},
 
-            {title = t("support"), cmd = open_browser_support},
+            -- {title = t("support"), cmd = open_browser_support},
 
             {title = t("patreon"), cmd = open_browser_patreon},
             
@@ -3388,7 +3389,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.21", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.22", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3646,7 +3647,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.21", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.22", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -3698,7 +3699,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.21", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.22", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
 
