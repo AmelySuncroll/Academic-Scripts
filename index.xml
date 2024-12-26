@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="cd0f4e6ac9b5cc17dbf546fb36e17f20d407cb35">
+<index version="1" name="Academic-Scripts" commit="99244ea08be5c64fa31f1c3ceb277284d3353449">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -683,6 +683,15 @@
 + 1.21 add clock format option: 12 or 24 hours (with am/pm)
 + 1.22 changed patreon link to ko-fi link]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/4c812cac73271c12cceadc7562e48df40e708f7a/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll RoboMaze.lua" type="script" desc="RoboMaze">
+      <metadata>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="0.9" author="Amely Suncroll" time="2024-12-26T00:42:06Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/99244ea08be5c64fa31f1c3ceb277284d3353449/Other/Amely%20Suncroll%20RoboMaze.lua</source>
       </version>
     </reapack>
   </category>
