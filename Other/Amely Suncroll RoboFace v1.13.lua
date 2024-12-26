@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.22
+-- @version 1.23
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -15,6 +15,7 @@
 --    + 1.20 fix get sleep in one second after script start
 --    + 1.21 add clock format option: 12 or 24 hours (with am/pm)
 --    + 1.22 changed patreon link to ko-fi link
+--    + 1.23 add robomaze game link
 
 -- @about Your little friend inside Reaper
 
@@ -2403,6 +2404,10 @@ function open_browser_patreon()
     open_browser("https://ko-fi.com/amelysuncroll")
 end
 
+function open_browser_robo_maze()
+    open_browser("https://forum.cockos.com/showthread.php?p=2833067#post2833067")
+end
+
 
 
 
@@ -3303,7 +3308,7 @@ function show_r_click_menu()
             }},
 
             {title = "RoboMaze", submenu = {
-                {title = t("play"), cmd = open_robo_maze},
+                {title = t("play"), cmd = open_browser_robo_maze},
                 {title = t("rules"), cmd = about_maze_game},
 
             --[[
