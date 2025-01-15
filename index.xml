@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="91d23fdfafe8551ef7ba25a16d4c474b86a54740">
+<index version="1" name="Academic-Scripts" commit="a618a3517e9dd58da0f95db75fef4b14a4b10908">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -761,6 +761,12 @@
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/8b52a395197c8a12b133f20e915df4681f9a5e64/Other/Arrange%20View/Amely%20Suncroll%20Delete%20markers%20by%20name.lua</source>
       </version>
     </reapack>
+    <reapack name="Amely Suncroll Mute tracks (like Cubase).lua" type="script" desc="Mute tracks (like Cubase)">
+      <version name="1.0" author="Amely Suncroll" time="2025-01-15T13:50:43Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/a618a3517e9dd58da0f95db75fef4b14a4b10908/Other/Arrange%20View/Amely%20Suncroll%20Mute%20tracks%20(like%20Cubase).lua</source>
+      </version>
+    </reapack>
     <reapack name="Amely Suncroll Optimize VST (move them from one track to anothers inside new folder to reduce CPU).lua" type="script" desc="Optimize VST (move them from one track to anothers inside new folder to reduce CPU)">
       <metadata>
         <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
@@ -821,6 +827,12 @@
         <changelog><![CDATA[+ init @
 + if you have Track 01 and Track 03 this script will add Track 02, exactly next to Track 01 ]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/d482fb4a0a0f1f6cd585825912162b3ae517d3a4/Other/Arrange%20View/Amely%20Suncroll%20Smart%20duplicate%20track.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Solo tracks (like Cubase).lua" type="script" desc="Solo tracks (like Cubase)">
+      <version name="1.0" author="Amely Suncroll" time="2025-01-15T13:50:43Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/a618a3517e9dd58da0f95db75fef4b14a4b10908/Other/Arrange%20View/Amely%20Suncroll%20Solo%20tracks%20(like%20Cubase).lua</source>
       </version>
     </reapack>
   </category>
@@ -1138,11 +1150,11 @@
     </reapack>
   </category>
   <metadata>
-    <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+    <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
-{\pard \ql \f0 \sa180 \li0 \fi0 \b \fs36 Academic Scripts\par}
+{\pard \ql \f0 \sa180 \li0 \fi0 \outlinelevel0 \b \fs36 Academic Scripts\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 Scripts for Reaper DAW\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 Add this repo to ReaPack: https://raw.githubusercontent.com/AmelySuncroll/Academic-Scripts/master/index.xml\par}
 {\pard \ql \f0 \sa180 \li0 \fi0 Official forum thread: https://forum.cockos.com/showthread.php?t=291012\par}
