@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.23
+-- @version 1.24
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -16,6 +16,7 @@
 --    + 1.21 add clock format option: 12 or 24 hours (with am/pm)
 --    + 1.22 changed patreon link to ko-fi link
 --    + 1.23 add robomaze game link
+--    + 1.24 delete repeating "gfx.update" rows and leave only one of them; "Відображення таймера" changed to "Від. таймера" in ua language
 
 -- @about Your little friend inside Reaper
 
@@ -118,7 +119,7 @@ local translations = {
         custom = "Інший...",
         stop_timer = "Зупинити таймер",
 
-        timer_display_options = "Відображенне таймера",
+        timer_display_options = "Від. таймера",
         direct_countdown = "Прямий відлік",
         reverse_countdown = "Зворотний відлік",
         show_if_less_than_minute = "Якщо менше хвилини",
@@ -209,7 +210,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.22", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.24", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -224,7 +225,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace 1.22", true)
+  local hwnd = reaper.JS_Window_Find("RoboFace 1.24", true)
   local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
   local width = right - left
   local height = bottom - top
@@ -264,7 +265,7 @@ local function toggle_dock()
     local dock_state = gfx.dock(-1) > 0 and 0 or 1
     gfx.dock(dock_state)
     reaper.SetExtState(script_identifier, "dock_state", tostring(dock_state), true)
-    gfx.update()
+    -- gfx.update()
 end
 
 local previous_state = "closed"
@@ -1513,6 +1514,7 @@ function animation_when_delete_all()
 
     if num_tracks > 0 and num_items == 0 then
         local all_items_deleted = true
+
         for i = 0, num_tracks - 1 do
             local track = reaper.GetTrack(0, i)
             local num_items_in_track = reaper.CountTrackMediaItems(track)
@@ -1521,6 +1523,7 @@ function animation_when_delete_all()
                 break
             end
         end
+
         if all_items_deleted and prev_num_items > 0 then
             is_deletion = true
         end
@@ -1576,14 +1579,17 @@ function shake_with_show_random_cube()
     local startTime = reaper.time_precise()
 
     local function trigger_with_delay(index)
+
         if index > #timings then
             reaper.defer(function()
+
                 if reaper.time_precise() >= startTime + 0.52 then
                     show_random_cube()
                 else
                     reaper.defer(function() trigger_with_delay(index) end)
                 end
             end)
+
             return
         end
         
@@ -1608,12 +1614,14 @@ function shake_with_show_laugh()
     local function trigger_with_delay(index)
         if index > #timings then
             reaper.defer(function()
+                
                 if reaper.time_precise() >= startTime + 0.52 then
                     --show_random_cube()
                 else
                     reaper.defer(function() trigger_with_delay(index) end)
                 end
             end)
+            
             return
         end
         
@@ -2056,7 +2064,7 @@ function show_system_time()
         gfx.drawstr(displayTime)
     end
 
-    gfx.update()
+    -- gfx.update()
 
     if time_display_end_time and current_seconds >= time_display_end_time then
         is_show_system_time = false
@@ -2175,7 +2183,7 @@ function show_timer_time()
 
     gfx.drawstr(displayTime)
 
-    gfx.update()
+    -- gfx.update()
 
     if is_countdown and remaining_time <= 0 then
         is_timer_running = false
@@ -2288,7 +2296,7 @@ function draw_random_cube()
     end
 
     draw_cube(current_cube_number)
-    gfx.update()
+    -- gfx.update()
 
     if gfx.getchar() >= 0 then
         reaper.defer(draw_random_cube)
@@ -2531,7 +2539,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.22\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.24\n")
     else
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -2548,7 +2556,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.22\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.24\n")
     end
 end
 
@@ -3237,7 +3245,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.22', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.24', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -3394,7 +3402,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.22", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.24", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3652,7 +3660,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.22", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.24", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -3672,7 +3680,7 @@ function main()
         end
     end
     
-    gfx.update()
+    -- gfx.update()
 
     if gfx.getchar() == 27 and isTapActive then
         isTapActive = false
@@ -3699,12 +3707,23 @@ end
 function start_script()
     is_running = true
 
+    fxCurrent = {}
+    allParamsOriginalValues.fx = {}
+    allParamsOriginalValues = {}
+    validTracks = {}
+    lastSelectedParams = {}
+    allParamsOriginalValues = {}
+    originalValues = {}
+    tapDurations = {}
+    prev_num_items_in_tracks = {}
+    yawn_intervals = {}
+
     local _, _, section_id, command_id = reaper.get_action_context()
     reaper.SetToggleCommandState(section_id, command_id, 1)
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.22", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.24", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
 
