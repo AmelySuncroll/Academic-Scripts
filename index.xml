@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="b331706d774f23637060d4e9c8a1195d10907d27">
+<index version="1" name="Academic-Scripts" commit="74087e449786024ddd17dbc406620759973083d1">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -571,6 +571,28 @@
     </reapack>
   </category>
   <category name="Other">
+    <reapack name="Amely Suncroll RoboFace Lite.lua" type="script" desc="RoboFace Lite">
+      <metadata>
+        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
+      </metadata>
+      <version name="1.24" author="Amely Suncroll" time="2025-01-22T11:56:49Z">
+        <changelog><![CDATA[+ init @
++ 1.01 fix error when not docked and playing
++ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
++ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
++ 1.14 better sneeze emotion, change donate link and fix some small things
++ 1.15 fix cube zoom, adding "Games" folder
++ 1.17 optimisated: terrible load grafics if midi editor is open, add script state to action window
++ 1.18 optimisated: pause sleeping animation when click and drag mouse (anywhere)
++ 1.19 add Patreon link
++ 1.20 fix get sleep in one second after script start
++ 1.21 add clock format option: 12 or 24 hours (with am/pm)
++ 1.22 changed patreon link to ko-fi link
++ 1.23 add robomaze game link
++ 1.24 add lite version - pause all functions when a left, right or middle mouse click is hold]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/74087e449786024ddd17dbc406620759973083d1/Other/Amely%20Suncroll%20RoboFace%20Lite.lua</source>
+      </version>
+    </reapack>
     <reapack name="Amely Suncroll RoboFace v1.13.lua" type="script" desc="RoboFace">
       <metadata>
         <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
