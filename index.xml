@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="74087e449786024ddd17dbc406620759973083d1">
+<index version="1" name="Academic-Scripts" commit="c6be521af706eb33eedcc45df24a98dd964c9f6f">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -894,7 +894,7 @@
     </reapack>
     <reapack name="Amely Suncroll Delete track name contains [ABC].lua" type="script" desc="Delete track name contains [ABC]">
       <metadata>
-        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
+        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 \fmodern Courier;}}
 {\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
 \widowctrl\hyphauto
 
