@@ -1935,7 +1935,7 @@ function show_system_time()
     if is_show_system_time_hourly then
         if current_time.min == 0 then
             is_show_system_time = true
-            time_display_end_time = os.time(current_time) + 60 -- Показувати 1 хвилину
+            time_display_end_time = os.time(current_time) + 60
         else
             is_show_system_time = false
         end
@@ -1951,15 +1951,12 @@ function show_system_time()
     local hour_12, minute, am_pm
 
     if is_12_h_sel then
-        -- Отримати час у форматі 12 годин
         hour_12, minute, am_pm = global_os_time_without_seconds()
         displayTime = string.format("%02d:%02d\n%s", hour_12, minute, am_pm)
     else
-        -- Отримати час у форматі 24 години
         displayTime = global_os_time_without_seconds()
     end
 
-    -- Встановлення фону
     if is_bg_black then
         gfx.set(0, 0, 0, 1)
     else
@@ -1970,10 +1967,8 @@ function show_system_time()
     gfx.set(0.5, 0.5, 0.5)
     gfx.setfont(1, "Iregula", font_size)
 
-    -- Відображення часу
     if is_12_h_sel then
         if is_am_pm_under then
-            -- AM/PM під часом
             local time_text = string.format("%02d:%02d", hour_12, minute)
             local am_pm_text = am_pm
 
@@ -1991,7 +1986,6 @@ function show_system_time()
             gfx.y = center_y
             gfx.drawstr(am_pm_text)
         else
-            -- AM/PM поруч із часом
             local time_text = string.format("%02d:%02d %s", hour_12, minute, am_pm)
             local time_w, time_h = gfx.measurestr(time_text)
 
@@ -2003,14 +1997,12 @@ function show_system_time()
             gfx.drawstr(time_text)
         end
     else
-        -- 24-годинний формат
         local text_width, text_height = gfx.measurestr(displayTime)
         gfx.x = (gfx.w - text_width) / 2
         gfx.y = (gfx.h - text_height) / 2
         gfx.drawstr(displayTime)
     end
 
-    -- Перевірка завершення показу часу
     if time_display_end_time and os.time(current_time) >= time_display_end_time then
         is_show_system_time = false
         time_display_end_time = nil
