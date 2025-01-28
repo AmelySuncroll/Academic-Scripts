@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="8e2632d990fd50b6b8af1198567f0d139c82021a">
+<index version="1" name="Academic-Scripts" commit="09cdf76146bc0d27e6952e9c18de809a8ce91287">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -593,153 +593,11 @@
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/74087e449786024ddd17dbc406620759973083d1/Other/Amely%20Suncroll%20RoboFace%20Lite.lua</source>
       </version>
     </reapack>
-    <reapack name="Amely Suncroll RoboFace v1.13.lua" type="script" desc="RoboFace">
+    <reapack name="Amely Suncroll RoboFace.lua" type="script" desc="RoboFace">
       <metadata>
         <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
       </metadata>
-      <version name="1.13" author="Amely Suncroll" time="2024-08-21T08:36:14Z">
-        <changelog><![CDATA[+ init @
-+ 1.01 fix error when not docked and playing
-+ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
-+ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/a8af9e66ccb963e4b7baa329af4d40b1abf7c69b/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
-      </version>
-      <version name="1.14" author="Amely Suncroll" time="2024-09-18T23:42:48Z">
-        <changelog><![CDATA[+ init @
-+ 1.01 fix error when not docked and playing
-+ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
-+ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
-+ 1.14 better sneeze emotion, change donate link and fix some small things]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/72b710a8c10126d4f5dfc6c21879812d7e4c68b4/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
-      </version>
-      <version name="1.15" author="Amely Suncroll" time="2024-10-08T01:32:00Z">
-        <changelog><![CDATA[+ init @
-+ 1.01 fix error when not docked and playing
-+ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
-+ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
-+ 1.14 better sneeze emotion, change donate link and fix some small things
-+ 1.15 fix cube zoom]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/4f934821c2f0b0101bb70686e0cfb9d5aabb28bb/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
-      </version>
-      <version name="1.16" author="Amely Suncroll" time="2024-11-30T01:43:35Z">
-        <changelog><![CDATA[+ init @
-+ 1.01 fix error when not docked and playing
-+ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
-+ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
-+ 1.14 better sneeze emotion, change donate link and fix some small things
-+ 1.15 fix cube zoom, adding "Games" folder
-+ 1.16 optimisated terrible load grafics if midi editor is open]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/9e6032d28b8c3991f30ecbef35d072f1c93ed16f/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
-      </version>
-      <version name="1.17" author="Amely Suncroll" time="2024-11-30T02:47:28Z">
-        <changelog><![CDATA[+ init @
-+ 1.01 fix error when not docked and playing
-+ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
-+ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
-+ 1.14 better sneeze emotion, change donate link and fix some small things
-+ 1.15 fix cube zoom, adding "Games" folder
-+ 1.16 optimisated terrible load grafics if midi editor is open, add script state to action window]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/716f36f8d1601a9ae431f5e21252cd0765f97a86/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
-      </version>
-      <version name="1.18" author="Amely Suncroll" time="2024-11-30T11:52:17Z">
-        <changelog><![CDATA[+ init @
-+ 1.01 fix error when not docked and playing
-+ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
-+ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
-+ 1.14 better sneeze emotion, change donate link and fix some small things
-+ 1.15 fix cube zoom, adding "Games" folder
-+ 1.17 optimisated: terrible load grafics if midi editor is open, add script state to action window
-+ 1.18 optimisated: pause sleeping animation when click and drag mouse (anywhere)]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/f0a156a07845aa0c7c3a98d467d3315fd6839831/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
-      </version>
-      <version name="1.19" author="Amely Suncroll" time="2024-11-30T11:57:29Z">
-        <changelog><![CDATA[+ init @
-+ 1.01 fix error when not docked and playing
-+ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
-+ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
-+ 1.14 better sneeze emotion, change donate link and fix some small things
-+ 1.15 fix cube zoom, adding "Games" folder
-+ 1.17 optimisated: terrible load grafics if midi editor is open, add script state to action window
-+ 1.18 optimisated: pause sleeping animation when click and drag mouse (anywhere)
-+ 1.19 fix get sleep in one second after sxript start]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/941dcc48b7df2dfdbfb0335fa84a282e924bf3d3/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
-      </version>
-      <version name="1.20" author="Amely Suncroll" time="2024-11-30T12:13:42Z">
-        <changelog><![CDATA[+ init @
-+ 1.01 fix error when not docked and playing
-+ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
-+ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
-+ 1.14 better sneeze emotion, change donate link and fix some small things
-+ 1.15 fix cube zoom, adding "Games" folder
-+ 1.17 optimisated: terrible load grafics if midi editor is open, add script state to action window
-+ 1.18 optimisated: pause sleeping animation when click and drag mouse (anywhere)
-+ 1.19 add Patreon link
-+ 1.20 fix get sleep in one second after script start]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/5f71722a0a8122e264ec092aff07d3af80af2208/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
-      </version>
-      <version name="1.21" author="Amely Suncroll" time="2024-12-11T09:38:41Z">
-        <changelog><![CDATA[+ init @
-+ 1.01 fix error when not docked and playing
-+ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
-+ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
-+ 1.14 better sneeze emotion, change donate link and fix some small things
-+ 1.15 fix cube zoom, adding "Games" folder
-+ 1.17 optimisated: terrible load grafics if midi editor is open, add script state to action window
-+ 1.18 optimisated: pause sleeping animation when click and drag mouse (anywhere)
-+ 1.19 add Patreon link
-+ 1.20 fix get sleep in one second after script start
-+ 1.21 add clock format option: 12 or 24 hours (with am/pm)]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/84885b1c65d843da1d26da3cc1bfe602e1b17f09/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
-      </version>
-      <version name="1.22" author="Amely Suncroll" time="2024-12-13T21:41:49Z">
-        <changelog><![CDATA[+ init @
-+ 1.01 fix error when not docked and playing
-+ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
-+ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
-+ 1.14 better sneeze emotion, change donate link and fix some small things
-+ 1.15 fix cube zoom, adding "Games" folder
-+ 1.17 optimisated: terrible load grafics if midi editor is open, add script state to action window
-+ 1.18 optimisated: pause sleeping animation when click and drag mouse (anywhere)
-+ 1.19 add Patreon link
-+ 1.20 fix get sleep in one second after script start
-+ 1.21 add clock format option: 12 or 24 hours (with am/pm)
-+ 1.22 changed patreon link to ko-fi link]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/4c812cac73271c12cceadc7562e48df40e708f7a/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
-      </version>
-      <version name="1.23" author="Amely Suncroll" time="2024-12-26T01:29:40Z">
-        <changelog><![CDATA[+ init @
-+ 1.01 fix error when not docked and playing
-+ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
-+ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
-+ 1.14 better sneeze emotion, change donate link and fix some small things
-+ 1.15 fix cube zoom, adding "Games" folder
-+ 1.17 optimisated: terrible load grafics if midi editor is open, add script state to action window
-+ 1.18 optimisated: pause sleeping animation when click and drag mouse (anywhere)
-+ 1.19 add Patreon link
-+ 1.20 fix get sleep in one second after script start
-+ 1.21 add clock format option: 12 or 24 hours (with am/pm)
-+ 1.22 changed patreon link to ko-fi link
-+ 1.23 add robomaze game link]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/91d23fdfafe8551ef7ba25a16d4c474b86a54740/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
-      </version>
-      <version name="1.24" author="Amely Suncroll" time="2025-01-22T11:54:34Z">
-        <changelog><![CDATA[+ init @
-+ 1.01 fix error when not docked and playing
-+ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
-+ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
-+ 1.14 better sneeze emotion, change donate link and fix some small things
-+ 1.15 fix cube zoom, adding "Games" folder
-+ 1.17 optimisated: terrible load grafics if midi editor is open, add script state to action window
-+ 1.18 optimisated: pause sleeping animation when click and drag mouse (anywhere)
-+ 1.19 add Patreon link
-+ 1.20 fix get sleep in one second after script start
-+ 1.21 add clock format option: 12 or 24 hours (with am/pm)
-+ 1.22 changed patreon link to ko-fi link
-+ 1.23 add robomaze game link
-+ 1.24 delete repeating "gfx.update" rows and leave only one of them; "Відображення таймера" changed to "Від. таймера" in ua language]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/b331706d774f23637060d4e9c8a1195d10907d27/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
-      </version>
-      <version name="1.25" author="Amely Suncroll" time="2025-01-28T11:04:11Z">
+      <version name="1.25" author="Amely Suncroll" time="2025-01-28T11:09:25Z">
         <changelog><![CDATA[+ init @
 + 1.01 fix error when not docked and playing
 + 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
@@ -755,7 +613,7 @@
 + 1.23 add robomaze game link
 + 1.24 delete repeating "gfx.update" rows and leave only one of them; "Відображення таймера" changed to "Від. таймера" in ua language
 + 1.25 add some improvements to save fps: totally remove animation when delete all items and shake when edit cursor move to project start; remove seconds from all functions and animations are using time (but not from timer); fix correct stop script when click "Exit" in context menu; pupils are moving with roboface if metronome is on.]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/8e2632d990fd50b6b8af1198567f0d139c82021a/Other/Amely%20Suncroll%20RoboFace%20v1.13.lua</source>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/09cdf76146bc0d27e6952e9c18de809a8ce91287/Other/Amely%20Suncroll%20RoboFace.lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll RoboMaze.lua" type="script" desc="RoboMaze">
