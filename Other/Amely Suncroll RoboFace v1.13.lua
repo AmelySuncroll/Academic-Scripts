@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.24
+-- @version 1.25
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -17,6 +17,9 @@
 --    + 1.22 changed patreon link to ko-fi link
 --    + 1.23 add robomaze game link
 --    + 1.24 delete repeating "gfx.update" rows and leave only one of them; "Відображення таймера" changed to "Від. таймера" in ua language
+--    + 1.25 add some improvements to save fps: totally remove animation when delete all items and shake when edit cursor move to project start; remove seconds from all functions and animations are using time (but not from timer); fix correct stop script when click "Exit" in context menu; pupils are moving with roboface if metronome is on.
+
+
 
 -- @about Your little friend inside Reaper
 
@@ -210,7 +213,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.24", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.25", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -225,7 +228,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace 1.24", true)
+  local hwnd = reaper.JS_Window_Find("RoboFace 1.25", true)
   local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
   local width = right - left
   local height = bottom - top
@@ -618,7 +621,6 @@ function draw_robot_face(scale, is_eye_open, is_sleeping, is_bg_black)
     local is_angry = check_for_angry()
     local is_sleeping = should_robot_sleep()
     local is_recording = is_recording()
-    local is_animation_when_delete_all = animation_when_delete_all()
     
     ----------------------------------------------------------------------------------------------------------------------------- BG
     if is_bg_black then
@@ -685,11 +687,6 @@ function draw_robot_face(scale, is_eye_open, is_sleeping, is_bg_black)
         gfx.rect(face_x + face_width - eye_offset_x - eye_size, face_y + eye_offset_y, eye_size, eye_size, 1) -- R
     end
 
-    if is_animation_when_delete_all then
-        gfx.rect(face_x + eye_offset_x, face_y + eye_offset_y, eye_size * 1.1, eye_size * 1.1, 1) -- L
-        gfx.rect(face_x + face_width - eye_offset_x - eye_size, face_y + eye_offset_y, eye_size * 1.1, eye_size * 1.1, 1) -- R
-    end
-
     -- RECORD FUNCTION
     if is_recording then
         ---------------------------------------------------------- left eye when recording
@@ -733,9 +730,9 @@ function draw_robot_face(scale, is_eye_open, is_sleeping, is_bg_black)
         local right_eye_y = face_y + eye_offset_y - 1
         local eye_width = base_eye_size * scale
         local eye_height = base_eye_size * scale
-        local font_size = eye_height * 1.2 -- Размер шрифта для буквы "R"
-        gfx.set(0, 0, 0) -- Устанавливаем черный цвет для буквы "R"
-        gfx.setfont(1, "Arial", font_size) -- Выбираем шрифт и размер
+        local font_size = eye_height * 1.2
+        gfx.set(0, 0, 0)
+        gfx.setfont(1, "Arial", font_size)
         gfx.x = right_eye_x + (eye_width - gfx.measurestr("R")) / 2
         gfx.y = right_eye_y - (eye_height - font_size) / 2
         gfx.drawstr("REC")
@@ -803,10 +800,6 @@ function draw_robot_face(scale, is_eye_open, is_sleeping, is_bg_black)
         gfx.rect(mouth_x + 10, mouth_y, base_mouth_width * scale / 3, base_mouth_height * scale * 0.7, 1)
     end
 
-    if is_animation_when_delete_all then
-        gfx.rect(mouth_x, mouth_y, base_mouth_width * scale, base_mouth_height * scale * 1.3, 1)
-    end
-
     if is_yawning then
         local current_time = reaper.time_precise()
         local yawn_progress = (current_time - yawn_start_time) / yawn_duration
@@ -843,6 +836,7 @@ function draw_pupils(scale)
     local is_sleeping = should_robot_sleep()
     local is_recording = is_recording()
     local is_docked = is_docked()
+    local shake_offset = get_shake_intensity()
     
     if is_eye_open and not is_sleeping and not is_recording then
         local eye_size = base_eye_size * scale
@@ -850,7 +844,7 @@ function draw_pupils(scale)
         local face_width = base_face_width * scale
         local face_height = base_face_height * scale
         local face_x = (gfx.w - face_width) / 2
-        local face_y = (gfx.h - face_height) / 2 + get_vertical_shake_intensity()
+        local face_y = (gfx.h - face_height) / 2 + shake_offset + get_vertical_shake_intensity()
 
         local eye_offset_x = face_width * (base_left_eye_x - base_face_x) / base_face_width
         local eye_offset_y = face_height * (base_left_eye_y - base_face_y) / base_face_height
@@ -862,6 +856,7 @@ function draw_pupils(scale)
         end
 
         local target_x, target_y
+        
         if reaper.GetPlayState() == 0 then
             target_x, target_y = gfx.mouse_x, gfx.mouse_y
         else
@@ -884,8 +879,8 @@ function draw_pupils(scale)
         gfx.set(1, 1, 1)
 
         if is_angry then
-            eye_size = eye_size * 0.2  -- Narrower eye width for angry eyes
-            pupil_size = 0  -- Smaller pupil size for angry eyes
+            eye_size = eye_size * 0.2
+            pupil_size = 0
         end
         
         local pupil_x, pupil_y = get_pupil_position(face_x + eye_offset_x, face_y + eye_offset_y, target_x, target_y)
@@ -943,7 +938,7 @@ function global_os_time_without_seconds()
 
             if hour_12 == 0 then hour_12 = 12 end
 
-            return hour_12, minute, am_pm  -- Повертаємо окремі значення
+            return hour_12, minute, am_pm
         else
             return os.date("%H:%M")
         end
@@ -966,9 +961,9 @@ end
 function is_night_time()
     local current_time = global_os_time()
 
-    if time_format_12hr and time_in_range("01:08:00 AM", current_time, 21600) then -- 6 hours (360 minutes) = 21600 seconds
+    if time_format_12hr and time_in_range("01:08 AM", current_time, 21600) then -- 6 годин
         return true
-    elseif not time_format_12hr and time_in_range("01:11:00", current_time, 21600) then
+    elseif not time_format_12hr and time_in_range("01:11", current_time, 21600) then
         return true
     else
         return false
@@ -1211,7 +1206,9 @@ function get_shake_intensity()
     local currentBPM = get_current_bpm()
     local is_angry = check_for_angry()
     local is_sleeping = should_robot_sleep()
-    if not is_playing() or not is_metronome_running() or is_angry or is_sleeping then 
+    local is_yawning = animate_yawn()
+
+    if not is_playing() or not is_metronome_running() or is_angry or is_sleeping or is_yawning then
         return 0
     end
 
@@ -1304,7 +1301,7 @@ function check_for_yawn()
     local current_time_table = os.date("*t")  
     local current_time = reaper.time_precise()
 
-    if current_time_table.hour == 0 and current_time_table.min == 0 and current_time_table.sec == 5 and not is_angry then
+    if current_time_table.hour == 0 and current_time_table.min == 0 --[[and current_time_table.sec == 5]] and not is_angry then
         yawn_start_time = current_time
         init_yawn_intervals() 
     end
@@ -1493,78 +1490,17 @@ end
 
 
 ------------------------------------------------------------------------------------ DELETE ALL
-local prev_num_items = reaper.CountMediaItems(0)
-local prev_num_tracks = reaper.CountTracks(0)
-local prev_num_items_in_tracks = {}
-local animation_triggered = false
 
 function animation_when_delete_all()
-    local num_items = reaper.CountMediaItems(0)
-    local num_tracks = reaper.CountTracks(0)
-    local is_deletion = false
-    local is_sleeping = should_robot_sleep()
-
-    if num_items == 0 and prev_num_items > 0 then
-        is_deletion = true
-    end
-
-    if num_tracks == 0 and prev_num_tracks > 0 then
-        is_deletion = true
-    end
-
-    if num_tracks > 0 and num_items == 0 then
-        local all_items_deleted = true
-
-        for i = 0, num_tracks - 1 do
-            local track = reaper.GetTrack(0, i)
-            local num_items_in_track = reaper.CountTrackMediaItems(track)
-            if num_items_in_track > 0 then
-                all_items_deleted = false
-                break
-            end
-        end
-
-        if all_items_deleted and prev_num_items > 0 then
-            is_deletion = true
-        end
-    end
-
-    if is_deletion and not is_sleeping and not animation_triggered then
-        trigger_vertical_shake(2, 0.05)
-        animation_triggered = true
-        return true
-    end
-
-    if num_items > 0 or num_tracks > 0 then
-        animation_triggered = false
-    end
-
-    prev_num_items = num_items
-    prev_num_tracks = num_tracks
-    
-    return false
+  -- something here
+  reaper.ShowConsoleMsg("delete")
 end
 
 ---------------------------------------------------------------------------------- START OR END
 
-local prev_pos = -1
-local start_pos = 0
-local end_pos = reaper.GetProjectLength()
-
 function animation_when_start_or_end()
-    local cur_pos = reaper.GetCursorPosition()
-    local is_sleeping = should_robot_sleep()
-
-    if not is_sleeping then
-        if prev_pos ~= cur_pos then
-            if cur_pos == start_pos and prev_pos ~= start_pos then
-                trigger_horizontal_shake(3, 0.1)
-            elseif cur_pos == end_pos and prev_pos ~= end_pos then
-                trigger_horizontal_shake(3, 0.1)
-            end
-            prev_pos = cur_pos
-        end
-    end
+    -- something here
+    reaper.ShowConsoleMsg("start")
 end
 
 
@@ -1616,7 +1552,7 @@ function shake_with_show_laugh()
             reaper.defer(function()
                 
                 if reaper.time_precise() >= startTime + 0.52 then
-                    --show_random_cube()
+                    -- show_random_cube()
                 else
                     reaper.defer(function() trigger_with_delay(index) end)
                 end
@@ -1681,19 +1617,20 @@ function animate_sneeze()
     reaper.defer(checkTime)
 end
 
-local last_sneeze_time = reaper.time_precise()
-local sneeze_interval = math.random(4800, 8500) 
+local last_sneeze_time = reaper.time_precise() / 60
+local sneeze_interval = math.random(80, 141)
 
 function random_sneeze()
-    local current_time = reaper.time_precise()
+    local current_time = reaper.time_precise() / 60
     if not is_angry and not is_sleeping and not is_yawning and not is_sneeze_general then
         if current_time - last_sneeze_time >= sneeze_interval then
             animate_sneeze()
             last_sneeze_time = current_time
-            sneeze_interval = math.random(4800, 8500)
+            sneeze_interval = math.random(80, 141)
         end
     end
 end
+
 
 
 
@@ -1744,20 +1681,21 @@ function show_night_message()
     end
 end
 
-local last_night_message_time = reaper.time_precise()
-local night_message_interval = math.random(3600, 10800)  
+local last_night_message_time = reaper.time_precise() / 60
+local night_message_interval = math.random(60, 180)
 
 function random_night_message()
-    local current_time = reaper.time_precise()
+    local current_time = reaper.time_precise() / 60
     if not is_angry and not is_sleeping and not is_yawning and not is_night_message_general then
         if current_time - last_night_message_time >= night_message_interval then
             show_night_message()
 
             last_night_message_time = current_time
-            night_message_interval = math.random(3600, 10800)
+            night_message_interval = math.random(60, 180)
         end
     end
 end
+
 
 
 
@@ -1780,6 +1718,7 @@ local base_font_size = 280
 
 local text_params = {
     welcome = {text = "HELLO", type = "scrolling", duration = 5, repeat_count = 1, interval = 0, delay = 1, start_time = reaper.time_precise() + 1},
+    -- welcome = {text = "ПРИВІТ", type = "scrolling", duration = 5, repeat_count = 1, interval = 0, delay = 1, start_time = reaper.time_precise() + 1},
 
     -- is_it_paused = {text = "paused\n  ||", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 170},
     is_it_loud = {text = "Isn't\nloud?", type = "static", duration = 5, repeat_count = 1, interval = 0, delay = 0, start_time = 0, font_size = 130},
@@ -1864,6 +1803,7 @@ function update_text_state_and_time(current_state)
     if current_state and text_params[current_state] and current_state ~= "welcome" then
         local current_time = reaper.time_precise()
         local params = text_params[current_state]
+
         if not params.last_start_time or current_time - params.last_start_time >= params.duration + params.interval then
             params.start_time = current_time
             params.last_start_time = current_time
@@ -1872,15 +1812,15 @@ function update_text_state_and_time(current_state)
 end
 
 function time_in_range(start_time, current_time, duration)
-    local pattern = "(%d+):(%d+):(%d+)"
-    local hours1, minutes1, seconds1 = start_time:match(pattern)
-    local hours2, minutes2, seconds2 = current_time:match(pattern)
-
-    local time1 = hours1 * 3600 + minutes1 * 60 + seconds1
-    local time2 = hours2 * 3600 + minutes2 * 60 + seconds2
+    local pattern = "(%d+):(%d+)"
+    local hours1, minutes1 = start_time:match(pattern)
+    local hours2, minutes2 = current_time:match(pattern)
+    local time1 = hours1 * 60 + minutes1
+    local time2 = hours2 * 60 + minutes2
     local difference = time2 - time1
+    local duration_minutes = math.floor(duration / 60)
 
-    return difference >= 0 and difference <= duration
+    return difference >= 0 and difference <= duration_minutes
 end
 
 
@@ -1904,41 +1844,42 @@ function type_of_text_over()
     end
 
 
+
     ----------------------------------- SCHEDULE BLOCK -----------------------------------
-    
-    if time_format_12hr and time_in_range("01:07:00 AM", current_time, 10) then
+
+    if time_format_12hr and time_in_range("01:07 AM", current_time, 1) then
         current_state = "good_night"
-    elseif not time_format_12hr and time_in_range("01:04:00", current_time, 10) then
+    elseif not time_format_12hr and time_in_range("01:04", current_time, 1) then
         current_state = "good_night"
     end
 
-    if time_format_12hr and time_in_range("03:13:00 AM", current_time, 60) then
+    if time_format_12hr and time_in_range("03:13 AM", current_time, 1) then
         current_state = "not_sleep"
-    elseif not time_format_12hr and time_in_range("03:14:00", current_time, 60) then
+    elseif not time_format_12hr and time_in_range("03:14", current_time, 1) then
         current_state = "not_sleep"
     end
 
-    if time_format_12hr and time_in_range("07:07:00 AM", current_time, 10) then
+    if time_format_12hr and time_in_range("07:07 AM", current_time, 1) then
         current_state = "good_morning"
-    elseif not time_format_12hr and time_in_range("07:04:00", current_time, 10) then
+    elseif not time_format_12hr and time_in_range("07:04", current_time, 1) then
         current_state = "good_morning"
     end
 
-    if time_format_12hr and time_in_range("10:11:00 AM", current_time, 10) then
+    if time_format_12hr and time_in_range("10:00 AM", current_time, 1) then
         current_state = "coffee_time"
-    elseif not time_format_12hr and time_in_range("10:11:00", current_time, 10) then
+    elseif not time_format_12hr and time_in_range("10:00", current_time, 1) then
         current_state = "coffee_time"
     end
 
-    if time_format_12hr and time_in_range("02:05:00 PM", current_time, 10) then
+    if time_format_12hr and time_in_range("02:00 PM", current_time, 1) then
         current_state = "eat_time"
-    elseif not time_format_12hr and time_in_range("14:05:00", current_time, 10) then
+    elseif not time_format_12hr and time_in_range("14:00", current_time, 1) then
         current_state = "eat_time"
     end
 
     -------------------------------- END SCHEDULE BLOCK ----------------------------------
 
-    
+
 
     update_text_state_and_time(current_state)
 
@@ -1990,19 +1931,17 @@ end
 function show_system_time()
     local os_type = get_os_type()
     local current_time = os.date("*t")
-    local current_seconds = os.time(current_time)
 
     if is_show_system_time_hourly then
         if current_time.min == 0 then
             is_show_system_time = true
-            time_display_end_time = current_seconds + 60
+            time_display_end_time = os.time(current_time) + 60 -- Показувати 1 хвилину
         else
             is_show_system_time = false
         end
     end
 
     if not is_show_system_time then
-        reaper.defer(update_timer)
         return
     end
 
@@ -2012,12 +1951,15 @@ function show_system_time()
     local hour_12, minute, am_pm
 
     if is_12_h_sel then
+        -- Отримати час у форматі 12 годин
         hour_12, minute, am_pm = global_os_time_without_seconds()
         displayTime = string.format("%02d:%02d\n%s", hour_12, minute, am_pm)
     else
+        -- Отримати час у форматі 24 години
         displayTime = global_os_time_without_seconds()
     end
 
+    -- Встановлення фону
     if is_bg_black then
         gfx.set(0, 0, 0, 1)
     else
@@ -2028,8 +1970,10 @@ function show_system_time()
     gfx.set(0.5, 0.5, 0.5)
     gfx.setfont(1, "Iregula", font_size)
 
+    -- Відображення часу
     if is_12_h_sel then
         if is_am_pm_under then
+            -- AM/PM під часом
             local time_text = string.format("%02d:%02d", hour_12, minute)
             local am_pm_text = am_pm
 
@@ -2047,6 +1991,7 @@ function show_system_time()
             gfx.y = center_y
             gfx.drawstr(am_pm_text)
         else
+            -- AM/PM поруч із часом
             local time_text = string.format("%02d:%02d %s", hour_12, minute, am_pm)
             local time_w, time_h = gfx.measurestr(time_text)
 
@@ -2058,19 +2003,20 @@ function show_system_time()
             gfx.drawstr(time_text)
         end
     else
+        -- 24-годинний формат
         local text_width, text_height = gfx.measurestr(displayTime)
         gfx.x = (gfx.w - text_width) / 2
         gfx.y = (gfx.h - text_height) / 2
         gfx.drawstr(displayTime)
     end
 
-    -- gfx.update()
-
-    if time_display_end_time and current_seconds >= time_display_end_time then
+    -- Перевірка завершення показу часу
+    if time_display_end_time and os.time(current_time) >= time_display_end_time then
         is_show_system_time = false
         time_display_end_time = nil
     end
 end
+
 
 
 
@@ -2539,7 +2485,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.24\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.25\n")
     else
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -2556,7 +2502,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.24\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.25\n")
     end
 end
 
@@ -2629,21 +2575,37 @@ function tap_when_zoom_out()
     end
 end
 
+local is_quit = false
+
 function quit_robo_face()
     if not is_really_angry and not zoom_out then
         gfx.quit()
+        
+        if current_language == "en" then
+            reaper.ShowConsoleMsg("Bye :(\n\n")
+        else
+            reaper.ShowConsoleMsg("Пока :(\n\n")
+        end
+        
+        is_quit = true
+
     elseif is_really_angry then
         if current_language == "en" then
             reaper.ShowConsoleMsg("No.\n\n")
         else
             reaper.ShowConsoleMsg("Ні.\n\n")
         end
+
+        is_quit = false
+
     elseif not is_really_angry and zoom_out then
         if current_language == "en" then
             reaper.ShowConsoleMsg("You hurt me. I took offense.\n\n")
         else
             reaper.ShowConsoleMsg("Ти зробив мені боляче. Я образився.\n\n")
         end
+
+        is_quit = false
     end
 end
 
@@ -3245,7 +3207,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.24', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.25', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -3402,7 +3364,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.24", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.25", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3572,6 +3534,8 @@ end
 
 
 function main()
+    if is_quit then return end
+
     check_script_window_position()
     check_welcome_message()
 
@@ -3598,6 +3562,7 @@ function main()
             if not is_angry and not is_sleeping and not is_recording then
                 check_for_yawn()
                 local is_yawning = animate_yawn()
+
                 if not is_yawning and not is_recording and not is_sneeze_one and not is_sneeze_two then
                     animate_blink()
                 end
@@ -3635,23 +3600,21 @@ function main()
 
     if is_me_closed or is_me_docked and not is_paused then
 
-        if is_show_system_time_hourly and is_start_of_hour() and not is_show_system_time then
-            is_show_system_time = true
-            time_display_end_time = reaper.time_precise() + 60
+        if is_show_system_time then
             show_system_time()
         end
 
-        if is_show_system_time then
-            show_system_time()
+        if is_show_system_time_hourly and is_start_of_hour() then
+            if not is_show_system_time then
+                is_show_system_time = true
+                time_display_end_time = reaper.time_precise() + 60
+                show_system_time()
+            end
         end
 
         if is_timer_running then
             show_timer_time()
         end
-
-        animation_when_delete_all()
-        animation_when_start_or_end()
-        
     end
     
     if is_showing_cube then
@@ -3660,7 +3623,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.24", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.25", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -3680,8 +3643,6 @@ function main()
         end
     end
     
-    -- gfx.update()
-
     if gfx.getchar() == 27 and isTapActive then
         isTapActive = false
 
@@ -3690,52 +3651,24 @@ function main()
         else
             reaper.ShowConsoleMsg("Режим 'Тап темпо' скасовано.\n\n")
         end
-        
-    elseif gfx.getchar() == 27 and not isTapActive then
-        gfx.quit()
     end
 
-    if gfx.getchar() >= 0 then
-        save_window_params() 
-        reaper.defer(main)
-    else
-        save_window_params()
-        return  
-    end
+    reaper.defer(main)
 end
 
 function start_script()
     is_running = true
-
-    fxCurrent = {}
-    allParamsOriginalValues.fx = {}
-    allParamsOriginalValues = {}
-    validTracks = {}
-    lastSelectedParams = {}
-    allParamsOriginalValues = {}
-    originalValues = {}
-    tapDurations = {}
-    prev_num_items_in_tracks = {}
-    yawn_intervals = {}
 
     local _, _, section_id, command_id = reaper.get_action_context()
     reaper.SetToggleCommandState(section_id, command_id, 1)
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.24", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.25", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
+    main()
 
-    local mouse_state = reaper.JS_Mouse_GetState(0xFF)
-
-    local m_click = (mouse_state & 64) == 64
-    local l_click = (mouse_state & 1) == 1
-    local r_click = (mouse_state & 2) == 2
-
-    if not (m_click or l_click or r_click) then
-        main()
-    end
 end
 
 function stop_script()
@@ -3747,6 +3680,17 @@ function stop_script()
 
     save_window_params()
     save_options_params()
+
+    fxCurrent = {}
+    allParamsOriginalValues.fx = {}
+    allParamsOriginalValues = {}
+    validTracks = {}
+    lastSelectedParams = {}
+    allParamsOriginalValues = {}
+    originalValues = {}
+    tapDurations = {}
+    prev_num_items_in_tracks = {}
+    yawn_intervals = {}
 end
 
 start_script()
