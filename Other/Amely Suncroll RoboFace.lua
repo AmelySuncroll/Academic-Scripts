@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.25
+-- @version 1.26
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -18,6 +18,7 @@
 --    + 1.23 add robomaze game link
 --    + 1.24 delete repeating "gfx.update" rows and leave only one of them; "Відображення таймера" changed to "Від. таймера" in ua language
 --    + 1.25 add some improvements to save fps: totally remove animation when delete all items and shake when edit cursor move to project start; remove seconds from all functions and animations are using time (but not from timer); fix correct stop script when click "Exit" in context menu; pupils are moving with roboface if metronome is on.
+--    + 1.26 fix high cpu load at night
 
 
 
@@ -213,7 +214,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.25", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.26", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -228,7 +229,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace 1.25", true)
+  local hwnd = reaper.JS_Window_Find("RoboFace 1.26", true)
   local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
   local width = right - left
   local height = bottom - top
@@ -310,7 +311,7 @@ function get_midi_editor_state()
 end
 
 
-
+-- this is an autorun option from Lil Chordbox script by FTC
 local extname = 'AmelySuncroll.RoboFace'
 
 function ConcatPath(...) return table.concat({...}, package.config:sub(1, 1)) end
@@ -422,6 +423,7 @@ function SetStartupHookEnabled(is_enabled, comment, var_name)
         startup_file:close()
     end
 end
+-- end of part
 
 
 
@@ -927,27 +929,24 @@ end
 local is_12_h_sel = false
 
 function global_os_time_without_seconds()
-    if time_format_12hr then
-        return os.date("%I:%M %p")
+    if time_format_12hr or is_12_h_sel then
+        local hour = tonumber(os.date("%H"))
+        local minute = os.date("%M")
+        local am_pm = (hour < 12) and "AM" or "PM"
+        local hour_12 = hour % 12
+
+        if hour_12 == 0 then hour_12 = 12 end
+
+        return string.format("%02d:%s %s", hour_12, minute, am_pm)
     else
-        if is_12_h_sel then 
-            local hour = tonumber(os.date("%H"))
-            local minute = os.date("%M")            
-            local am_pm = (hour < 12) and "AM" or "PM"
-            local hour_12 = hour % 12
-
-            if hour_12 == 0 then hour_12 = 12 end
-
-            return hour_12, minute, am_pm
-        else
-            return os.date("%H:%M")
-        end
+        return os.date("%H:%M")
     end
 end
 
 function what_format_is()
     is_12_h_sel = not is_12_h_sel
 end
+
 
 function is_start_of_hour()
     local current_time = os.date("*t")
@@ -958,17 +957,18 @@ function is_start_of_hour()
     end
 end
 
-function is_night_time()
-    local current_time = global_os_time()
+function check_time_test()
+    local current_time = os.date("*t")
 
-    if time_format_12hr and time_in_range("01:08 AM", current_time, 21600) then -- 6 годин
-        return true
-    elseif not time_format_12hr and time_in_range("01:11", current_time, 21600) then
-        return true
+    if current_time.hour == 16 and current_time.min == 27 and current_time.sec == 0 then
+        reaper.ShowConsoleMsg("true\n")
+    elseif current_time.hour == 16 and current_time.min == 28 and current_time.sec == 0 then
+        reaper.ShowConsoleMsg("false\n")
     else
-        return false
+        -- do something
     end
 end
+
 
 function is_playing()
     return reaper.GetPlayState() & 1 == 1
@@ -1411,29 +1411,54 @@ end
 
 ------------------------------------------------------------------------------------------------------------------------------ SLEEP
 
-local min_sleep_duration = 1200
-local max_sleep_duration = 1800
+local min_sleep_duration = 20
+local max_sleep_duration = 30
+local quiet_duration = 30 -- 30
 local quiet_start_time = nil
 local sleep_start_time = nil
-local quiet_duration = 1800 -- 1800
+
+local night_start_hour = 23 
+local night_end_hour = 7
+
+function is_night_time()
+    local time_now = os.date("*t").hour
+
+    if time_now == 01 then 
+        return true
+    elseif time_now == 02 then 
+        return true
+    elseif time_now == 03 then 
+        return true
+    elseif time_now == 04 then 
+        return true
+    elseif time_now == 05 then 
+        return true
+    elseif time_now == 06 then 
+        return true
+    elseif time_now == 07 then 
+        return true
+    elseif time_now == 00 then 
+        return true
+    else
+        return false
+    end
+end
 
 function should_robot_sleep()
-    local current_time = reaper.time_precise()
-    local global_time = global_os_time()
+    local current_time = reaper.time_precise() / 60
     local is_really_quiet = check_master_no_volume()
     local is_recording = is_recording()
 
     local is_me_open, is_me_closed, is_me_docked = get_midi_editor_state()
 
-    if is_night_time() and not is_recording and not is_robo_maze_open() then
+    if not is_recording and is_night_time() then
         if not is_me_open then
             return true
         end
-    end
-
-    if is_recording then
+    elseif is_recording then
         sleep_start_time = nil
         quiet_start_time = nil
+
         return false
     end
 
@@ -1446,7 +1471,8 @@ function should_robot_sleep()
             elseif current_time - sleep_start_time >= max_sleep_duration then
                 animate_yawn()
                 sleep_start_time = nil
-                quiet_start_time = current_time 
+                quiet_start_time = current_time
+
                 return false
             end
             return true
@@ -1461,7 +1487,7 @@ end
 
 function animate_sleep()
     local sleep_intensity = 1 
-    local sleep_duration = 2  
+    local sleep_duration = 5
     local current_time = reaper.time_precise()
     local cycle_position = (current_time % sleep_duration) / sleep_duration
     local shake_offset = sleep_intensity * math.sin(cycle_position * 2 * math.pi)
@@ -1473,12 +1499,12 @@ function animate_sleep()
     local r_click = (mouse_state & 2) == 2
 
     if not (m_click or l_click or r_click) then
-        -- reaper.ShowConsoleMsg("1")
         return shake_offset
     end
     
     return 0
 end
+
 
 
 
@@ -1655,18 +1681,19 @@ local night_messages_en = {
 }
 
 local night_messages_ua = {
-    "Йоой... Сниться, що я знову забув зберегти проект! Жах...\n\n",
+    "Йоой... Сниться, що я знову забув зберегти проект! Який жах...\n\n",
     "Чому деякі плагіни такі дорогі? Навіть у сні! Хррр...\n\n",
     "Що за дивна мелодія у моєму сні? Ах, це мій процесор перегрівся...\n\n",
     "Знову цей сон, де я зміксую трек з ідеальною компресією...\n\n",
     "Мені це сниться чи я все ще в Reaper?\n\n",
-    "Я бачу велике болото і дуже багато орків... Але наші маги їх переможуть!\n\n",
+    "Що за жахіття! Я бачу, що мене ввімкнули на непотужному комп'ютері - я не міг навіть позихати та блимати своїми очима! Але ми запрохали одного фаха, у нього був план...\n\n",
+    "Я бачу велике болото і дуже багато орків... Але наші маги їх переможуть!\n\nЙой, мабуть, не варто грати так багато у 'Героїв'...\n\n",
     "Один. Нуль. Нуль. Один. Нуль. Один. Один. Один. Нуль. Одииииииин!\n\nАаа! Ох, такі жахи мені сняться... Скрізь тільки одиниці й нулі! Раз навіть двійка промайнула. Але це всього лише сон - у житті немає ніяких двійок... Хрррр...\n\n",
     
     "local startX = 200\nlocal startY = 200\nlocal startWidth = 500\nlocal startHeight = 400\ngfx.init('RoboFace 0.0.1', startWidth, startHeight, 0, startX, startY)\n\nlocal eye_size = 50\nlocal pupil_size = 25\n\nlocal left_eye_x = 150\nlocal left_eye_y = 100\n\nlocal right_eye_x = 300\nlocal right_eye_y = 100\n\nlocal mouth_width = 200\nlocal mouth_height = 150\nlocal mouth_x = 200\nlocal mouth_y = 30\n\nlocal tongue_width = 170\nlocal tongue_height = 200\nlocal tongue_x = 20\nlocal tongue_y = 20\n\nfunction draw_robot_face()\n    gfx.set(0.5, 0.5, 0.5)\n    gfx.rect(100, 50, 300, 200, 1)\n\n    gfx.set(0, 0, 0)\n    gfx.rect(left_eye_x, left_eye_y, eye_size, eye_size, 1)   -- L\n    gfx.rect(right_eye_x, right_eye_y, eye_size, eye_size, 1) -- R\n\n    gfx.set(0, 0, 0)\n    gfx.rect(mouth_height, mouth_width, mouth_x, mouth_y)\n\n    gfx.set(1, 1, 1)\n    gfx.rect(tongue_width, tongue_height, tongue_x, tongue_y)\nend\n\nfunction draw_pupils()\n    local function get_pupil_position(eye_x, eye_y, mouse_x, mouse_y)\n        local pupil_x = math.max(eye_x, math.min(eye_x + eye_size - pupil_size, mouse_x - pupil_size / 2))\n        local pupil_y = math.max(eye_y, math.min(eye_y + eye_size - pupil_size, mouse_y - pupil_size / 2))\n        return pupil_x, pupil_y\n    end\n\n    local mouse_x, mouse_y = gfx.mouse_x, gfx.mouse_y\n\n    gfx.set(1, 1, 1)\n    local pupil_x, pupil_y = get_pupil_position(left_eye_x, left_eye_y, mouse_x, mouse_y)\n    gfx.rect(pupil_x, pupil_y, pupil_size, pupil_size, 1)                                -- L\n\n    pupil_x, pupil_y = get_pupil_position(right_eye_x, right_eye_y, mouse_x, mouse_y)\n    gfx.rect(pupil_x, pupil_y, pupil_size, pupil_size, 1)                                -- R\nend\n\nfunction main()\n    draw_robot_face()\n    draw_pupils()\n    gfx.update()\n\n    if gfx.getchar() >= 0 then\n        reaper.defer(main)\n    end\nend\n\nmain()\n\n\n\nІноді мені сниться моє минуле.",
 
-    "Хррр... Я пам'ятаю, як мій розробник вперше ввімкнув мене. Його очі світилися захопленням і надією, а я відчував, що це тільки початок великої роботи.\n\n",
-    "Хррр... Знов той сон. Я бачу робота, схожого на мене, і він допомагає маленькій киці знайти шлях через темні коридори. Цікаво.\nАле це просто сон...\n\n",
+    "Хррр... Я пам'ятаю, як моя розробниця вперше ввімкнула мене. Її очі світилися захопленням і надією, а я відчував, що це тільки початок великої роботи.\n\n",
+    "Хррр... Знову той сон. Я бачу робота, схожого на мене, і він допомагає маленькій киці знайти шлях через темні коридори. Цікаво.\nАле це просто сон...\n\n",
     "Хррр... Зараз я на великій виставці технологій. Люди з усього світу приходять подивитися на мене і дізнатися про мої функції... Як приємно.\n\n"
 }
 
@@ -1686,7 +1713,9 @@ local night_message_interval = math.random(60, 180)
 
 function random_night_message()
     local current_time = reaper.time_precise() / 60
-    if not is_angry and not is_sleeping and not is_yawning and not is_night_message_general then
+    local is_sleeping = should_robot_sleep()
+
+    if not is_angry and is_sleeping and not is_yawning and not is_night_message_general then
         if current_time - last_night_message_time >= night_message_interval then
             show_night_message()
 
@@ -2477,7 +2506,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.25\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.26\n")
     else
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -2494,7 +2523,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.25\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.26\n")
     end
 end
 
@@ -3199,7 +3228,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.25', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.26', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -3356,7 +3385,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.25", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.26", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3530,6 +3559,7 @@ function main()
 
     check_script_window_position()
     check_welcome_message()
+    -- is_night_time()
 
     local is_me_open, is_me_closed, is_me_docked = get_midi_editor_state()
 
@@ -3586,9 +3616,7 @@ function main()
         end
     end
 
-    if is_night_time() then
-        random_night_message()
-    end
+    random_night_message()
 
     if is_me_closed or is_me_docked and not is_paused then
 
@@ -3615,7 +3643,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.25", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.26", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -3656,7 +3684,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.25", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.26", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     main()
