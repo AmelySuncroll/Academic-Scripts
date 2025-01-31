@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.26
+-- @version 1.27
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -19,6 +19,7 @@
 --    + 1.24 delete repeating "gfx.update" rows and leave only one of them; "Відображення таймера" changed to "Від. таймера" in ua language
 --    + 1.25 add some improvements to save fps: totally remove animation when delete all items and shake when edit cursor move to project start; remove seconds from all functions and animations are using time (but not from timer); fix correct stop script when click "Exit" in context menu; pupils are moving with roboface if metronome is on.
 --    + 1.26 fix high cpu load at night
+--    + 1.27 improve angry animation, fix rules for 'Something was changed?' game, fix small size of text messages
 
 
 
@@ -214,7 +215,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.26", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.27", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -229,7 +230,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace 1.26", true)
+  local hwnd = reaper.JS_Window_Find("RoboFace 1.27", true)
   local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
   local width = right - left
   local height = bottom - top
@@ -957,19 +958,6 @@ function is_start_of_hour()
     end
 end
 
-function check_time_test()
-    local current_time = os.date("*t")
-
-    if current_time.hour == 16 and current_time.min == 27 and current_time.sec == 0 then
-        reaper.ShowConsoleMsg("true\n")
-    elseif current_time.hour == 16 and current_time.min == 28 and current_time.sec == 0 then
-        reaper.ShowConsoleMsg("false\n")
-    else
-        -- do something
-    end
-end
-
-
 function is_playing()
     return reaper.GetPlayState() & 1 == 1
 end
@@ -1029,8 +1017,6 @@ function check_master_fader_volume()
     end
 end
 
-local is_fader_high = check_master_fader_volume()
-
 function check_master_real_volume()
     local master_track = reaper.GetMasterTrack(0)
     local peak_left = reaper.Track_GetPeakInfo(master_track, 0)
@@ -1045,8 +1031,6 @@ function check_master_real_volume()
         return false
     end
 end
-
-local is_really_loud = check_master_real_volume()
 
 function check_master_no_volume()
     local master_track = reaper.GetMasterTrack(0)
@@ -1063,8 +1047,30 @@ function check_master_no_volume()
     end
 end
 
-local is_really_quiet = check_master_no_volume()
+function check_reaper_focus()
+    local hwnd_active = reaper.BR_Win32_GetForegroundWindow()
+    if not hwnd_active then return false end
 
+    local hwnd_main = reaper.GetMainHwnd()
+    local hwnd_parent = reaper.JS_Window_GetParent(hwnd_active)
+    while hwnd_parent do
+        if hwnd_parent == hwnd_main then return true end
+        hwnd_parent = reaper.JS_Window_GetParent(hwnd_parent)
+    end
+
+    return hwnd_active == hwnd_main
+end
+
+function is_arrange_focused()
+    local hwnd = reaper.JS_Window_GetFocus()
+    local arrange = reaper.JS_Window_FindChildByID(reaper.GetMainHwnd(), 1000)
+    return hwnd == arrange
+end
+
+function get_arrange_focus()
+    if is_arrange_focused() then return end
+    reaper.Main_OnCommand(40913, 0)
+end
 
 
 
@@ -1354,6 +1360,7 @@ end
 
 
 
+  
 
 
 ------------------------------------------------------------------------------------------------------------------------------ ANGRY
@@ -1374,15 +1381,32 @@ function check_for_angry()
                 reduce_robot_zoom()
             end
 
+            --[[
+            if angry_count == 1 then
+                if current_language == "en" then
+                    reaper.ShowConsoleMsg("Arrgghhh!\n\n")
+                else
+                    reaper.ShowConsoleMsg("Йой!\n\n")
+                end
+
+                reaper.Main_OnCommand(40913, 0)
+            end
+            ]]
+
             if angry_count == 3 then
                 if current_language == "en" then
                     reaper.ShowConsoleMsg("If you will do it again, I will go away immediately.\n\n")
                 else
-                    reaper.ShowConsoleMsg("Якщо Ви це зробите знову, я негайно піду.\n\n")
+                    reaper.ShowConsoleMsg("Якщо ти зробиш це знову, я негайно піду.\n\n")
                 end
             end
 
+            if angry_count == 4 then
+                reaper.ClearConsole()
+            end
+
             if angry_count == 7 then
+                reaper.ClearConsole()
                 set_timer(3)
                 is_really_angry = true
         
@@ -1437,8 +1461,8 @@ function is_night_time()
         return true
     elseif time_now == 07 then 
         return true
-    elseif time_now == 00 then 
-        return true
+    --elseif time_now == 00 then 
+       -- return true
     else
         return false
     end
@@ -1518,14 +1542,14 @@ end
 ------------------------------------------------------------------------------------ DELETE ALL
 
 function animation_when_delete_all()
-  -- something here
+  -- nothing here
   reaper.ShowConsoleMsg("delete")
 end
 
 ---------------------------------------------------------------------------------- START OR END
 
 function animation_when_start_or_end()
-    -- something here
+    -- nothing here
     reaper.ShowConsoleMsg("start")
 end
 
@@ -1800,7 +1824,7 @@ function draw_static_text(params)
     local start_time = params.start_time
     local duration = params.duration
     local scale_factor = get_scale_factor()
-    local font_size = (params.font_size or base_font_size) * scale_factor
+    local font_size = (params.font_size or base_font_size) * scale_factor * 1.3
     local face_width = base_face_width * scale_factor
     local face_height = base_face_height * scale_factor
     local face_x = (gfx.w - face_width) / 2
@@ -2397,14 +2421,15 @@ function start_timer(duration_seconds)
     timer_end_time = start_time + duration_seconds
     is_timer_running = true
 
-    if current_language == "en" and not is_timer_finish then
+    if current_language == "en" and not is_timer_finish and not is_really_angry then
         reaper.ShowConsoleMsg("Timer start!\n\n")
-    elseif current_language == "ua" and not is_timer_finish then
+    elseif current_language == "ua" and not is_timer_finish and not is_really_angry then
         reaper.ShowConsoleMsg("Таймер запущено!\n\n")
     end
 
     local function check_time()
         local current_time = os.time()
+        
         if current_time >= timer_end_time then
             if current_language == "en" and not is_really_angry and not is_timer_finish then
                 reaper.ShowConsoleMsg("Time's up!\n\n")
@@ -2413,14 +2438,20 @@ function start_timer(duration_seconds)
             end
 
             if is_really_angry then
+                reaper.ClearConsole()
+
                 if current_language == "en" then
-                    reaper.ShowConsoleMsg("\n\nHahaha! I was joking with you. How do you feel now? \n\nBe more careful with me next time.\n\n")
+                    reaper.ShowConsoleMsg("Hahaha! I was joking with you. How do you feel now? \n\nBe more careful with me next time.\n\n")
                 else
-                    reaper.ShowConsoleMsg("\n\nХахаха! Я пожартував із тобою. Як ти себе зараз відчуваєш? \n\nНаступного разу будь обережнішим зі мною.\n\n")
+                    reaper.ShowConsoleMsg("Хахаха! Я пожартував із тобою. Як ти себе зараз відчуваєш? \n\nНаступного разу будь обережнішим зі мною.\n\n")
                 end
 
-                shake_with_show_laugh()
+                if not zoom_out then
+                    shake_with_show_laugh()
+                end
+
                 is_really_angry = false
+                -- angry_count = 0
             end
             
             is_timer_running = false
@@ -2435,6 +2466,7 @@ end
 function set_timer(duration)
     if duration == "Custom" then
         local title, prompt
+
         if current_language == "en" then
             title = "Custom Timer"
             prompt = "Enter duration (minutes):"
@@ -2459,6 +2491,7 @@ function set_timer(duration)
     else
         duration = duration * 60
     end
+
     start_timer(duration)
 end
 
@@ -2506,7 +2539,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.26\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.27\n")
     else
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -2523,7 +2556,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.26\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.27\n")
     end
 end
 
@@ -2548,48 +2581,53 @@ function tap_when_zoom_out()
     if angry_count == 4 and zoom_out then
         if gfx.mouse_cap & 1 == 1 then
             if current_language == "en" then
-                reaper.ShowConsoleMsg("knock... \n\n")
+                reaper.ShowConsoleMsg("knock... ")
             else
-                reaper.ShowConsoleMsg("тук... \n\n")
+                reaper.ShowConsoleMsg("тук... ")
             end
             
             click_count = click_count + 1
             if click_count == 3 then
                 if current_language == "en" then
-                    reaper.ShowConsoleMsg("I've got scared :(\n\n\n")
+                    reaper.ShowConsoleMsg("\n\nI've got scared :( It was been so loud.\n\n")
                 else
-                    reaper.ShowConsoleMsg("\nЯ злякався :(\n\n\n")
+                    reaper.ShowConsoleMsg("\n\nЯ злякався :( Це було вельми гучно.\n\n")
                 end
+
                 click_count = 0
             end
         end
     elseif angry_count == 5 and zoom_out then
         if gfx.mouse_cap & 1 == 1 then
             if current_language == "en" then
-                reaper.ShowConsoleMsg("knock... \n\n")
+                reaper.ShowConsoleMsg("knock... ")
             else
-                reaper.ShowConsoleMsg("тук... \n\n")
+                reaper.ShowConsoleMsg("тук... ")
             end
             
             click_count = click_count + 1
+
             if click_count == 3 then
                 if current_language == "en" then
-                    reaper.ShowConsoleMsg("It happened again! Don't do it again, please :(\n\n")
+                    reaper.ShowConsoleMsg("\n\nIt happened again! Don't do it again, please :(\n\n")
                 else
-                    reaper.ShowConsoleMsg("Це сталося знову! Не роби так більше, будь ласочка :(\n\n")
+                    reaper.ShowConsoleMsg("\n\nЦе сталося знову! Не роби так більше, будь ласочка :(\n\n")
                 end
+
                 click_count = 0
             end
         end
     elseif angry_count == 6 and zoom_out then
         if gfx.mouse_cap & 1 == 1 then
             click_count = click_count + 1
+
             if click_count == 3 then
                 if current_language == "en" then
                     reaper.ShowConsoleMsg("...\n\n")
                 else
                     reaper.ShowConsoleMsg("...\n\n")
                 end
+
                 click_count = 0 
             end
         end
@@ -2621,9 +2659,9 @@ function quit_robo_face()
 
     elseif not is_really_angry and zoom_out then
         if current_language == "en" then
-            reaper.ShowConsoleMsg("You hurt me. I took offense.\n\n")
+            reaper.ShowConsoleMsg("I'm already gone, don't you see? You hurt me. I took offense.\n\n")
         else
-            reaper.ShowConsoleMsg("Ти зробив мені боляче. Я образився.\n\n")
+            reaper.ShowConsoleMsg("Я вже пішов, хіба ти не бачиш? Ти зробив мені боляче. Я образився.\n\n")
         end
 
         is_quit = false
@@ -2928,6 +2966,7 @@ function check_for_changes(track, param, originalValue, fxIndex, allParamsOrigin
                 hard_count = 0
                 impo_count = 0
                 reaper.SetMediaTrackInfo_Value(track, "D_PAN", originalValue)
+
                 return
             end
         else
@@ -2942,6 +2981,7 @@ function check_for_changes(track, param, originalValue, fxIndex, allParamsOrigin
                 hard_count = 0
                 impo_count = 0
                 reaper.SetMediaTrackInfo_Value(track, "D_VOL", originalValue)
+
                 return
             end
         end
@@ -2950,11 +2990,13 @@ function check_for_changes(track, param, originalValue, fxIndex, allParamsOrigin
         local panCurrent = reaper.GetMediaTrackInfo_Value(track, "D_PAN")
         local fxCount = reaper.TrackFX_GetCount(track)
         local fxCurrent = {}
+
         for i = 0, fxCount - 1 do
             fxCurrent[i] = reaper.TrackFX_GetEnabled(track, i)
         end
         
         local paramChanged = false
+
         if math.abs(volumeCurrent - allParamsOriginalValues.volume) >= vol_tolerance then
             paramChanged = true
         elseif math.abs(panCurrent - allParamsOriginalValues.pan) >= pan_tolerance then
@@ -2970,6 +3012,7 @@ function check_for_changes(track, param, originalValue, fxIndex, allParamsOrigin
 
         if paramChanged and reaper.GetPlayState() == 0 then
             changes = changes + 1
+
             if current_language == "en" then
                 reaper.ShowConsoleMsg("Change recorded! Number of changes: " .. changes .. "\n")
             else
@@ -3014,13 +3057,38 @@ end
 
 function about_swch_game()
     if current_language == "en" then
-        reaper.ShowConsoleMsg("Welcome to the game 'RoboMaze'!\n\n")
+        reaper.ShowConsoleMsg("Welcome to the game 'Something Was Changed'!\n\n")
+
+        reaper.ShowConsoleMsg("Game rules:\n")
+        reaper.ShowConsoleMsg("The robot will change a random parameter - volume, pan or will mute one fx - of one of the tracks, which is unmute and has audio or midi.\n")
+        reaper.ShowConsoleMsg("Your task is to return the parameter to it's original value.\n")
+        reaper.ShowConsoleMsg("You can try to change up to three parameters (if you selected hard difficult or level is not selected) before the game is lost.\n\n")
+
+        reaper.ShowConsoleMsg("Attention! Playing the project or selecting tracks is also considered a change.\n")
+        reaper.ShowConsoleMsg("Edit cursor moving is not considered a change.\n\n")
+
+        reaper.ShowConsoleMsg("On higher difficulty levels, I recommend you to open the mixer before playing.\n\n")
+
+        reaper.ShowConsoleMsg("Good luck!\n\n")
 
     else
-        reaper.ShowConsoleMsg("Ласкаво просимо до гри 'RoboMaze'!\n\n")
+        reaper.ShowConsoleMsg("Ласкаво просимо до гри 'Щось Змінилося'!\n\n")
+
+        reaper.ShowConsoleMsg("Правила гри:\n")
+        reaper.ShowConsoleMsg("Робот змінить випадковий параметр (гучність або панораму або вимкне один fx) однієї з доріжок, яка не замьючена і має аудіо або міді.\n")
+        reaper.ShowConsoleMsg("Ваше завдання - повернути параметр до його початкового значення.\n")
+        reaper.ShowConsoleMsg("Ви можете спробувати змінити до трьох параметрів (наприклад, якщо обран важкий рівень або ніякої), перш ніж гра буде програна.\n\n")
+
+        reaper.ShowConsoleMsg("Увага! Відтворення проекту або виділення доріжок також вважаються змінами.\n")
+        reaper.ShowConsoleMsg("Переміщення курсору редагування не вважається зміною.\n\n")
+
+        reaper.ShowConsoleMsg("На вищих рівнях складності рекомендуємо відкрити мікшер перед початком гри.\n\n")
+
+        reaper.ShowConsoleMsg("Успіхів!\n\n")
 
     end
 end
+
 
 
 
@@ -3228,7 +3296,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.26', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.27', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -3385,7 +3453,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.26", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.27", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3643,7 +3711,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.26", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.27", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -3684,7 +3752,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.26", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.27", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     main()
