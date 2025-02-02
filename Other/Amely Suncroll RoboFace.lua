@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.27
+-- @version 1.28
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -20,6 +20,7 @@
 --    + 1.25 add some improvements to save fps: totally remove animation when delete all items and shake when edit cursor move to project start; remove seconds from all functions and animations are using time (but not from timer); fix correct stop script when click "Exit" in context menu; pupils are moving with roboface if metronome is on.
 --    + 1.26 fix high cpu load at night
 --    + 1.27 improve angry animation, fix rules for 'Something was changed?' game, fix small size of text messages
+--    + 1.28 fix issue not show 12 h format
 
 
 
@@ -34,6 +35,8 @@
 -- Support:
 -- https://t.me/amely_suncroll_support
 -- amelysuncroll@gmail.com
+
+
 
 is_running = false
 
@@ -215,7 +218,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.27", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.28", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -230,7 +233,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace 1.27", true)
+  local hwnd = reaper.JS_Window_Find("RoboFace 1.28", true)
   local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
   local width = right - left
   local height = bottom - top
@@ -1710,14 +1713,14 @@ local night_messages_ua = {
     "Що за дивна мелодія у моєму сні? Ах, це мій процесор перегрівся...\n\n",
     "Знову цей сон, де я зміксую трек з ідеальною компресією...\n\n",
     "Мені це сниться чи я все ще в Reaper?\n\n",
-    "Що за жахіття! Я бачу, що мене ввімкнули на непотужному комп'ютері - я не міг навіть позихати та блимати своїми очима! Але ми запрохали одного фаха, у нього був план...\n\n",
+    "Що за жахіття! Я бачу, що мене ввімкнули на непотужному комп'ютері - я не міг навіть позіхати та блимати своїми очима! Але ми запрохали одного фаха, у нього був план...\n\n",
     "Я бачу велике болото і дуже багато орків... Але наші маги їх переможуть!\n\nЙой, мабуть, не варто грати так багато у 'Героїв'...\n\n",
     "Один. Нуль. Нуль. Один. Нуль. Один. Один. Один. Нуль. Одииииииин!\n\nАаа! Ох, такі жахи мені сняться... Скрізь тільки одиниці й нулі! Раз навіть двійка промайнула. Але це всього лише сон - у житті немає ніяких двійок... Хрррр...\n\n",
     
     "local startX = 200\nlocal startY = 200\nlocal startWidth = 500\nlocal startHeight = 400\ngfx.init('RoboFace 0.0.1', startWidth, startHeight, 0, startX, startY)\n\nlocal eye_size = 50\nlocal pupil_size = 25\n\nlocal left_eye_x = 150\nlocal left_eye_y = 100\n\nlocal right_eye_x = 300\nlocal right_eye_y = 100\n\nlocal mouth_width = 200\nlocal mouth_height = 150\nlocal mouth_x = 200\nlocal mouth_y = 30\n\nlocal tongue_width = 170\nlocal tongue_height = 200\nlocal tongue_x = 20\nlocal tongue_y = 20\n\nfunction draw_robot_face()\n    gfx.set(0.5, 0.5, 0.5)\n    gfx.rect(100, 50, 300, 200, 1)\n\n    gfx.set(0, 0, 0)\n    gfx.rect(left_eye_x, left_eye_y, eye_size, eye_size, 1)   -- L\n    gfx.rect(right_eye_x, right_eye_y, eye_size, eye_size, 1) -- R\n\n    gfx.set(0, 0, 0)\n    gfx.rect(mouth_height, mouth_width, mouth_x, mouth_y)\n\n    gfx.set(1, 1, 1)\n    gfx.rect(tongue_width, tongue_height, tongue_x, tongue_y)\nend\n\nfunction draw_pupils()\n    local function get_pupil_position(eye_x, eye_y, mouse_x, mouse_y)\n        local pupil_x = math.max(eye_x, math.min(eye_x + eye_size - pupil_size, mouse_x - pupil_size / 2))\n        local pupil_y = math.max(eye_y, math.min(eye_y + eye_size - pupil_size, mouse_y - pupil_size / 2))\n        return pupil_x, pupil_y\n    end\n\n    local mouse_x, mouse_y = gfx.mouse_x, gfx.mouse_y\n\n    gfx.set(1, 1, 1)\n    local pupil_x, pupil_y = get_pupil_position(left_eye_x, left_eye_y, mouse_x, mouse_y)\n    gfx.rect(pupil_x, pupil_y, pupil_size, pupil_size, 1)                                -- L\n\n    pupil_x, pupil_y = get_pupil_position(right_eye_x, right_eye_y, mouse_x, mouse_y)\n    gfx.rect(pupil_x, pupil_y, pupil_size, pupil_size, 1)                                -- R\nend\n\nfunction main()\n    draw_robot_face()\n    draw_pupils()\n    gfx.update()\n\n    if gfx.getchar() >= 0 then\n        reaper.defer(main)\n    end\nend\n\nmain()\n\n\n\nІноді мені сниться моє минуле.",
 
     "Хррр... Я пам'ятаю, як моя розробниця вперше ввімкнула мене. Її очі світилися захопленням і надією, а я відчував, що це тільки початок великої роботи.\n\n",
-    "Хррр... Знову той сон. Я бачу робота, схожого на мене, і він допомагає маленькій киці знайти шлях через темні коридори. Цікаво.\nАле це просто сон...\n\n",
+    "Хррр... Знову той сон. Я бачу робота, схожого на мене, і він допомагає маленькій киці знайти шлях через темні коридори майбутнього міста. Цікаво.\nАле це просто сон...\n\n",
     "Хррр... Зараз я на великій виставці технологій. Люди з усього світу приходять подивитися на мене і дізнатися про мої функції... Як приємно.\n\n"
 }
 
@@ -1739,7 +1742,7 @@ function random_night_message()
     local current_time = reaper.time_precise() / 60
     local is_sleeping = should_robot_sleep()
 
-    if not is_angry and is_sleeping and not is_yawning and not is_night_message_general then
+    if not is_angry and is_sleeping and is_night_time() and not is_yawning and not is_night_message_general then
         if current_time - last_night_message_time >= night_message_interval then
             show_night_message()
 
@@ -2004,8 +2007,8 @@ function show_system_time()
     local hour_12, minute, am_pm
 
     if is_12_h_sel then
-        hour_12, minute, am_pm = global_os_time_without_seconds()
-        displayTime = string.format("%02d:%02d\n%s", hour_12, minute, am_pm)
+        local time_str = global_os_time_without_seconds()
+        displayTime = time_str:gsub(" ", "\n")
     else
         displayTime = global_os_time_without_seconds()
     end
@@ -2022,23 +2025,29 @@ function show_system_time()
 
     if is_12_h_sel then
         if is_am_pm_under then
+            local time_str = global_os_time_without_seconds()
+            hour_12, minute, am_pm = time_str:match("(%d+):(%d+)%s*(%a*)")
+        
             local time_text = string.format("%02d:%02d", hour_12, minute)
             local am_pm_text = am_pm
-
+        
             local time_w, time_h = gfx.measurestr(time_text)
             local am_pm_w, am_pm_h = gfx.measurestr(am_pm_text)
-
+        
             local center_x = gfx.w / 2
             local center_y = gfx.h / 2
-
+        
             gfx.x = center_x - time_w / 2
             gfx.y = center_y - time_h
             gfx.drawstr(time_text)
-
+        
             gfx.x = center_x - am_pm_w / 2
             gfx.y = center_y
             gfx.drawstr(am_pm_text)
         else
+            local time_str = global_os_time_without_seconds()
+            hour_12, minute, am_pm = time_str:match("(%d+):(%d+)%s*(%a*)")
+
             local time_text = string.format("%02d:%02d %s", hour_12, minute, am_pm)
             local time_w, time_h = gfx.measurestr(time_text)
 
@@ -2539,7 +2548,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.27\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.28\n")
     else
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -2556,7 +2565,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.27\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.28\n")
     end
 end
 
@@ -3296,7 +3305,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.27', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.28', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -3453,7 +3462,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.27", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.28", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3711,7 +3720,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.27", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.28", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -3752,7 +3761,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.27", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.28", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     main()
