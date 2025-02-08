@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.28
+-- @version 1.29
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -21,6 +21,7 @@
 --    + 1.26 fix high cpu load at night
 --    + 1.27 improve angry animation, fix rules for 'Something was changed?' game, fix small size of text messages
 --    + 1.28 fix issue not show 12 h format
+--    + 1.29 fix show night dreams while robo sleep during the day
 
 
 
@@ -1742,7 +1743,7 @@ function random_night_message()
     local current_time = reaper.time_precise() / 60
     local is_sleeping = should_robot_sleep()
 
-    if not is_angry and is_sleeping and is_night_time() and not is_yawning and not is_night_message_general then
+    if not is_angry and is_night_time() and not is_yawning and not is_night_message_general then
         if current_time - last_night_message_time >= night_message_interval then
             show_night_message()
 
@@ -3636,7 +3637,6 @@ function main()
 
     check_script_window_position()
     check_welcome_message()
-    -- is_night_time()
 
     local is_me_open, is_me_closed, is_me_docked = get_midi_editor_state()
 
