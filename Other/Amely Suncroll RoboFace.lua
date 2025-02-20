@@ -31,7 +31,7 @@
 
 -- @donation https://www.paypal.com/ncp/payment/S8C8GEXK68TNC
 
--- @website https://t.me/reaper_ua
+-- my little website https://amelysuncroll.sitepulse.com.ua/
 
 -- font website https://nalgames.com/fonts/iregula
 
