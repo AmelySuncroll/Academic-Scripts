@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.30
+-- @version 1.31
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -23,6 +23,7 @@
 --    + 1.28 fix issue not show 12 h format
 --    + 1.29 fix show night dreams while robo sleep during the day
 --    + 1.30 added full ukrainian and french localisation (translated to french via ChatGPT o3_mini); also changed zoom values to 50%, 70%, 90% and 100%
+--    + 1.31 little productivity improvements
 
 
 
@@ -291,7 +292,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.30", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.31", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -306,11 +307,12 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-  local hwnd = reaper.JS_Window_Find("RoboFace 1.30", true)
-  local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
-  local width = right - left
-  local height = bottom - top
-  return left, top, width, height
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.31", true)
+    local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
+    local width = right - left
+    local height = bottom - top
+
+    return left, top, width, height
 end
 
 function check_script_window_position(window_position)
@@ -321,18 +323,20 @@ function check_script_window_position(window_position)
     local current_position = ""
   
     if center_y < reaper_height / 2 then
-      window_position = 1
+        -- reaper.ShowConsoleMsg("1")
+        window_position = 1
     else
-      window_position = 2
+        -- reaper.ShowConsoleMsg("2")
+        window_position = 2
     end
   
     if current_position ~= previous_position then
-      reaper.ShowConsoleMsg(current_position .. "\n")
-      previous_position = current_position
+        -- reaper.ShowConsoleMsg(current_position .. "\n")
+        previous_position = current_position
     end
   
     return window_position
-  end
+end
   
 
 -- local script_identifier = "AmelySuncrollRoboFaceRELEASE01" -- original
@@ -631,6 +635,12 @@ local restore_duration = 180
 
 local is_sneeze_one = false
 local is_sneeze_two = false
+
+
+
+------------------------------------ FPS PARAMETERS
+local t_fps = 0
+local g_fps = 1
 
 
 
@@ -2702,7 +2712,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.30\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.31\n")
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -2719,7 +2729,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.30\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.31\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
         reaper.ShowConsoleMsg("Bienvenue !\n\n")
@@ -2736,11 +2746,13 @@ function welcome_message()
         reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir l'auteur, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.30\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.31\n")
     end
 end
 
 function check_welcome_message()
+    if is_welcome_shown then return end
+
     if not is_welcome_shown then
         welcome_message()
         is_welcome_shown = true
@@ -3518,7 +3530,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.30', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.31', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -3676,7 +3688,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.30", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.31", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3850,10 +3862,10 @@ end
 function main()
     if is_quit then return end
 
-    check_script_window_position()
     check_welcome_message()
 
     local is_me_open, is_me_closed, is_me_docked = get_midi_editor_state()
+    local now = reaper.time_precise()
 
     if is_me_closed or is_me_docked and not is_paused then
         if not is_show_system_time and not is_showing_cube then
@@ -3916,7 +3928,10 @@ function main()
                 end
     end
 
-    random_night_message()
+    if now - t_fps >= g_fps then
+        random_night_message()
+        t_fps = now
+    end
 
     if is_me_closed or is_me_docked and not is_paused then
 
@@ -3928,6 +3943,7 @@ function main()
             if not is_show_system_time then
                 is_show_system_time = true
                 time_display_end_time = reaper.time_precise() + 60
+
                 show_system_time()
             end
         end
@@ -3943,7 +3959,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.30", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.31", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -3978,6 +3994,10 @@ function main()
     reaper.defer(main)
 end
 
+-- local profiler = dofile(reaper.GetResourcePath() ..
+-- '/Scripts/ReaTeam Scripts/Development/cfillion_Lua profiler.lua')
+-- reaper.defer = profiler.defer
+
 function start_script()
     is_running = true
 
@@ -3986,10 +4006,14 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.30", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.31", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
+    check_script_window_position()
     main()
+
+    -- profiler.attachToWorld()
+    -- profiler.run()
 
 end
 
