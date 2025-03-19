@@ -2255,7 +2255,7 @@ local text_params_en = {
   }
   
   local text_params_ua = {
-    -- welcome      = { text = "ПРИВІТ",         font_name = "Press Start 2P",  type = "scrolling", duration = 5, interval = 0, start_time = reaper.time_precise() + 1 },
+    welcome      = { text = "ПРИВІТ",         font_name = "Press Start 2P",  type = "scrolling", duration = 5, interval = 0, start_time = reaper.time_precise() + 1 },
     
     is_it_loud   = { text = "Чи не\nгучно?",      font_name = "Consolas",  type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
     good_night   = { text = "Добраніч!",          font_name = "Consolas",  type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 160 },
