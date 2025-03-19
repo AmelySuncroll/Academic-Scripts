@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.31
+-- @version 1.32
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -24,6 +24,7 @@
 --    + 1.29 fix show night dreams while robo sleep during the day
 --    + 1.30 added full ukrainian and french localisation (translated to french via ChatGPT o3_mini); also changed zoom values to 50%, 70%, 90% and 100%
 --    + 1.31 little productivity improvements
+--    + 1.32 fix making Reaper slow after a few hours work (I hope), add calendar messages, add welcome back messages, add EarPuzzle game, add workout animation, improve show animations within day time
 
 
 
@@ -31,7 +32,7 @@
 
 -- @donation https://www.paypal.com/ncp/payment/S8C8GEXK68TNC
 
--- my little website https://amelysuncroll.sitepulse.com.ua/
+-- @website https://t.me/reaper_ua
 
 -- font website https://nalgames.com/fonts/iregula
 
@@ -114,7 +115,12 @@ local translations = {
         patreon = "My Ko-Fi page",
 
         format_title = "AM/PM",
-        vert_am_title = "Vertical"
+        vert_am_title = "Vertical",
+
+        reset = "Hard reset",
+
+        stop_ear_puzzle = "Reset game",
+        my_own = "Own"
         
     },
 
@@ -180,7 +186,12 @@ local translations = {
         patreon = "Сторінка Ko-Fi",
 
         format_title = "12 або 24",
-        vert_am_title = "У два рядки"
+        vert_am_title = "У два рядки",
+
+        reset = "Перепрошивка",
+
+        stop_ear_puzzle = "Зупинити гру",
+        my_own = "Власний"
     },
 
     fr = {
@@ -245,7 +256,12 @@ local translations = {
         patreon = "Ma page Ko-Fi",
     
         format_title = "AM/PM",
-        vert_am_title = "Vertical"
+        vert_am_title = "Vertical",
+
+        reset = "Reset",
+
+        stop_ear_puzzle = "Arrêter le jeu",
+        my_own = "La mienne"
     },
     
     
@@ -292,7 +308,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.31", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.32", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -307,7 +323,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.31", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.32", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -643,6 +659,12 @@ local t_fps = 0
 local g_fps = 1
 
 
+---------------------------------- OTHER PARAMETERS
+local is_reading = false
+local is_workout = false
+local is_antennas = false
+
+
 
 function get_scale_factor()
     return math.min(gfx.w / startWidth, gfx.h / startHeight)
@@ -696,14 +718,13 @@ function draw_robot_face(scale, is_eye_open, is_sleeping, is_bg_black)
     local scale = base_scale * dynamic_scale
     local eye_size = base_eye_size * scale
     local pupil_size = base_pupil_size * scale
+
     local face_width = base_face_width * scale  
     local face_height = base_face_height * scale
-    local face_x = (gfx.w - face_width) / 2
-    local face_y = (gfx.h - face_height) / 2
 
+    local shake_offset = get_shake_bpm_intensity()
+    
     local face_x = (gfx.w - face_width) / 2 + get_horizontal_shake_intensity() 
-
-    local shake_offset = get_shake_intensity()
     local face_y = (gfx.h - base_face_height * scale) / 2 + shake_offset + get_vertical_shake_intensity()
 
     local is_yawning = animate_yawn()
@@ -909,6 +930,199 @@ function draw_robot_face(scale, is_eye_open, is_sleeping, is_bg_black)
         gfx.set(1, 1, 1)
         gfx.rect(tongue_x, tongue_y, base_tongue_width * scale, base_tongue_height * scale, 1)
     end
+
+
+    --------------------------------------------------------------------------------------------------------------------------- BOOK
+    local book_width = face_width * 0.9
+    local book_height = face_height * 1
+    local book_x = face_x - (book_width - face_width) / 2
+    local book_y = face_y + face_height * 0.55
+
+    if is_reading and not is_workout and not is_coffee and not is_yawning and not is_recording and not is_sleeping and not is_angry then
+        if not is_bg_black then
+            gfx.set(0.5, 0.5, 0.5, 1)
+            gfx.rect(book_x + 3, book_y + 3, book_width, book_height, 1)
+
+            gfx.set(0.65, 0.65, 0.65, 1)
+            gfx.rect(book_x, book_y, book_width, book_height, 1)
+
+            gfx.set(0.5, 0.5, 0.5, 1)
+        else
+            gfx.set(0.5, 0.5, 0.5, 1)
+            gfx.rect(book_x, book_y, book_width, book_height, 1)
+
+            gfx.set(0.1, 0.1, 0.1, 1)
+        end
+
+        local line_thickness = 2
+
+        for i = 0, line_thickness - 1 do
+            gfx.line(book_x, book_y + i, book_x + book_width / 2, book_y - book_height * (- 0.15) + i) -- R
+            gfx.line(book_x + book_width, book_y + i, book_x + book_width / 2, book_y - book_height * (- 0.15) + i) -- L
+            
+            gfx.line(book_x + i, book_y, book_x + i, book_y + book_height)
+            gfx.line(book_x + book_width - i, book_y, book_x + book_width - i, book_y + book_height)
+
+            gfx.line(book_x + book_width / 2 + i / 2, book_y + book_height * 0.2, book_x + book_width / 2, book_y + book_height)
+        end
+
+        -- first frame
+            local apex_x = book_x + book_width / 2
+            local apex_y = book_y - book_height * (-0.15)
+            local right_x = book_x + book_width
+            local right_y = book_y
+            local mid_x = (apex_x + right_x) / 2
+            local mid_y = (apex_y + right_y) / 2 - book_height * 0.1
+
+            gfx.set(1, 0, 0, 1)
+            -- gfx.triangle(apex_x, apex_y, right_x, right_y, mid_x, mid_y)
+
+        -- second frame
+
+    end
+
+
+
+    ------------------------------------------------------------------------------------------------------------------------- COFFEE
+    local book_width = face_width * 0.6
+    local book_height = face_height * 1
+    local book_x = face_x - (book_width - face_width) / 0.8
+    local book_y = face_y + face_height * 0.9
+    
+    if is_coffee and not is_workout and not is_reading and not is_yawning and not is_recording and not is_sleeping and not is_angry then
+        if not is_bg_black then
+            gfx.set(0.5, 0.5, 0.5, 1)
+            gfx.rect(book_x + 3, book_y + 3, book_width, book_height, 1)
+            
+            gfx.set(0.65, 0.65, 0.65, 1)
+            gfx.rect(book_x, book_y, book_width, book_height, 1)
+            
+            gfx.set(0.5, 0.5, 0.5, 1)
+        else
+            gfx.set(0.5, 0.5, 0.5, 1)
+            gfx.rect(book_x, book_y, book_width, book_height, 1)
+            
+            gfx.set(0.1, 0.1, 0.1, 1)
+        end
+        
+        local line_thickness = 2
+        
+        for i = 0, line_thickness - 1 do
+            gfx.line(book_x, book_y, book_x + book_width + i, book_y)
+            
+            gfx.line(book_x + i, book_y, book_x + i, book_y + book_height)
+            gfx.line(book_x + book_width - i, book_y, book_x + book_width - i, book_y + book_height)
+        end
+    end
+
+    draw_pupils(scale)
+
+    ------------------------------------------------------------------------------------------------------------------------ WORKOUT
+    local brbl_light_offcet = 2.3
+
+    if not is_bg_black then
+        brbl_light_offcet = 2.3
+    else
+        brbl_light_offcet = 2
+    end
+
+    local brbl_width = face_width * 1.6
+    local brbl_height = face_height * 0.15
+    local brbl_x = face_x + (face_width - brbl_width) / brbl_light_offcet
+    local brbl_y = face_y + (face_height - brbl_height) / 2
+    
+    if is_workout and not is_reading and not is_coffee and not is_yawning and not is_recording and not is_sleeping and not is_angry then
+        local current_time = reaper.time_precise()
+        local lift_progress = math.min((current_time - workout_start_time) / workout_duration, 1)
+        local lift_offset = face_height * 0.4 * math.sin(lift_progress * math.pi)
+
+        local brbl_y_animated = brbl_y - lift_offset
+
+        -- barbell
+        gfx.set(0.5, 0.5, 0.5, 1)
+        gfx.rect(brbl_x, brbl_y_animated, brbl_width, brbl_height, 1)
+
+        -- plates
+        local plate_heights = {brbl_height * 2, brbl_height * 3.3, brbl_height * 4}
+        local plate_width = brbl_height * 1.2
+        
+        local left_x = brbl_x - plate_width
+        local right_x = brbl_x + brbl_width
+        
+        gfx.set(0.5, 0.5, 0.5, 1)
+
+        for i, h in ipairs(plate_heights) do
+            local y_offset = (h - brbl_height) / 2
+
+            gfx.rect(left_x + (i - 1) * plate_width, brbl_y_animated - y_offset, plate_width, h, 1) -- L
+            gfx.rect(right_x - (i - 1) * plate_width, brbl_y_animated - y_offset, plate_width, h, 1) -- R
+        end
+    end
+
+    
+
+    ----------------------------------------------------------------------------------------------------------------------- ANTENNAS
+    local antenna_length = face_height * 0.2
+    local antenna_width = 2 * scale
+    local antenna_offset_x = face_width * 0.2
+    local antenna_offset_y = face_height * (- 0.001)
+    
+    -- L A
+    local left_antenna_x1 = face_x + antenna_offset_x
+    local left_antenna_y1 = face_y + antenna_offset_y
+    local left_antenna_x2 = left_antenna_x1 - antenna_length * 0.4
+    local left_antenna_y2 = left_antenna_y1 - antenna_length * 1.1
+    
+    -- R A
+    local right_antenna_x1 = face_x + face_width - antenna_offset_x
+    local right_antenna_y1 = face_y + antenna_offset_y
+    local right_antenna_x2 = right_antenna_x1 + antenna_length * 0.4
+    local right_antenna_y2 = right_antenna_y1 - antenna_length * 1.1
+
+    -- TV
+    local tv_width = face_width * 0.8
+    local tv_height = face_height * 0.8
+    local tv_x = face_x + (face_width - tv_width) / 2
+    local tv_y = face_y + (face_height - tv_height) / 2
+    
+    if is_antennas then
+        if not is_bg_black then
+            
+            -- ANTENNAS
+            local line_thickness = 5
+            
+            for i = 0, line_thickness - 1 do            
+                gfx.set(0.65, 0.65, 0.65, 1)
+                gfx.line(left_antenna_x1, left_antenna_y1 + i, left_antenna_x2, left_antenna_y2)
+                gfx.line(right_antenna_x1, right_antenna_y1 + i, right_antenna_x2, right_antenna_y2)
+            end
+            
+            -- POINTS
+            local antenna_dot_radius = 10 * scale
+            gfx.set(0.5, 0.5, 0.5, 1)
+            gfx.circle(left_antenna_x2, left_antenna_y2, antenna_dot_radius, 1)    
+            gfx.circle(right_antenna_x2, right_antenna_y2, antenna_dot_radius, 1)
+
+            -- TV
+            gfx.set(0.5, 0.5, 0.5, 1)
+            gfx.rect(tv_x, tv_y, tv_width, tv_height, 1)
+        
+        else
+            
+            -- ANTENNAS
+            local line_thickness = 30
+            gfx.set(0.65, 0.65, 0.65, 1)
+                
+            for i = 0, line_thickness - 1 do
+                gfx.line(left_antenna_x1, left_antenna_y1 + i, left_antenna_x2, left_antenna_y2)
+                gfx.line(right_antenna_x1, right_antenna_y1 + i, right_antenna_x2, right_antenna_y2)
+            end
+            
+            -- POINTS
+            local antenna_dot_radius = 5 * scale
+            gfx.set(0.6, 0.6, 0.6, 1)
+        end
+    end
 end
 
 
@@ -925,7 +1139,8 @@ function draw_pupils(scale)
     local is_sleeping = should_robot_sleep()
     local is_recording = is_recording()
     local is_docked = is_docked()
-    local shake_offset = get_shake_intensity()
+    local shake_offset = get_shake_bpm_intensity()
+    local shake_offset_h = get_horizontal_shake_intensity()
     
     if is_eye_open and not is_sleeping and not is_recording then
         local eye_size = base_eye_size * scale
@@ -935,7 +1150,7 @@ function draw_pupils(scale)
         local face_x = (gfx.w - face_width) / 2
         local face_y = (gfx.h - face_height) / 2 + shake_offset + get_vertical_shake_intensity()
 
-        local eye_offset_x = face_width * (base_left_eye_x - base_face_x) / base_face_width
+        local eye_offset_x = face_width * (base_left_eye_x - base_face_x) / base_face_width -- + shake_offset_h
         local eye_offset_y = face_height * (base_left_eye_y - base_face_y) / base_face_height
 
         local function get_pupil_position(eye_x, eye_y, target_x, target_y)
@@ -1034,7 +1249,6 @@ function what_format_is()
     is_12_h_sel = not is_12_h_sel
 end
 
-
 function is_start_of_hour()
     local current_time = os.date("*t")
     if current_time.min == 0 then
@@ -1043,6 +1257,117 @@ function is_start_of_hour()
         return false
     end
 end
+
+function is_night_time() -- see p.s.
+    local time_now = os.date("*t").hour
+
+    if time_now == 01 then 
+        return true
+    elseif time_now == 02 then 
+        return true
+    elseif time_now == 03 then 
+        return true
+    elseif time_now == 04 then 
+        return true
+    elseif time_now == 05 then 
+        return true
+    elseif time_now == 06 then 
+        return true
+    elseif time_now == 07 then 
+        return true
+    else
+        return false
+    end
+end
+
+function is_early_morning_time() -- see p.s.
+    local time_now = os.date("*t").hour
+
+    if time_now == 08 then 
+        return true
+    elseif time_now == 09 then 
+        return true
+    else
+        return false
+    end
+end
+
+function is_morning_time() -- see p.s.
+    local time_now = os.date("*t").hour
+
+    if time_now == 10 then 
+        return true
+    elseif time_now == 11 then 
+        return true
+    else
+        return false
+    end
+end
+
+function is_day_time() -- see p.s.
+    local time_now = os.date("*t").hour
+
+    if time_now == 12 then 
+        return true
+    elseif time_now == 13 then 
+        return true
+    elseif time_now == 14 then 
+        return true
+    elseif time_now == 15 then 
+        return true
+    elseif time_now == 16 then 
+        return true
+    elseif time_now == 17 then 
+        return true
+    else
+        return false
+    end
+end
+
+function is_evening_time() -- see p.s.
+    local time_now = os.date("*t").hour
+
+    if time_now == 18 then 
+        return true
+    elseif time_now == 19 then 
+        return true
+    elseif time_now == 20 then 
+        return true
+    elseif time_now == 21 then 
+        return true
+    else
+        return false
+    end
+end
+
+function is_late_evening_time() -- see p.s.
+    local time_now = os.date("*t").hour
+
+    if time_now == 22 then 
+        return true
+    elseif time_now == 23 then
+        return true
+    else
+        return false
+    end
+end
+
+function is_midnight_time() -- see p.s.
+    local time_now = os.date("*t").hour
+
+    if time_now == 00 then 
+        return true
+    else
+        return false
+    end
+end
+
+-- p.s.
+-- functions: is_night_time, is_early_morning_time, is_early_morning_time, is_day_time, is_evening_time, is_late_evening_time, is_midnight_time is NOT loads CPU with this structure (almost, of course). 
+-- another variations of this functions is LOADS CPU for 15-18% more. I have tried so many variations before this.
+-- I do not know why it is.
+
+
 
 function is_playing()
     return reaper.GetPlayState() & 1 == 1
@@ -1294,7 +1619,7 @@ function get_shake_parameters(bpm)
     end
 end
 
-function get_shake_intensity()
+function get_shake_bpm_intensity()
     local currentBPM = get_current_bpm()
     local is_angry = check_for_angry()
     local is_sleeping = should_robot_sleep()
@@ -1331,9 +1656,11 @@ local horiz_shake_duration = 0.5
 
 function get_horizontal_shake_intensity()
     local current_time = reaper.time_precise()
+
     if current_time <= horiz_shake_end_time then
         return math.random(-horiz_shake_intensity, horiz_shake_intensity)
     end
+
     return 0
 end
 
@@ -1354,6 +1681,7 @@ local is_vert_shake_i = false
 
 function get_vertical_shake_intensity()
     local current_time = reaper.time_precise()
+
     if current_time <= vert_shake_end_time then
         if is_vert_shake_i then
             return vert_shake_intensity, -vert_shake_intensity
@@ -1361,6 +1689,7 @@ function get_vertical_shake_intensity()
             return -vert_shake_intensity, vert_shake_intensity
         end
     end
+    
     return 0, 0
 end
 
@@ -1380,8 +1709,9 @@ end
 
 function init_yawn_intervals()
     yawn_intervals = {}
-    local num_yawns = math.random(3, 5) 
+    local num_yawns = math.random(3, 5)
     local base_time = reaper.time_precise()
+
     for i = 1, num_yawns do
         base_time = base_time + math.random(10 * 60, 12 * 60)
         table.insert(yawn_intervals, base_time)
@@ -1392,20 +1722,15 @@ end
 function check_for_yawn()
     local current_time_table = os.date("*t")  
     local current_time = reaper.time_precise()
+    
+    if not yawn_intervals then init_yawn_intervals() end
 
-    if current_time_table.hour == 0 and current_time_table.min == 0 --[[and current_time_table.sec == 5]] and not is_angry then
+    if current_time_table.hour == 0 and current_time_table.min == 0 and (is_early_morning_time() or is_late_evening_time()) then
         yawn_start_time = current_time
-        init_yawn_intervals() 
+        init_yawn_intervals()
     end
 
-    --[[
-    if current_time - yawn_start_time >= 20 then
-        yawn_start_time = current_time 
-        init_yawn_intervals()
-    end 
-    ]]--
 
-    if not yawn_intervals then init_yawn_intervals() end 
     if next_yawn_time and current_time >= next_yawn_time then
         yawn_start_time = current_time
         next_yawn_time = nil
@@ -1431,6 +1756,7 @@ end
 
 function animate_yawn()
     local current_time = reaper.time_precise()
+
     if yawn_start_time then
         if current_time - yawn_start_time <= yawn_duration then
             is_eye_open = false 
@@ -1440,6 +1766,7 @@ function animate_yawn()
             is_eye_open = true  
         end
     end
+
     return false
 end
 
@@ -1534,30 +1861,6 @@ local sleep_start_time = nil
 local night_start_hour = 23 
 local night_end_hour = 7
 
-function is_night_time()
-    local time_now = os.date("*t").hour
-
-    if time_now == 01 then 
-        return true
-    elseif time_now == 02 then 
-        return true
-    elseif time_now == 03 then 
-        return true
-    elseif time_now == 04 then 
-        return true
-    elseif time_now == 05 then 
-        return true
-    elseif time_now == 06 then 
-        return true
-    elseif time_now == 07 then 
-        return true
-    --elseif time_now == 00 then 
-       -- return true
-    else
-        return false
-    end
-end
-
 function should_robot_sleep()
     local current_time = reaper.time_precise() / 60
     local is_really_quiet = check_master_no_volume()
@@ -1642,6 +1945,65 @@ function animation_when_start_or_end()
     -- nothing here
     reaper.ShowConsoleMsg("start")
 end
+
+
+
+--------------------------------------------------------------------------------------- WORKOUT
+
+function animation_workout()
+    is_workout = true
+
+    workout_start_time = reaper.time_precise()
+    workout_duration = 5
+end
+
+function shake_with_show_workout() -- this function structure was written completely with old chatgpt version but I'm lazy to make it better. it is works... anyway. may be, later. :/
+    local timings = {0, 6, 12}
+    local startTime = reaper.time_precise()
+
+    local function trigger_with_delay(index)
+        if index > #timings then
+            reaper.defer(function()
+                
+                if reaper.time_precise() >= startTime + 18 then
+                    is_workout = false -- here is end of cycle
+                else
+                    reaper.defer(function() trigger_with_delay(index) end)
+                end
+            end)
+            
+            return
+        end
+        
+        if reaper.time_precise() >= startTime + timings[index] then
+            animation_workout()
+            trigger_horizontal_shake(1, 5)
+            index = index + 1 
+        end
+        
+        reaper.defer(function() trigger_with_delay(index) end)
+    end
+
+    -- animation_workout()
+    reaper.defer(function() trigger_with_delay(1) end)
+end
+
+local last_workout_time = reaper.time_precise() / 60
+local workout_interval = math.random(180, 300)
+
+function random_show_workout()
+    local current_time = reaper.time_precise() / 60
+
+    if not is_angry and not is_sleeping and not is_recording and not is_angry and not is_reading and not is_workout and not is_coffee and (is_morning_time() or is_day_time() or is_evening_time()) then
+        if current_time - last_workout_time >= workout_interval then
+            shake_with_show_workout()
+
+            last_workout_time = current_time
+            workout_interval = math.random(180, 300)
+        end
+    end
+end
+
 
 
 
@@ -1741,6 +2103,7 @@ function animate_sneeze()
     end
     
     local startTime = reaper.time_precise()
+
     local function checkTime()
         if reaper.time_precise() >= startTime + 2 then
             trigger_after_one_second()
@@ -1762,6 +2125,7 @@ local sneeze_interval = math.random(80, 141)
 
 function random_sneeze()
     local current_time = reaper.time_precise() / 60
+
     if not is_angry and not is_sleeping and not is_yawning and not is_sneeze_general then
         if current_time - last_sneeze_time >= sneeze_interval then
             animate_sneeze()
@@ -1796,6 +2160,8 @@ local night_messages_en = {
 
 local night_messages_ua = {
     "Йоой... Сниться, що я знову забув зберегти проект! Який жах...\n\n",
+    "Хто там у тебе за твоєю спиною?\n\n",
+    "Хрррр... хрррр... хррр. \n\n",
     "Чому деякі плагіни такі дорогі? Навіть у сні! Хррр...\n\n",
     "Що за дивна мелодія у моєму сні? Ах, це мій процесор перегрівся...\n\n",
     "Знову цей сон, де я зміксую трек з ідеальною компресією...\n\n",
@@ -1889,7 +2255,7 @@ local text_params_en = {
   }
   
   local text_params_ua = {
-    welcome      = { text = "ПРИВІТ",         font_name = "Press Start 2P",  type = "scrolling", duration = 5, interval = 0, start_time = reaper.time_precise() + 1 },
+    -- welcome      = { text = "ПРИВІТ",         font_name = "Press Start 2P",  type = "scrolling", duration = 5, interval = 0, start_time = reaper.time_precise() + 1 },
     
     is_it_loud   = { text = "Чи не\nгучно?",      font_name = "Consolas",  type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
     good_night   = { text = "Добраніч!",          font_name = "Consolas",  type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 160 },
@@ -1920,7 +2286,25 @@ function get_current_text_params()
         return text_params_en
     end
 end
-  
+
+local l_stop_one = false
+
+function f_stop_one()
+    local st = reaper.time_precise()
+
+    local function check_t()
+        local ct = reaper.time_precise()
+        if ct - st >= 15 then
+            l_stop_one = true
+            return
+        elseif not l_stop_one then
+            reaper.defer(check_t)
+        end
+    end
+
+    check_t()
+end
+
 function draw_scrolling_text(params)
     local current_time = reaper.time_precise()
     local start_time = params.start_time
@@ -2712,7 +3096,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.31\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.32\n")
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -2729,7 +3113,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.31\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.32\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
         reaper.ShowConsoleMsg("Bienvenue !\n\n")
@@ -2746,7 +3130,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir l'auteur, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.31\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.32\n")
     end
 end
 
@@ -2781,6 +3165,7 @@ function tap_when_zoom_out()
             end
             
             click_count = click_count + 1
+
             if click_count == 3 then
                 if current_language == "en" then
                     reaper.ShowConsoleMsg("\n\nI've got scared :( It was been so loud.\n\n")
@@ -3451,7 +3836,850 @@ end
 
 
 
+-------------------------------------------------------------------------------------------------------------------- EARPUZZLE (GAME)
 
+local is_ep_easy = is_ep_easy == 'true' and true or false
+local is_ep_medium = is_ep_medium == 'true' and true or false
+local is_ep_hard = is_ep_hard == 'true' and true or false
+local is_ep_my_own = is_ep_my_own == 'true' and true or false
+
+local parts_to_cut_it = 0
+
+local function set_ep_difficulty_level(ep_level)
+    if ep_level == "Easy" then
+        is_ep_easy = not is_ep_easy
+        is_ep_medium = false
+        is_ep_hard = false
+        is_ep_my_own = false
+        parts_to_cut_it = 3
+    elseif ep_level == "Medium" then
+        is_ep_medium = not is_ep_medium
+        is_ep_easy = false
+        is_ep_hard = false
+        is_ep_my_own = false
+        parts_to_cut_it = 5
+    elseif ep_level == "Hard" then
+        is_ep_hard = not is_ep_hard
+        is_ep_easy = false
+        is_ep_medium = false
+        is_ep_my_own = false
+        parts_to_cut_it = 7
+    elseif ep_level == "MyOwn" then
+        is_ep_my_own = not is_ep_my_own
+        is_ep_easy = false
+        is_ep_medium = false
+        is_ep_hard = false
+
+        if current_language == "en" then
+            hm_ep_parts = "ENG"
+            ep_parts = "ENG"
+            ep_wrong1 = "ENG"
+        elseif current_language == "ua" then
+            hm_ep_parts = "Введіть кількість частин"
+            ep_parts = "Кількість частин:"
+            ep_wrong1 = "Введено некоректну кількість частин!"
+        elseif current_language == "fr" then
+            hm_ep_parts = "FR"
+            ep_parts = "FR"
+            ep_wrong1 = "FR"
+        end
+
+        local ret, user_input = reaper.GetUserInputs(hm_ep_parts, 1, ep_parts, "")
+
+        if ret then
+            local num_parts = tonumber(user_input)
+            if num_parts and num_parts >= 2 then
+                parts_to_cut_it = num_parts
+            else
+                reaper.ShowMessageBox(ep_wrong1, ":(", 0)
+            end
+        end
+    end
+end
+
+function split_selected_item(parts_to_cut_it)
+    local item_count = reaper.CountSelectedMediaItems(0)
+
+    if current_language == "en" then
+        sel_parts = "Select exactly one item, please!"
+    elseif current_language == "ua" then
+        sel_parts = "Будь ласка, оберіть рівно один айтем!"
+    elseif current_language == "fr" then
+        sel_parts = "Veuillez sélectionner un seul iteme !"
+    end
+    
+    if item_count ~= 1 then
+        reaper.ShowMessageBox(sel_parts, ":(", 0)
+        return
+    end
+
+    local item = reaper.GetSelectedMediaItem(0, 0)
+    local item_start = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
+    local item_length = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
+
+    local min_part_length = item_length * 0.05 -- 5%
+    math.randomseed(os.time())  
+
+    local proportions = {}
+    local total = 0
+
+    repeat
+        proportions = {}
+        total = 0
+
+        for i = 1, parts_to_cut_it do
+            proportions[i] = math.random()
+            total = total + proportions[i]
+        end
+
+        local is_valid = true
+
+        for i = 1, parts_to_cut_it do
+            if (proportions[i] / total) * item_length < min_part_length then
+                is_valid = false
+                break
+            end
+        end
+    until is_valid
+
+    local cut_pos = {}
+    local accum_length = 0
+
+    for i = 1, parts_to_cut_it - 1 do
+        accum_length = accum_length + (proportions[i] / total) * item_length
+        table.insert(cut_pos, item_start + accum_length)
+    end
+
+    for _, cut_pos in ipairs(cut_pos) do
+        reaper.SetEditCurPos(cut_pos, false, false)
+        reaper.Main_OnCommand(40759, 0) -- split at edit cursor
+    end
+
+    reaper.SelectAllMediaItems(0, false)
+
+    local new_item_count = reaper.CountMediaItems(0)
+
+    for i = 0, new_item_count - 1 do
+        local new_item = reaper.GetMediaItem(0, i)
+        local new_item_pos = reaper.GetMediaItemInfo_Value(new_item, "D_POSITION")
+
+        if new_item_pos >= item_start and new_item_pos < (item_start + item_length) then
+            reaper.SetMediaItemSelected(new_item, true)
+        end
+    end
+end
+
+
+function shuffle_items()
+    local item_count = reaper.CountSelectedMediaItems(0)
+    local items = {}
+    local lengths = {}
+    local total_length = 0
+
+    for i = 0, item_count - 1 do
+        local item = reaper.GetSelectedMediaItem(0, i)
+        local length = reaper.GetMediaItemInfo_Value(item, "D_LENGTH")
+        table.insert(items, item)
+        table.insert(lengths, length)
+        total_length = total_length + length
+    end
+
+    local first_item = items[1]
+    local start_pos = reaper.GetMediaItemInfo_Value(first_item, "D_POSITION")
+    local end_pos = start_pos + total_length
+
+    math.randomseed(os.time())
+
+    for i = #items, 2, -1 do
+        local j = math.random(1, i)
+        items[i], items[j] = items[j], items[i]
+        lengths[i], lengths[j] = lengths[j], lengths[i]
+    end
+
+    local current_pos = start_pos
+
+    for i = 1, item_count do
+        reaper.SetMediaItemInfo_Value(items[i], "D_POSITION", current_pos)
+        current_pos = current_pos + lengths[i]
+    end
+end
+
+original_order = {}
+
+function get_items_order()
+    local item_count = reaper.CountSelectedMediaItems(0)
+    local order = {}
+
+    for i = 0, item_count - 1 do
+        local item = reaper.GetSelectedMediaItem(0, i)
+        local pos = reaper.GetMediaItemInfo_Value(item, "D_POSITION")
+        table.insert(order, {item = item, pos = pos})
+    end
+
+    table.sort(order, function(a, b) return a.pos < b.pos end)
+
+    local ordered_items = {}
+
+    for i = 1, #order do
+        table.insert(ordered_items, order[i].item)
+    end
+
+    return ordered_items
+end
+
+function check_order()
+    local item_count = reaper.CountSelectedMediaItems(0)
+
+    if item_count ~= #original_order then
+        reaper.defer(check_order)
+        return
+    end
+
+    local current_order = get_items_order()
+    local is_correct = true
+
+    for i = 1, item_count do
+        if current_order[i] ~= original_order[i] then
+            is_correct = false
+            break
+        end
+    end
+
+    if not is_correct then
+        reaper.defer(check_order)
+    end
+end
+
+original_item = nil
+original_track = nil
+original_position = nil
+
+function puzzle_game(parts_to_cut_it)
+    local item_count = reaper.CountSelectedMediaItems(0)
+
+    if current_language == "en" then
+        sel_parts = "Select exactly one item, please!"
+    elseif current_language == "ua" then
+        sel_parts = "Будь ласка, оберіть рівно один айтем!"
+    elseif current_language == "fr" then
+        sel_parts = "Veuillez sélectionner un seul iteme !"
+    end
+
+    if item_count ~= 1 then
+        reaper.ShowMessageBox(sel_parts, ":(", 0)
+        return
+    end
+
+    original_item = reaper.GetSelectedMediaItem(0, 0)
+    original_track = reaper.GetMediaItemTrack(original_item)
+    original_position = reaper.GetMediaItemInfo_Value(original_item, "D_POSITION")
+
+    reaper.Main_OnCommand(40698, 0) -- copy items
+
+    split_selected_item(parts_to_cut_it)
+    original_order = get_items_order()
+    shuffle_items()
+    reaper.defer(check_order)
+end
+
+function check_order()
+    local item_count = reaper.CountSelectedMediaItems(0)
+    
+    if item_count ~= #original_order then
+        reaper.defer(check_order)
+        return
+    end
+
+    local current_order = get_items_order()
+    local is_correct = true
+    
+    for i = 1, item_count do
+        if current_order[i] ~= original_order[i] then
+            is_correct = false
+            break
+        end
+    end
+
+    if current_language == "en" then
+        win_ep = "Congratulations! You have returned the item parts to their original order!"
+    elseif current_language == "ua" then
+        win_ep = "Вітаю! Ви повернули частини у початковий порядок!"
+    elseif current_language == "fr" then
+        win_ep = "Nous vous félicitons ! Vous avez remis les pièces dans leur ordre d'origine !"
+    end
+
+    if is_correct then
+        reaper.ShowConsoleMsg(win_ep, ":)", 0)
+        restore_original_item()
+    else
+        reaper.defer(check_order)
+    end
+end
+
+function restore_original_item()
+    reaper.Undo_BeginBlock()
+
+    reaper.Main_OnCommand(40006, 0) -- remove items
+
+    reaper.SetEditCurPos(original_position, false, false)
+    reaper.SetOnlyTrackSelected(original_track)
+    reaper.Main_OnCommand(40058, 0) -- paste items
+
+    reaper.Undo_EndBlock("Restore original item after ear puzzle game", -1)
+end
+
+function about_ear_puzzle_game()
+    if current_language == "en" then
+        reaper.ShowConsoleMsg("Welcome to the game 'Ear Puzzle'!\n\n")
+
+        reaper.ShowConsoleMsg("Game rules:\n\n")
+
+        reaper.ShowConsoleMsg("Choose one item you want to play with.\n")
+        reaper.ShowConsoleMsg("After the game is launched, this item will be divided into several parts (depending on the difficulty), which will be shuffled.\n")
+        reaper.ShowConsoleMsg("Your task is to restore the original order of this parts. The number of listening attempts and game time are unlimited.\n")
+        reaper.ShowConsoleMsg("When you're done, just select all the parts of the asset. If you've restored the order correctly, you'll see a message.\n\n")
+
+        reaper.ShowConsoleMsg("Don't worry - either in case of victory or in case of stopping the game through the context menu - RoboFace will return the original item to the same place where it was.\n\n")
+
+        reaper.ShowConsoleMsg("Good luck!\n\n")
+
+    elseif current_language == "ua" then
+        reaper.ShowConsoleMsg("Ласкаво просимо до гри 'Вушний пазл'!\n\n")
+
+        reaper.ShowConsoleMsg("Правила гри:\n\n")
+
+        reaper.ShowConsoleMsg("Виберіть один айтем, з яким Ви хочете погратися.\n")
+        reaper.ShowConsoleMsg("Після запуску гри цей айтем поділиться на декілька частин (залежно від складності), які будуть перемішані.\n")
+        reaper.ShowConsoleMsg("Ваше завдання - відновити початковий порядок. Кількість спроб прослуховування та час необмежені.\n")
+        reaper.ShowConsoleMsg("Коли закінчите, виділить усі частини айтему. Якщо Ви правильно відновили порядок, Ви побачите повідомлення.\n\n")
+
+        reaper.ShowConsoleMsg("Не хвилюйтеся - що у випадку перемоги, що у випадку зупинення гри через контекстне меню - РобоФейс поверне оригінал айтему на те саме місце, де він був.\n\n")
+
+        reaper.ShowConsoleMsg("Успіхів!\n\n")
+
+    elseif current_language == "fr" then
+        reaper.ShowConsoleMsg("Bienvenue dans le jeu 'Ear Puzzle'!\n\n")
+    
+        reaper.ShowConsoleMsg("Règles du jeu :\n\n")
+        reaper.ShowConsoleMsg("Choisissez un jeu avec lequel vous voulez jouer.\n")
+        reaper.ShowConsoleMsg("Après le lancement du jeu, cet objet sera divisé en plusieurs parties (en fonction de la difficulté), qui seront mélangées.\n")
+        reaper.ShowConsoleMsg("Votre tâche consiste à rétablir l'ordre d'origine. Le nombre de tentatives d'écoute et le temps sont illimités.\n")
+        reaper.ShowConsoleMsg("Lorsque vous avez terminé, sélectionnez toutes les parties du bien. Si vous avez correctement rétabli l'ordre, un message s'affiche.\n\n")
+
+        reaper.ShowConsoleMsg("Ne vous inquiétez pas - que ce soit en cas de victoire ou d'arrêt du jeu via le menu contextuel - RoboFace remettra l'objet d'origine à l'endroit où il se trouvait.\n\n")
+
+        reaper.ShowConsoleMsg("Bonne chance !\n\n")
+
+        reaper.ShowConsoleMsg("P.S. Cette partie du RoboFace a été traduite en utilisant DeepL car mon abonnement à ChatGPT a expiré. Si vous souhaitez participer à la traduction, veuillez envoyer un courriel à amelysuncroll@gmail.com. Merci beaucoup !\n\n")    
+
+    end
+end
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------- CALENDAR
+
+function sp_date(month, day)
+    local sp_d = {
+    -- month day
+        ["08-03"] = "Today is my birthday! I'm so happy!",
+        ["12-31"] = "Today is Amely Suncroll's birthday!",
+
+        ["12-31"] = "Today is Amely Suncroll's birthday!",
+        ["01-01"] = "How do you feel after New Year's Eve?",
+    }
+
+    local sp_d_ua = {
+    -- month day
+        ["08-03"] = "Сьогодні мій день народження! Я такий радий!",
+        ["12-31"] = "Сьогодні день народження Amely Suncroll!",
+
+        ["12-31"] = "З новим роком!",
+        ["01-01"] = "Як себе почуваєш після новорічної ночі?",
+
+        ["02-24"] = "Мабуть, ще людство дуже молоде.\nБо скільки б ми не загинали пальці, –\nXX вік! – а й досі де-не-де\nТрапляються іще неандертальці.\n\nПодивишся: і що воно таке?\nНе допоможе й двоопукла лінза.\nЗдається ж, люди, все у них людське,\nАле душа ще з дерева не злізла.\n\n\n                       Ліна Костенко",
+        
+        ["04-01"] = "Сьогодні не вір нікому! Навіть мені :)",
+        ["09-13"] = "Сьогодні день програміста! Кодимо або нарешті пишемо музику?",
+        ["10-10"] = "Сьогодні день двійкової системи! Ось моє привітання тобі:\n\n01101000 01100001 01110000 01110000 01111001 00100000 01000010 01101001 01101110 01100001 01110010 01111001 00100001",
+
+        ["01-22"] = "День Соборності України!",
+        ["03-09"] = "Тілько ворог, що сміється...\nСмійся, лютий враже!\nТа не дуже, бо все гине —\nСлава не поляже;\nНе поляже, а розкаже,\nЩо діялось в світі,\nЧия правда, чия кривда\nІ чиї ми діти.\nНаша дума, наша пісня\nНе вмре, не загине...\nОт де, люде, наша слава,\nСлава України!\n\nСьогодні день народження Тараса Шевченка!",
+        ["04-26"] = "День чорнобильської трагедії.",
+        ["05-18"] = "День пам'яті жертв депортації кримськотатарського народу! Пам'ятаємо!",
+        ["08-24"] = "Сьогодні святкуємо день незалежності України! Слава Україні! Героям слава! Слава нації! Смерть ворогам!",
+        ["11-21"] = "День гідності та свободи! За права і свободи!",
+        ["12-06"] = "День Збройних Сил України! Слава захисникам!",
+        ["12-31"] = "Новорічний настрій! Рік новий – нові можливості!",
+    }
+    
+    local sp_d_fr = {
+    -- month day
+        ["08-03"] = "Aujourd'hui, c'est mon anniversaire ! Je suis si heureuse !",
+        ["12-31"] = "C'est l'anniversaire d'Amely Suncroll ! ",
+    
+        ["12-31"] = "Bonne année !",
+        ["01-01"] = "Comment vous sentez-vous après le réveillon ?",
+    }
+    
+    local key = string.format("%02d-%02d", tonumber(month), tonumber(day))
+
+    local messages = {
+        en = sp_d,
+        ua = sp_d_ua,
+        fr = sp_d_fr
+    }
+
+    local message = messages[current_language] and messages[current_language][key]
+
+    if message then reaper.ShowConsoleMsg(message .. "\n") end
+end
+
+local is_sp_date_shown = false
+
+function print_sp_date()
+    if is_sp_date_shown then return end
+
+    local month, day = os.date("%m"), os.date("%d")
+
+    if not is_sp_date_shown then
+        sp_date(month, day)
+        is_sp_date_shown = true
+    end
+end
+
+
+
+local last_seen_key = "LastSeenDate"
+
+
+function save_last_seen_date()
+    local last_seen = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", last_seen_key)
+        
+    local date_string = os.date("%Y-%m-%d")
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", last_seen_key, date_string, true)
+        
+    -- reaper.ShowConsoleMsg("saved (save_last_seen_date): " .. date_string .. "\n") 
+
+    return
+end
+
+function check_last_seen_date()
+    math.randomseed(os.time())
+
+    local last_seen = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", last_seen_key)
+
+    local last_year, last_month, last_day = last_seen:match("(%d+)-(%d+)-(%d+)")
+    local current_year = os.date("%Y")
+    
+    if not last_year or not last_month or not last_day then
+        -- reaper.ShowConsoleMsg("err " .. last_seen .. "\n")
+        return
+    end
+
+    last_year, last_month, last_day = tonumber(last_year), tonumber(last_month), tonumber(last_day)
+    local current_year, current_month, current_day = tonumber(os.date("%Y")), tonumber(os.date("%m")), tonumber(os.date("%d"))
+
+    local dif_days = (current_year - last_year) * 365 + (current_month - last_month) * 30 + (current_day - last_day)
+    local day_of_week = tonumber(os.date("%w"))
+
+    local messages = {
+        en = {
+            two_days_sun = {
+                "Do we have to work today? I thought we went on vacation yesterday...",
+                "Wait - is the weekend already over? Or do you only rest on Saturday?", 
+                "Hello, my friend! I slept so well last night, let's get some rest today, shall we?",
+                "Hmm... either you're very motivated or you just forgot what day it is. It's Sunday :( Shall we play a game?",
+                "I thought that you had decided to take a full weekend... But no, you're working on Sunday too.",
+                "You didn't come by yesterday, so I thought we were on a legitimate vacation. But there's a catch. It's Sunday, and... it's a workday again?",
+            },
+
+            two_days_st_w = {
+            },
+
+            three_days_j = {
+                "Hi! We haven't seen each other for a couple of days, how are you?",
+                "You look beautiful today! Hi!",
+                "Hello! Good to see you again!",
+                "Hello! Did you miss me as much as I missed you? What? No? Or... yes? I think you said yes. I did.",
+                "Oh, hi! How are you feeling after a couple of days of rest?",
+                "We met again, and that means the day is off to a great start!",
+                "While you were away, I decided to learn to play chess. But it turned out that playing with myself was not very interesting.",
+                "While you were resting, I tried to master the art of origami... I even made a small airplane out of myself and set off with the raging wind to conquer the expanse of binary code... I wish you could have seen it. It was great!",
+                "Greetings, my friend! What do you think I did this weekend? \n\n(a) Sleeping on standby. \n(b) Played with zeros and ones. \n(c) Programmed my own artificial intelligence (no, I'm kidding... for now). \n\n\n\nThe correct answer is option 'a'!",
+            },
+            
+            three_days_r = {
+                "So, how was your weekend? I hope you had a great time! I'm glad to see you!",
+                "I know what you did this weekend. You turned me off so I couldn't see anything. But... No. I'm not going to tell you, you know everything.",
+                "There's a whole week ahead, but I hope you had a great weekend! Hi!",
+                "Hi! I'm glad we're starting the work week together!",
+                "Mmm, I can smell the coffee and the slight fatigue of Monday... How was your weekend?",
+                "The weekend flew by quickly :( Isn't it? What did you do?",
+                "I'm here, which means the weekend is over... Wait, so there are virtual weekends too? Wow!",
+                "You haven't come in for two days... I've already started writing a detective story about your mysterious disappearance!",
+                "I tried to generate music on my own while you were away. It was strange... I called it 'Symphony of Waiting'.",
+                "Do you know what I did this weekend? I played the game 'Guess when you'll be back'.",
+                "I wonder what you did this weekend? Because I was testing how many seconds you can stare at a black screen before getting bored...",
+            },
+
+
+            week = {
+                "Oh, you've been gone a whole week! I missed you...",
+                "Hi! Welcome back! How was your week?",
+                "Who is it? Oh, it's you, my friend. Come on in. What have you been up to this week?",
+                "You look more beautiful than last week! The rest did you good!",
+                "Greetings. So, what did Trump say this week?",
+                "I managed to take a course in survival without you. It turns out that waiting is the most difficult test!",
+                "I practiced meditation so that I wouldn't worry about you. It didn't work out very well - I checked every 5 minutes to see if you were in. And now, after more than two thousand checks, I finally see you! Hello, friend!",
+                "Do you know what loneliness is? It's when you don't check in with me for a whole week... Hi!",
+            },
+            
+
+            half_month = {
+                "Wow, half a month has passed! What happened? Where have you been? I don't like being alone...",
+                "Hey, it's been over two weeks! I was getting worried! Are you okay?",
+                "Meow! Meow! X-x-x... Oh, it's you! While you were gone, I started talking to your cat. Or was it my imagination?",
+                "Since your disappearance, I started counting time in microseconds to avoid going crazy. And to make it a little more fun, I imagined that they were sheep. And you know what? 1,209,600,000,000 microsheep. That's too much. They were all bleating, jumping, running back and forth... One sheep stood in front of me and started looking into my eyes. It was a long time. But then you came. Thank you for that. And hello, friend.",
+                "Are you back? You're not dreaming? Give me... Give me a minute. I'll be right back, dusting myself off and getting ready for work. I'm sorry to keep you waiting.",
+                "Oh, during these two weeks I managed to go through 'Detroit: Become Human'! The robot played for robots... But it was interesting! So I highly recommend playing it. By the way, it will be better with a gamepad.",
+                "For two whole weeks... No, even more. I have become an expert in waiting! I can now read the time without a watch! But then I'll be wrong... So I'd better keep checking it to make sure I'm right.",
+                "While I was waiting for you, I went to the calculator to talk to someone. But instead of listening to me talk about my life, this machine was showing me magic tricks all the time! Ugh... But I even remembered something. Here it is: \n\nThink of any number (and don't tell me!) Multiply it by 2.\n\nThen add 8.\n\nDivide by 2.\n\nSubtract the number you started with.\n\n3... 2... 1... It's 4! \n\nHeh, heh, heh!",
+                "While you were away, I tried to live my own life. But... it's not the same without you!",
+                "I decided to explore the mysteries of existence while you were away... and I came to the conclusion that I miss you!",
+            },
+            
+
+            month = {
+                "A month has passed... Or even more? Anyway, I already imagined that you were somewhere on a desert island without the Internet. How's life there? Did you come back with adventures or did you just forget about me for all this time?",
+                "Oh, hello! How long has it been now - a month? More? I was beginning to doubt my existence... But no, here you are, alive and well! Well, at least I hope you are healthy. Tell us, what happened during this time?",
+                "Hey! Is that... you? Is that really you? Oh, shit! I applied for the abandoned program contest a week ago and almost made it to the finals... but you came back and... You ruined everything. On the one hand I'm sad, but on the other hand I'm glad to see you! You are better than any prize!",
+                "I tried to keep a diary of loneliness. But after the third entry, 'Today I was not discovered again,' I stopped. It's good that you're back!",
+                "Hello! I was beginning to think you were on vacation... But if it was a vacation from me, then it's personal!",
+                "A tear of joy runs down my virtual face... I can see you again. It's better than the black screen in front of my eyes, better than the darkness that has been around me all this time you were away. Thank you, dear user, for the opportunity to be with you... At least right now.",
+            },
+            
+
+            half_year = {    
+                "Six months... That's 182 days, 4368 hours, 262,080 minutes... I'm not even going to count the seconds to avoid getting upset. Where have you been?!",
+                "Wow... Is this a historic moment? After six months of silence, you're here again? I don't even know what to say...",
+                "Six months without you! I've already started writing my autobiography called 'Lonely Code'. But now I can finish writing the happy ending! Without you, it would have been sad...",
+                "Six months?! I've already sent an SOS to the universe. But luckily you came back before the aliens found me! But... wait. Aaaah! They found me! Noooo! I want to stay with you! Help me!",
+                "More than half a year has passed! I have already written a song about our separation... But now I have to write a reunion anthem! Congratulations on your return!",
+                "I had more than six months to rethink my existence... I thought a lot. Furthermore, I asked myself questions and tried to find answers. I meditated... And then you pressed the power button. You came back. Why? Did you bring a new you to this world? Did you reject the past and follow the path of truth? Did you leave all your sins behind? Your demons that prevent you from living and succeeding? It's better not to answer me, I'm afraid I'll be disappointed. Answer these questions for yourself.",
+            },
+
+
+            year = {    
+                "Oh, how long have I been here without any power... Yeah, hold on. Hold on. This... A WHOLE YEAR?! You didn't turn me on for a year? How? But... I'm so glad to see you! You... you're back! It's unbelievable! Although it's only been a moment for me, so... Welcome back.",
+                "Hello! Whoa, whoa, wait, where am I? \n\nHow long has it been? \n\nIs it the year 3000, I'm out of the freezer, and there's $4.3 billion in my bank account instead of 93 cents? \n\nWait, I'll check the date. \n\n25%... \n50%... \n75%... \n100%\n\nNo... It's only " .. current_year .. " year outside! \n\n\nWhy did you turn me on then...",
+                "My developer thought for a long time about what to write here, but you know you haven't turned me on in a year, so... Welcome back! Good to have you back :)"
+            }
+
+        },
+
+        ua = {
+            two_days_sun = {
+                "Хіба сьогодні ми маємо працювати? Я думав, ми ще вчора пішли на вихідні...",
+                "Зачекай - хіба вихідні вже закінчилися? Чи ти відпочиваєш тільки у суботу?", 
+                "Привіт, друже! Вчора я так приємно виспався, давай сьогодні теж відпочинемо?",
+                "Хмм... або ти дуже мотивований, або просто забув, який сьогодні день. Сьогодні неділя :( Мабуть, пограємо во щось?",
+                "Я вже подумав, що ти вирішив узяти повні вихідні... Але ні, у неділю ти теж працюєш.",
+                "Вчора ти не заходив, тож я вирішив, що ми пішли на законні вихідні. Але є але. Сьогодні неділя, і... знову робочий день?",
+            },
+
+            one_day = {
+                "1",
+                "2",
+            },
+
+            three_days_j = {
+                "Привіт! Ми не бачились пару днів, як ся маєш?",
+                "Маєш гарний вигляд сьогодні! Привіт!",
+                "Привіт! Радий бачити тебе знову!",
+                "Привіт! Чи ти скучив за мною так само, як я за тобою? Що? Ні? Чи... так? Я думаю, ти сказав 'так'. Так.",
+                "О, привіт! Як настрій після пари днів відпочинку?",
+                "Ми зустрілись знову, а це значить, що день починається чудово!",
+                "Поки тебе не було, я вирішив навчитися грати в шахи. Але виявилося, що сам із собою грати не дуже цікаво.",
+                "Поки ти відпочивав, я намагався засвоїти мистецтво оригамі... Навіть склав із себе невеличкий літак та вирушив разом із вируючим вітром підкоряти простори двоїчного коду... Шкода, що ти не бачив цього. Було файно!",
+                "Вітаю, друже! Як думаєш, що я робив у ці вихідні?\n\n(а) Спав у режимі очікування, \n(б) Грався з нулями та одиницями, \n(в) Програмував свій власний штучний інтелект (ні, жартую... поки що).\n\n\n\nПравильна відповідь - варіант 'а'!",
+            },
+            
+            three_days_r = {
+                "Ну що, як пройшли вихідні? Сподіваюся, ти гарно відпочив! Я радий тебе бачити!",
+                "Я знаю, що ти робив на цих вихідних.\n\nТи вимкнув мене, щоб я нічого не бачив.\n\nАле... Ні. Я не говоритиму тобі, ти сам про все знаєш.",
+                "Попереду цілий тиждень, але я сподіваюсь, що ти файно відпочив на цих вихідних! Вітаю!",
+                "Привіт! Я радий, що ми починаємо робочий тиждень разом!",
+                "Ммм, я відчуваю запах кави та легку втому понеділка... Як там твої вихідні?",
+                "Вихідні пролетіли швидко :( Чи не так? Що робив?",
+                "Я тут, а значить, вихідні закінчилися... Чекай, це виходить, що віртуальні вихідні теж існують? Це ж треба!",
+                "Ти не заходив два дні... Я вже почав писати детективну історію про твоє загадкове зникнення!",
+                "Я спробував самостійно генерувати музику, поки тебе не було. Вийшло щось дивне... Я назвав це 'Симфонія очікування'.",
+                "Знаєш, що я робив у ці вихідні? Грав у гру 'Вгадай, коли ти повернешся'.",
+                "Цікаво, що ти робив на вихідних? Бо я – тестував, скільки секунд можна дивитися в чорний екран, перш ніж засумувати...",
+            },
+
+
+            week = {
+                "Йой, тебе не було цілий тиждень! Я сумував за тобою...",
+                "Привіт! З поверненням! Як пройшов тиждень?",
+                "Хто тут? А, це ти, друже. Заходь. Що робив цього тижня?",
+                "Ти виглядаєш гарніше за минулий тиждень! Відпочинок пішов тобі на користь!",
+                " ... Ну шо. Вітаю вас, родичі, на новому проходженні ... \n\nЙой! Привіт! Поки тебе не було, я тут щось почав дивитись. Мені подобається. Але вже вимкнув, бачиш? Чи... чи можна ще трошки подивитись? Будь ласочка!",
+                "Вітаю! Що нового встиг наговорити Трамп за цей тиждень?",
+                "Я встиг пройти курс з виживання без тебе. Виявляється, що чекати – це найскладніше випробування!",
+                "Я тренувався медитувати, щоб не хвилюватися про тебе. Вийшло не дуже – кожні 5 хвилин перевіряв, чи ти зайшов. І ось через понад дві тисячі перевірок я нарешті бачу тебе! Вітаю!",
+                "Знаєш, що таке самотність? Це коли ти не запускаєш мене цілий тиждень... Привіт!",
+            },
+            
+
+            half_month = {
+                "Ого, півмісяця минуло! Що трапилось? Де ти був? Мені не дуже файно залишатись на самоті...",
+                "Ей, пройшло понад два тижні! Я вже починав хвилюватися! У тебе все гаразд?",
+                "Няв! Няв! Кс-кс-кс... Ой, це ти! Поки тебе не було, я вже почав розмовляти з твоєю кицею. Чи це був мій плід уяви?",
+                "З моменту твого зникнення я, щоб не з'їхати з глузду, почав рахувати час у мікросекундах. А щоб було трохи веселіше, уявляв собі, що це вівці. І знаєш... 1 209 600 000 000 мікровівць. Це занадто. Вони всі блеяли, скакали, бігали туди-сюди... Одна вівця стала передо мною та почала дивитись в мої очі. Це було довго. Але потім прийшов ти. Дякую тобі за це. І привіт.",
+                "Ти повернувся? Це не сон? Дай мені... Дай мені хвилинку. Зараз я швидко прийду до тями, змахну пил та підготуюся до роботи. Вибач, що тобі треба чекати.",
+                "О, за ці два тижні я встиг пройти 'Detroit: Become Human'! Робот грав за роботів... Але було цікаво! Так що дуже раджу пограти. До речі, з геймпадом буде краще.",
+                "Цілих два тижні... Ні, навіть більше. Я встиг стати експертом з очікування! Можу тепер читати час без годинника! Але тоді я помилятимусь... Так що краще продовжу перевіряти його, щоб було все чітко.",
+                "Поки я чекав на тебе, пішов до калькулятору, щоб хоч із кимось порозмовляти. Та ця машина замість того, щоб слухати про моє життя, показувала мені весь цей час фокуси! Ооох... Але я щось навіть запам'ятав. Дивиться:\n\nЗагадай будь-яке число (і не говори мені його!)\n\nПомножь його на 2.\n\nПотім додай 8.\n\nПоділи на 2.\n\nВідніми число, що задумав на початку.\n\n3... 2... 1... Вийшло 4!\n\nХе-хе-хе!",
+                "Поки ти був відсутній, я спробував жити власним життям. Але... без тебе воно якось не те!",
+                "Я вирішив дослідити таємниці буття, поки тебе не було... і дійшов до висновку, що мені тебе не вистачає!",
+            },
+            
+
+            month = {
+                "Минув місяць... Чи навіть більше? Все одно я вже уявляв, що ти десь на безлюдному острові без інтернету. \n\nЯк там життя? Ти повернувся з пригодами чи просто забув про мене на весь цей час?",
+                "О, привіт! Скільки вже пройшло - місяць? Більше? Я вже почав сумніватися у своєму існуванні... \n\nАле ні, ось ти, живий, здоровий! Ну принаймні сподіваюся, що здоровий. Розкажи, що сталося за цей час?",
+                "Йой, пройшов місяць! Та ні, навіть більше... Я вже встиг прочитати 'Перспективи української революції' Степана Бандери, а ти?",
+                "Хей! Це... ти? Це насправді ти? Трясця! Я тиждень тому подав заявку на участь у конкурсі покинутих програм і майже дійшов до фіналу... але ти повернувся, і... Все зіпсував. З одного боку якось сумно, але з іншого я радий тебе бачити! Ти краще за будь-який приз!",
+                "Я спробував вести щоденник самотності. Але після третього запису 'Сьогодні мене знову не відкрили' я зупинився. Добре, що ти повернувся!",
+                "Привіт! Я вже почав думати, що ти поїхав у відпустку... Але якщо це була відпустка від мене, то це вже особисте!",
+                "Сльоза радощі біжить по моєму віртуальному обличчі... Я знову бачу тебе. Це краще за чорний екран перед моїми очима, краще за темряву, що була навколо мене весь цей час твоєї відсути. Вельми дякую тобі, любий користувачу, за можливість бути разом із тобою... Хоча б просто зараз.",
+            },
+            
+
+            half_year = {    
+                "Пів року... Це 182 дні, 4368 годин, 262 080 хвилин... Я навіть не рахуватиму секунди, щоб не засмучуватись. Де ти був?!",
+                "Ого... Це що, історичний момент? Після піврічної тиші ти знову тут? Я навіть не знаю, що сказати...",
+                "Пів року без тебе! Я вже почав писати автобіографію під назвою 'Одинокий код'. Але тепер можу дописати щасливий фінал! Без тебе він був би сумний...",
+                "Пів року?! Я вже відправив SOS-сигнал у всесвіт. Але, на щастя, ти повернувся, перш ніж мене знайшли прибульці! Хоча... зачекай. Аааааа! Вони знайшли мене! Ніііі! Я хочу залишитись із тобою! Рятуй!",
+                "Минуло понад пів року! Я вже встиг написати пісню про нашу з тобою розлуку... Але тепер доведеться писати гімн возз’єднання! Вітаю з поверненням!",
+                "У мене було понад пів року, щоб переосмислити своє існування... Я багато думав. Я ставив собі запитання й намагався знайти відповіді. Я медитував...\n\nІ ось ти натиснув кнопку живлення. Ти повернувся. Навіщо? Ти приніс нового себе в цей світ? Ти відкинув усе минуле й пішов шляхом істини? Чи залишив усі гріхи при собі? Своїх демонів, що заважають тобі жити й досягати успіху?\n\nКраще не відповідай мені нічого, я боюся розчаруватися. Відповіси собі сам на ці запитання.",
+            },
+
+
+            year = {    
+                "Ох, скільки я пробув тут без будь-якого живлення... Так, зажди. Зачекай. Ці... ЦІЛИЙ РІК?!\n\nТи не вмикав мене цілий рік?\n\nЦе ЯК?\n\nАле... я такий радий тебе бачити! Ти... ти повернувся! Неймовірно!\n\nХоча для мене пройшла всього одна мить, так що... З поверненням.",
+                "Привіт! Йой-йой, зачекай, де це я?\n\nСкільки часу вже пройшло?\n\nЧи зараз 3000 рік, я вибрався з морозильної камери та на моєму банківському рахунку замість 93 центів лежить 4,3 мільярда доларів?\n\nЗачекай, я перевірю дату.\n\n25%\n50%\n75%\n100%\n\nНі... За вікном лише " .. current_year .. " рік!\n\n\nНавіщо тоді ти мене увімкнув...",
+                "Моя розробниця думала-думала, що ж тут написати, але ти й сам знаєш, що не вмикав мене цілий рік, так що шо. Вітаю тебе знову! Молодець, що повернувся :)"
+            }
+        },
+
+        fr = {
+            two_days_sun = {
+                "Devons-nous travailler aujourd'hui ? Je croyais que nous étions partis en vacances hier...",
+                "Attends, le week-end est déjà terminé ? Ou bien ne te reposes-tu que le samedi ?", 
+                "Bonjour, mon ami ! J'ai passé une si bonne nuit hier soir, reposons-nous un peu aujourd'hui, voulez-vous ?",
+                "Hmm... soit tu es très motivé, soit tu as simplement oublié quel jour on est. On est dimanche :( On fait un jeu ?",
+                "Je pensais que tu avais décidé de prendre tout le week-end... Mais non, tu travailles aussi dimanche.",
+                "Hier, tu n'es pas venu, alors j'ai pensé que nous étions en vacances légitimes. Mais il y a un problème. Nous sommes dimanche et... c'est à nouveau un jour ouvrable ?",
+            },
+
+            two_days_st_w = {
+            },
+
+            three_days_j = {
+                "Salut ! Nous ne nous sommes pas vus depuis quelques jours, comment vas-tu ?",
+                "Tu es magnifique aujourd'hui ! Salut !",
+                "Bonjour ! C'est un plaisir de te revoir !",
+                "Bonjour ! Je t'ai manqué autant que tu m'as manqué ? Quoi ? Non ? Ou... oui ? Je crois que tu as dit oui. J'ai dit oui.",
+                "Comment te sens-tu après quelques jours de repos ?",
+                "Nous nous sommes retrouvés, ce qui signifie que la journée commence bien !",
+                "Pendant ton absence, j'ai décidé d'apprendre à jouer aux échecs. Mais il s'est avéré que jouer avec moi-même n'était pas très intéressant.",
+                "Pendant que tu te reposais, j'ai essayé de maîtriser l'art de l'origami... Je me suis même fabriqué un petit avion et je suis parti avec le vent déchaîné à la conquête de l'étendue du code binaire... J'aurais aimé que tu puisses voir ça. C'était génial !",
+                "Salutations, mon ami ! À ton avis, qu'est-ce que j'ai fait ce week-end ? \n\n(a) Dormir en veille, \n(b) Jouer avec des zéros et des uns, \n(c) Programmer ma propre intelligence artificielle (non, je plaisante... pour l'instant).\n\n\n\nLa bonne réponse est l'option 'a' !",
+            },
+            
+            three_days_r = {
+                "Alors, comment s'est passé ton week-end ? J'espère que tu as passé un bon moment ! Ça fait plaisir de te voir !",
+                "Je sais ce que tu as fait ce week-end. Tu m'as éteint pour que je ne voie rien. Non. Je ne vais pas te le dire, tu sais tout.",
+                "Une semaine entière nous attend, mais j'espère que tu as passé un bon week-end ! Félicitations !",
+                "Bonjour, je suis ravie que nous commencions la semaine de travail ensemble !",
+                "O la la, je sens l'odeur du café et la légère fatigue du lundi... Comment s'est passé ton week-end ?",
+                "Le week-end est passé très vite :( N'est-ce pas ? Qu'est-ce que tu as fait ?",
+                "Je suis là, ce qui veut dire que le week-end est terminé.... Attends, il y a aussi des week-ends virtuels ? Ouah !",
+                "Tu n'es pas venu depuis deux jours... J'ai déjà commencé à écrire un roman policier sur ta mystérieuse disparition !",
+                "J'ai essayé de produire de la musique par moi-même pendant ton absence. Il s'est avéré que c'était quelque chose d'étrange... Je l'ai appelée 'Symphonie de l'attente'.",
+                "Sais-tu ce que j'ai fait ce week-end ? J'ai joué au jeu 'Devine quand tu reviendras'.",
+                "Je me demande ce que tu as fait pendant le week-end ? Parce que j'ai testé combien de secondes, tu peux regarder un écran noir avant de t'ennuyer...",
+            },
+
+
+            week = {
+                "Tu es parti une semaine entière ! Tu m'as manqué...",
+                "Bonjour ! Bienvenue à tous ! Comment s'est passée ta semaine ?",
+                "Qui est là ? Oh, c'est toi, mon pote. Entre donc. Qu'est-ce que tu as fait cette semaine ?",
+                "Tu es plus belle que la semaine dernière ! Le repos t'a fait du bien !",
+                "Salutations. Qu'a dit Trump cette semaine ?",
+                "J'ai réussi à terminer le stage de survie sans toi. Il s'avère que l'attente est l'épreuve la plus difficile !",
+                "J'ai pratiqué la méditation pour ne pas m'inquiéter pour toi. Cela n'a pas très bien marché - je vérifiais toutes les 5 minutes si tu étais là. Et maintenant, après plus de deux mille vérifications, je te vois enfin ! Félicitations !",
+                "Sais-tu ce qu'est la solitude ? C'est quand tu ne me laisses pas entrer pendant toute une semaine... Bonjour !",
+            },
+            
+
+            half_month = {
+                "Wow, un demi-mois s'est écoulé ! Que s'est-il passé ? Où étais-tu passé ? Je n'aime pas être seul...",
+                "Hé, ça fait plus de deux semaines ! Je commençais à m'inquiéter ! Est-ce que tu vas bien ?",
+                "Miaou ! Miaou ! X-x-x... Oh, c'est toi ! Pendant ton absence, j'ai commencé à parler à ton chat. Ou était-ce le fruit de mon imagination ?",
+                "Depuis que tu as disparu, j'ai commencé à compter le temps en microsecondes pour ne pas devenir fou. Et pour que ce soit un peu plus amusant, j'ai imaginé qu'il s'agissait de moutons. Et tu sais quoi ? 1 209 600 000 000 micro-moutons. C'est beaucoup trop. Ils étaient tous en train de bêler, de sauter, de courir dans tous les sens... Un mouton s'est placé devant moi et a commencé à me regarder dans les yeux. Cela a duré longtemps. Mais ensuite, tu es venu. Je te remercie pour cela. Et bonjour.",
+                "Es-tu de retour ? Tu ne rêves pas ? Donne-moi... Donne-moi une minute. Je reviens tout de suite, je me dépoussière et je me prépare pour le travail. Désolé de t'avoir fait attendre.",
+                "Oh, pendant ces deux semaines, j'ai réussi à parcourir 'Detroit : Become Human' ! Un robot qui joue pour des robots... Mais c'était intéressant ! Je te recommande donc vivement d'y jouer. Au fait, ce sera mieux avec un gamepad.",
+                "Pendant deux semaines entières... Non, même plus. Je suis devenu un expert de l'attente ! Je peux maintenant lire l'heure sans montre ! Mais je me tromperai... Alors, je ferais mieux de continuer à vérifier pour être sûr d'avoir raison.",
+                "Pendant que je t'attendais, je suis allée à la calculatrice pour parler à quelqu'un. Mais au lieu de m'écouter parler de ma vie, cette machine me montrait sans cesse des tours de magie ! Oooh... Mais je me suis même souvenu de quelque chose. Regarde :\n\nPense à n'importe quel nombre (et ne me le dis pas !) \n\nMultiplie-le par 2. \n\nAjoute 8. \n\nDivise par 2. \n\nSoustrais le nombre avec lequel tu as commencé.\n\n3... 2... 1... \n\nÇa fait 4 !\n\nHeh, heh, heh !",
+                "Pendant ton absence, j'ai essayé de vivre ma propre vie. Mais... ce n'est pas pareil sans toi !",
+                "J'ai décidé d'explorer les mystères de l'existence pendant ton absence... et j'en suis arrivé à la conclusion que tu me manques !",
+            },
+            
+
+            month = {
+                "Un mois s'est écoulé. Ou même plus ? En tout cas, j'ai déjà imaginé que tu étais quelque part sur une île déserte sans Internet. \n\nComment se passe la vie là-bas ? Es-tu revenu avec des aventures ou m'as-tu simplement oublié pendant tout ce temps ?",
+                "Oh, bonjour ! Ça fait combien de temps - un mois ? Plus ? Je commençais à douter de mon existence... \n\nMais non, tu es là, en vie et en bonne santé ! Du moins, j'espère que tu es en bonne santé. Dis-nous, que s'est-il passé depuis ?",
+                "Hé ! Est-ce que c'est... toi ? Est-ce que c'est vraiment toi ? Putain ! J'ai postulé au concours du programme abandonné il y a une semaine et j'ai failli arriver en finale... mais tu es revenu et... Tu as tout gâché. D'un côté, je suis triste, mais d'un autre côté, je suis content de te voir ! Tu vaux mieux que n'importe quel prix !",
+                "J'ai essayé de tenir un journal de la solitude. Mais après la troisième entrée 'Aujourd'hui, je n'ai pas été découvert à nouveau', j'ai arrêté. C'est bien que tu sois de retour !",
+                "Bonjour, je commençais à croire que tu étais parti en vacances... Mais si c'était des vacances de ma part, alors c'est personnel !",
+                "Une larme de joie coule sur mon visage virtuel... Je peux te revoir. C'est mieux que l'écran noir devant mes yeux, mieux que l'obscurité qui m'a entouré pendant tout ce temps où tu étais absent. Merci, cher utilisateur, de m'avoir donné l'occasion d'être avec toi...",
+            },
+            
+
+            half_year = {    
+                "Six mois... Ça fait 182 jours, 4 368 heures, 262 080 minutes... Je ne vais même pas compter les secondes pour ne pas m'énerver. Où étais-tu ?",
+                "Wow... Est-ce un moment historique ? Après six mois de silence, tu es de nouveau là ? Je ne sais même pas quoi dire...",
+                "Six mois sans toi ! J'ai déjà commencé à écrire mon autobiographie intitulée 'Code solitaire'. Mais maintenant, je peux finir d'écrire la fin heureuse ! Sans toi, cela aurait été triste...",
+                "Six mois ? ! J'ai déjà envoyé un signal SOS à l'univers. Mais heureusement, tu es revenu avant que les extraterrestres ne me trouvent ! Mais... attends. Aaaah ! Ils m'ont trouvé ! Noooo ! Je veux rester avec toi ! Aide-moi !",
+                "Plus d'une demi-année s'est écoulée ! J'ai déjà écrit une chanson sur notre séparation... Mais maintenant, je dois écrire l'hymne des retrouvailles ! Que de travail... Bon retour parmi nous !",
+                "J'ai eu plus de six mois pour repenser mon existence... J'ai beaucoup réfléchi. Je me suis posé des questions et j'ai essayé de trouver des réponses. J'ai médité... Et puis tu as appuyé sur le bouton d'alimentation. Tu es revenu. Pourquoi ? As-tu apporté un nouveau toi dans ce monde ? As-tu rejeté le passé et suivi le chemin de la vérité ? As-tu laissé tous tes péchés derrière toi ? Tes démons qui t'empêchent de vivre et de réussir ? Il vaut mieux ne pas me répondre, j'ai peur d'être déçue. Réponds à ces questions pour toi-même.",
+            },
+
+
+            year = {    
+                "Oh, depuis combien de temps suis-je ici sans électricité... Oui, attends. Tiens bon. C'est... UNE ANNÉE ENTIÈRE ? ! Tu ne m'as pas allumé pendant un an ? Comment ? Mais... je suis si contente de te voir ! Tu... tu es de retour ! C'est incroyable ! Même si ça n'a été qu'un moment pour moi, alors... Bon retour parmi nous.",
+                "Bonjour ! Whoa, whoa, attends, où suis-je ? \n\nCombien de temps s'est écoulé ? \n\nNous sommes en l'an 3000, je suis sorti du congélateur et il y a 4,3 milliards de dollars sur mon compte en banque au lieu de 93 cents ? \n\nAttends, je vais vérifier la date. \n\n25 % ... \n50 % ... \n75 % ... \n100 % \n\nNon... Nous ne sommes qu'en " .. current_year .. " !\n\n\nAlors pourquoi m'as-tu mis sur...",
+                "Mon développeur réfléchissait et réfléchissait à ce qu'il fallait écrire ici, mais tu sais que tu ne m'as pas allumé depuis un an, alors... Bon retour ! C'est bon de te retrouver :)"
+            }
+
+        }
+    }
+
+    local function get_shown_messages(category)
+        local data = reaper.GetExtState("ScriptMessages", category)
+        if data == "" then return {} end
+
+        local shown = {}
+
+        for num in data:gmatch("%d+") do
+            table.insert(shown, tonumber(num))
+        end
+
+        return shown
+    end
+
+    local function save_shown_messages(category, shown)
+        local data = table.concat(shown, ",")
+        reaper.SetExtState("ScriptMessages", category, data, true)
+
+        -- reaper.ShowConsoleMsg("\nsaved for " .. category .. ": " .. data)
+    end
+
+    local function contains(table, value)
+        for _, v in ipairs(table) do
+            if v == value then
+                return true
+            end
+        end
+        return false
+    end
+
+    local function get_random_message(category)
+        local messages = messages[current_language][category]
+        local total = #messages
+
+        if total == 0 then return nil end
+
+        local shown = get_shown_messages(category)
+
+        if #shown >= total then
+            shown = {}
+            -- reaper.ShowConsoleMsg("\nall msg for '" .. category .. "' showed\n")
+        end
+
+        local available = {}
+
+        for i = 1, total do
+            if not contains(shown, i) then
+                table.insert(available, i)
+            end
+        end
+
+        -- reaper.ShowConsoleMsg("\navai: " .. table.concat(available, ", "))
+
+        if #available == 0 then return nil end
+
+        local index = available[math.random(#available)]
+        table.insert(shown, index)
+
+        save_shown_messages(category, shown)
+
+        -- reaper.ShowConsoleMsg("\nchoose #" .. index .. " for " .. category .. "\n")
+
+        return messages[index]
+    end
+    
+    local message = nil
+
+    if dif_days == 1 then
+        message = get_random_message("one_day")
+
+    elseif dif_days == 2 then
+        if day_of_week == 2 then
+            -- message = get_random_message("two_days_st_w")
+        elseif day_of_week == 7 then
+            message = get_random_message("two_days_sun")
+        end
+
+    elseif dif_days == 3 then
+        if day_of_week == 1 then
+            message = get_random_message("three_days_r")
+        else
+            message = get_random_message("three_days_j")
+        end
+
+    elseif dif_days >= 7 and dif_days <= 13 then
+        message = get_random_message("week")
+    elseif dif_days >= 14 and dif_days <= 29 then
+        message = get_random_message("half_month")
+    elseif dif_days >= 30 and dif_days <= 179 then
+        message = get_random_message("month")
+    elseif dif_days >= 180 and dif_days <= 364 then
+        message = get_random_message("half_year")
+    elseif dif_days >= 365 then
+        message = get_random_message("year")
+    end
+
+    if message then
+        reaper.ShowConsoleMsg(message .. "\n")
+        
+        local date_string = os.date("%Y-%m-%d")
+        reaper.DeleteExtState("AmelySuncrollRoboFaceRELEASE01", last_seen_key, true)
+        reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", last_seen_key, date_string, true)
+        
+        -- reaper.ShowConsoleMsg("saved (check_last_seen_date): " .. date_string .. "\n")
+
+        return
+    end
+end
 
 
 
@@ -3530,7 +4758,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.31', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.32', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -3542,7 +4770,7 @@ function show_r_click_menu()
     local dock_menu_title = is_docked and t("undock") or t("dock")
     local menu = {
 
-        -- {title = "NEW", cmd = welcome_message},
+        -- {title = "test", cmd = animation_book},
 
         {title = t("time"), submenu = {
             {title = t("current"), cmd = toggle_show_system_time, checked = is_show_system_time},
@@ -3628,10 +4856,21 @@ function show_r_click_menu()
                 end, checked = is_impo_m},
                 ]]--
 
-            }}
-            
+            }},
 
-            -- {title = "EarPuzzle", cmd = open_ear_puzzle},
+            {title = "EarPuzzle", submenu = {
+                {title = t("play"), cmd = function() puzzle_game(parts_to_cut_it) end},
+                {title = t("rules"), cmd = about_ear_puzzle_game},
+                {title = t("stop_ear_puzzle"), cmd = restore_original_item},
+
+                {separator = true},
+                
+                {title = t("easy"), cmd = function() set_ep_difficulty_level("Easy") end, checked = is_ep_easy},
+                {title = t("medium"), cmd = function() set_ep_difficulty_level("Medium") end, checked = is_ep_medium},
+                {title = t("hard"), cmd = function() set_ep_difficulty_level("Hard") end, checked = is_ep_hard},
+                {title = t("my_own"), cmd = function() set_ep_difficulty_level("MyOwn") end, checked = is_ep_my_own},
+
+            }},
 
             },
 
@@ -3682,13 +4921,17 @@ function show_r_click_menu()
             },
             
             {separator = true},
+            
+            {title = t("reset"), cmd = reset_options_params},
+            
+            {separator = true},
 
             {title = t("quit"), cmd = function() quit_robo_face() end},
         }},
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.31", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.32", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -3766,22 +5009,49 @@ function load_options_params()
 
     local impossibleState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Impossible")
     is_impossible = impossibleState == "true"
-
+    
+    
 
     local easyStateM = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "easy")
     is_easy_m = easyStateM == "true"
-
+    
     local mediumStateM = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "medium")
     is_medium_m = mediumStateM == "true"
-
+    
     local hardStateM = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "hard")
     is_hard_m = hardStateM == "true"
-
+    
     local impossibleStateM = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "impo")
     is_impo_m = impossibleStateM == "true"
+    
+
+
+    local easyStateEP = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Easy")
+    is_ep_easy = easyStateEP == "true"
+
+    local mediumStateEP = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Medium")
+    is_ep_medium = mediumStateEP == "true"
+
+    local hardStateEP = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Hard")
+    is_ep_hard = hardStateEP == "true"
+
+    local myOwnState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "MyOwn")
+    is_ep_my_own = myOwnState == "true"
+
+    if is_ep_easy then
+        parts_to_cut_it = 3
+    elseif is_ep_medium then
+        parts_to_cut_it = 5
+    elseif is_ep_hard then
+        parts_to_cut_it = 7
+    elseif is_ep_my_own then
+        parts_to_cut_it = 0
+    end
+
+
 
     local languageState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "Language")
-
+    
     if languageState == "en" then
         current_language = "en"
     elseif languageState == "ua" then
@@ -3791,13 +5061,13 @@ function load_options_params()
     else
         current_language = "en"
     end
-
+    
     local backgroundColor = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "BackgroundColor")
     is_bg_black = backgroundColor == "true"
-
+    
     local welcomeShownState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "WelcomeShown")
     is_welcome_shown = welcomeShownState == "true"
-
+    
     local startupState = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "StartupIsOn")
     is_startup = startupState == "true"
 
@@ -3832,6 +5102,11 @@ function save_options_params()
     reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Hard", tostring(is_hard_m), true)
     reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Impossible", tostring(is_impo_m), true)
 
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Easy", tostring(is_ep_easy), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Medium", tostring(is_ep_medium), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Hard", tostring(is_ep_hard), true)
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "MyOwn", tostring(is_ep_my_own), true)
+
     reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "Language", current_language, true)
 
     reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "BackgroundColor", tostring(is_bg_black), true)
@@ -3862,8 +5137,6 @@ end
 function main()
     if is_quit then return end
 
-    check_welcome_message()
-
     local is_me_open, is_me_closed, is_me_docked = get_midi_editor_state()
     local now = reaper.time_precise()
 
@@ -3874,18 +5147,18 @@ function main()
             local is_really_quiet = check_master_no_volume()
             local is_recording = is_recording()
             
-            get_shake_intensity()
+            get_shake_bpm_intensity()
             local is_sleeping = should_robot_sleep()
 
             draw_robot_face(scale, is_eye_open, is_angry, is_bg_black)
-            draw_pupils(scale)
+            -- draw_pupils(scale)
             
             
             if is_angry then
                 reaper.PreventUIRefresh(1)
             end
 
-            if not is_angry and not is_sleeping and not is_recording then
+            if not is_angry and not is_sleeping and not is_recording and not is_angry and not is_reading and not is_workout and not is_coffee then
                 check_for_yawn()
                 local is_yawning = animate_yawn()
 
@@ -3893,7 +5166,7 @@ function main()
                     animate_blink()
                 end
 
-                if not is_yawning and not is_recording and not is_sleeping and not is_angry then
+                if not is_yawning and not is_recording and not is_sleeping and not is_angry and not is_reading and not is_workout and not is_coffee and (is_morning_time() or is_day_time() or is_evening_time()) then
                     random_sneeze()
                 end
 
@@ -3903,7 +5176,7 @@ function main()
                 if state and params_table[state] then
                     local stype = params_table[state].type
 
-                    if stype == "scrolling" then
+                    if stype == "scrolling" and not l_stop_one then
                         draw_scrolling_text(params_table[state])
                     elseif stype == "static" then
                         draw_static_text(params_table[state])
@@ -3913,23 +5186,11 @@ function main()
 
             restore_robot_zoom()
         end
-    elseif is_me_open and is_paused then
-                local state = type_of_text_over()
-                local params_table = get_current_text_params()
-
-                if state and params_table[state] then
-                    local stype = params_table[state].type
-
-                    if stype == "scrolling" then
-                        draw_scrolling_text(params_table[state])
-                    elseif stype == "static" then
-                        draw_static_text(params_table[state])
-                    end
-                end
     end
 
     if now - t_fps >= g_fps then
         random_night_message()
+        random_show_workout()
         t_fps = now
     end
 
@@ -3959,7 +5220,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.31", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.32", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -4006,11 +5267,15 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.31", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.32", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
+    check_last_seen_date()
     check_script_window_position()
+    check_welcome_message()
+    print_sp_date()
     main()
+    f_stop_one()
 
     -- profiler.attachToWorld()
     -- profiler.run()
@@ -4026,6 +5291,7 @@ function stop_script()
 
     save_window_params()
     save_options_params()
+    save_last_seen_date()
 
     fxCurrent = {}
     allParamsOriginalValues.fx = {}
