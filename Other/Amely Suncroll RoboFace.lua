@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.32
+-- @version 1.33
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -25,6 +25,7 @@
 --    + 1.30 added full ukrainian and french localisation (translated to french via ChatGPT o3_mini); also changed zoom values to 50%, 70%, 90% and 100%
 --    + 1.31 little productivity improvements
 --    + 1.32 fix making Reaper slow after a few hours work (I hope), add calendar messages, add welcome back messages, add EarPuzzle game, add workout animation, improve show animations within day time
+--    + 1.33 fix error with welcome back messages
 
 
 
@@ -308,7 +309,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.32", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.33", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -323,7 +324,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.32", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.33", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -3096,7 +3097,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.32\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.33\n")
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -3113,7 +3114,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.32\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.33\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
         reaper.ShowConsoleMsg("Bienvenue !\n\n")
@@ -3130,7 +3131,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir l'auteur, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.32\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.33\n")
     end
 end
 
@@ -4297,9 +4298,6 @@ function check_last_seen_date()
                 "You didn't come by yesterday, so I thought we were on a legitimate vacation. But there's a catch. It's Sunday, and... it's a workday again?",
             },
 
-            two_days_st_w = {
-            },
-
             three_days_j = {
                 "Hi! We haven't seen each other for a couple of days, how are you?",
                 "You look beautiful today! Hi!",
@@ -4389,11 +4387,6 @@ function check_last_seen_date()
                 "Хмм... або ти дуже мотивований, або просто забув, який сьогодні день. Сьогодні неділя :( Мабуть, пограємо во щось?",
                 "Я вже подумав, що ти вирішив узяти повні вихідні... Але ні, у неділю ти теж працюєш.",
                 "Вчора ти не заходив, тож я вирішив, що ми пішли на законні вихідні. Але є але. Сьогодні неділя, і... знову робочий день?",
-            },
-
-            one_day = {
-                "1",
-                "2",
             },
 
             three_days_j = {
@@ -4486,9 +4479,6 @@ function check_last_seen_date()
                 "Hmm... soit tu es très motivé, soit tu as simplement oublié quel jour on est. On est dimanche :( On fait un jeu ?",
                 "Je pensais que tu avais décidé de prendre tout le week-end... Mais non, tu travailles aussi dimanche.",
                 "Hier, tu n'es pas venu, alors j'ai pensé que nous étions en vacances légitimes. Mais il y a un problème. Nous sommes dimanche et... c'est à nouveau un jour ouvrable ?",
-            },
-
-            two_days_st_w = {
             },
 
             three_days_j = {
@@ -4639,13 +4629,8 @@ function check_last_seen_date()
     
     local message = nil
 
-    if dif_days == 1 then
-        message = get_random_message("one_day")
-
-    elseif dif_days == 2 then
-        if day_of_week == 2 then
-            -- message = get_random_message("two_days_st_w")
-        elseif day_of_week == 7 then
+    if dif_days == 2 then
+        if day_of_week == 7 then
             message = get_random_message("two_days_sun")
         end
 
@@ -4758,7 +4743,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.32', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.33', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -4931,7 +4916,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.32", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.33", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -5220,7 +5205,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.32", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.33", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -5267,7 +5252,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.32", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.33", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     check_last_seen_date()
