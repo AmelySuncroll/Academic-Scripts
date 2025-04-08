@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.33
+-- @version 1.34
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -26,6 +26,7 @@
 --    + 1.31 little productivity improvements
 --    + 1.32 fix making Reaper slow after a few hours work (I hope), add calendar messages, add welcome back messages, add EarPuzzle game, add workout animation, improve show animations within day time
 --    + 1.33 fix error with welcome back messages
+--    + 1.34 minor update French localisation, change 'Tap Tempo' function to just show bpm, made cube dots white with white background, add auto night mode (beta), change random time to show animations (was 2-3 hours, now 1-1,5 hours)
 
 
 
@@ -33,7 +34,7 @@
 
 -- @donation https://www.paypal.com/ncp/payment/S8C8GEXK68TNC
 
--- @website https://t.me/reaper_ua
+-- ua website https://t.me/reaper_ua
 
 -- font website https://nalgames.com/fonts/iregula
 
@@ -121,7 +122,9 @@ local translations = {
         reset = "Hard reset",
 
         stop_ear_puzzle = "Reset game",
-        my_own = "Own"
+        my_own = "Own",
+
+        t_auto_night = "Auto"
         
     },
 
@@ -192,13 +195,15 @@ local translations = {
         reset = "Перепрошивка",
 
         stop_ear_puzzle = "Зупинити гру",
-        my_own = "Власний"
+        my_own = "Власний",
+
+        t_auto_night = "День/Ніч"
     },
 
     fr = {
         time = "Horloge",
         current = "Actuel",
-        hourly = "Horaire",
+        hourly = "Chaque heure",
     
         set_timer = "Minuteur",
         minute_1 = "1 minute",
@@ -207,7 +212,7 @@ local translations = {
         minutes_15 = "15 minutes",
         minutes_30 = "30 minutes",
         minutes_60 = "60 minutes",
-        custom = "Personnalisé...",
+        custom = "Personnaliser...",
         stop_timer = "Arrêter le minuteur",
     
         timer_display_options = "Options d'affichage",
@@ -230,17 +235,17 @@ local translations = {
     
         options = "Paramètres",
         welcome = "Bienvenue !",
-        dock = "Ancre",
+        dock = "Attacher",
         undock = "Détacher",
-        support = "Lien de don",
+        support = "Lien pour me soutenir",
         about = "Forum RoboFace",
     
-        language = "Langue",
+        language = "Langues",
         english = "English",
         ukrainian = "Українська",
         french = "Français",
     
-        set_background_color = "Couleur",
+        set_background_color = "Couleur de fond",
         white_bg = "Claire",
         black_bg = "Sombre",
     
@@ -250,7 +255,7 @@ local translations = {
     
         set_zoom = "Zoom",
     
-        start_up = "Démarrage automatique",
+        start_up = "Lancer à l`ouverture ",
     
         games = "Jeux",
     
@@ -262,7 +267,9 @@ local translations = {
         reset = "Reset",
 
         stop_ear_puzzle = "Arrêter le jeu",
-        my_own = "La mienne"
+        my_own = "La mienne",
+
+        t_auto_night = "Jour / Nuit"
     },
     
     
@@ -277,7 +284,6 @@ local function change_language(lang)
     show_r_click_menu()
     save_maze_settings()
 end
-
 
 
 if not reaper.APIExists('CF_GetSWSVersion') and reaper.APIExists('JS_ReaScriptAPI_Version') then
@@ -309,7 +315,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.33", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.34", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -324,7 +330,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.33", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.34", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -664,6 +670,7 @@ local g_fps = 1
 local is_reading = false
 local is_workout = false
 local is_antennas = false
+local is_auto_night = false
 
 
 
@@ -1105,8 +1112,8 @@ function draw_robot_face(scale, is_eye_open, is_sleeping, is_bg_black)
             gfx.circle(right_antenna_x2, right_antenna_y2, antenna_dot_radius, 1)
 
             -- TV
-            gfx.set(0.5, 0.5, 0.5, 1)
-            gfx.rect(tv_x, tv_y, tv_width, tv_height, 1)
+            -- gfx.set(0.5, 0.5, 0.5, 1)
+            -- gfx.rect(tv_x, tv_y, tv_width, tv_height, 1)
         
         else
             
@@ -1710,7 +1717,7 @@ end
 
 function init_yawn_intervals()
     yawn_intervals = {}
-    local num_yawns = math.random(3, 5)
+    local num_yawns = math.random(3, 4)
     local base_time = reaper.time_precise()
 
     for i = 1, num_yawns do
@@ -1813,7 +1820,7 @@ function check_for_angry()
                 elseif current_language == "ua" then
                     reaper.ShowConsoleMsg("Якщо ти зробиш це знову, я негайно піду.\n\n")
                 elseif current_language == "fr" then
-                    reaper.ShowConsoleMsg("Si tu recommences, je partirai immédiatement.\n\n")                
+                    reaper.ShowConsoleMsg("Si tu recommences, je m`en vais.\n\n")                
                 end
             end
 
@@ -1831,7 +1838,7 @@ function check_for_angry()
                 elseif current_language == "ua" then
                     reaper.ShowConsoleMsg("Я казав тобі, що не треба так робити! Тому щойно я дещо змінив у твоєму проєкті... І зараз це не іграшки. У тебе є 3 хвилини, що б знайти це. Час пішов!\n\n")
                 elseif current_language == "fr" then
-                    reaper.ShowConsoleMsg("Je t'ai dit : ne fais pas ça. Mais tu l'as fait. \n\nAlors, j'ai modifié quelque chose dans ton projet... Ce n'est plus un jeu maintenant. Tu as 3 minutes pour le découvrir. Le temps presse !\n\n")
+                    reaper.ShowConsoleMsg("Je t'ai déjà dit de ne pas faire ça. Mais tu l'as fait. \n\nAlors, j'ai modifié quelque chose dans ton projet... Ce n'est plus un jeu maintenant. Tu as 3 minutes pour le découvrir. Le temps presse !\n\n")
                 end                
             end
         end
@@ -1859,9 +1866,6 @@ local quiet_duration = 30 -- 30
 local quiet_start_time = nil
 local sleep_start_time = nil
 
-local night_start_hour = 23 
-local night_end_hour = 7
-
 function should_robot_sleep()
     local current_time = reaper.time_precise() / 60
     local is_really_quiet = check_master_no_volume()
@@ -1887,7 +1891,7 @@ function should_robot_sleep()
             if not sleep_start_time then
                 sleep_start_time = current_time
             elseif current_time - sleep_start_time >= max_sleep_duration then
-                animate_yawn()
+                -- animate_yawn()
                 sleep_start_time = nil
                 quiet_start_time = current_time
 
@@ -1958,7 +1962,7 @@ function animation_workout()
     workout_duration = 5
 end
 
-function shake_with_show_workout() -- this function structure was written completely with old chatgpt version but I'm lazy to make it better. it is works... anyway. may be, later. :/
+function shake_with_show_workout() -- this function structure was written completely with chatgpt but I'm lazy to make it better. it is works... anyway. may be, later. :/
     local timings = {0, 6, 12}
     local startTime = reaper.time_precise()
 
@@ -1990,17 +1994,17 @@ function shake_with_show_workout() -- this function structure was written comple
 end
 
 local last_workout_time = reaper.time_precise() / 60
-local workout_interval = math.random(180, 300)
+local workout_interval = math.random(60, 100)
 
 function random_show_workout()
     local current_time = reaper.time_precise() / 60
 
-    if not is_angry and not is_sleeping and not is_recording and not is_angry and not is_reading and not is_workout and not is_coffee and (is_morning_time() or is_day_time() or is_evening_time()) then
+    if not is_angry and not is_sleeping and not is_recording and not is_angry and not is_reading and not is_workout and not is_coffee and (is_morning_time() or is_day_time()) then
         if current_time - last_workout_time >= workout_interval then
             shake_with_show_workout()
 
             last_workout_time = current_time
-            workout_interval = math.random(180, 300)
+            workout_interval = math.random(60, 100)
         end
     end
 end
@@ -2122,7 +2126,7 @@ function animate_sneeze()
 end
 
 local last_sneeze_time = reaper.time_precise() / 60
-local sneeze_interval = math.random(80, 141)
+local sneeze_interval = math.random(60, 100)
 
 function random_sneeze()
     local current_time = reaper.time_precise() / 60
@@ -2131,7 +2135,7 @@ function random_sneeze()
         if current_time - last_sneeze_time >= sneeze_interval then
             animate_sneeze()
             last_sneeze_time = current_time
-            sneeze_interval = math.random(80, 141)
+            sneeze_interval = math.random(60, 100)
         end
     end
 end
@@ -2188,7 +2192,7 @@ local night_messages_fr = {
     "local startX = 200\nlocal startY = 200\nlocal startWidth = 500\nlocal startHeight = 400\ngfx.init('RoboFace 0.0.1', startWidth, startHeight, 0, startX, startY)\n\nlocal eye_size = 50\nlocal pupil_size = 25\n\nlocal left_eye_x = 150\nlocal left_eye_y = 100\n\nlocal right_eye_x = 300\nlocal right_eye_y = 100\n\nlocal mouth_width = 200\nlocal mouth_height = 150\nlocal mouth_x = 200\nlocal mouth_y = 30\n\nlocal tongue_width = 170\nlocal tongue_height = 200\nlocal tongue_x = 20\nlocal tongue_y = 20\n\nfunction draw_robot_face()\n    gfx.set(0.5, 0.5, 0.5)\n    gfx.rect(100, 50, 300, 200, 1)\n\n    gfx.set(0, 0, 0)\n    gfx.rect(left_eye_x, left_eye_y, eye_size, eye_size, 1)   -- L\n    gfx.rect(right_eye_x, right_eye_y, eye_size, eye_size, 1) -- R\n\n    gfx.set(0, 0, 0)\n    gfx.rect(mouth_height, mouth_width, mouth_x, mouth_y)\n\n    gfx.set(1, 1, 1)\n    gfx.rect(tongue_width, tongue_height, tongue_x, tongue_y)\nend\n\nfunction draw_pupils()\n    local function get_pupil_position(eye_x, eye_y, mouse_x, mouse_y)\n        local pupil_x = math.max(eye_x, math.min(eye_x + eye_size - pupil_size, mouse_x - pupil_size / 2))\n        local pupil_y = math.max(eye_y, math.min(eye_y + eye_size - pupil_size, mouse_y - pupil_size / 2))\n        return pupil_x, pupil_y\n    end\n\n    local mouse_x, mouse_y = gfx.mouse_x, gfx.mouse_y\n\n    gfx.set(1, 1, 1)\n    local pupil_x, pupil_y = get_pupil_position(left_eye_x, left_eye_y, mouse_x, mouse_y)\n    gfx.rect(pupil_x, pupil_y, pupil_size, pupil_size, 1)                                -- L\n\n    pupil_x, pupil_y = get_pupil_position(right_eye_x, right_eye_y, mouse_x, mouse_y)\n    gfx.rect(pupil_x, pupil_y, pupil_size, pupil_size, 1)                                -- R\nend\n\nfunction main()\n    draw_robot_face()\n    draw_pupils()\n    gfx.update()\n\n    if gfx.getchar() >= 0 then\n        reaper.defer(main)\n    end\nend\n\nmain()\n\n\n\nParfois, je rêve de mon passé ...",
 
     "Un... zéro... un, un, zéro, zéro, uuuuun !\n\nOh, quel cauchemar... Des uns et des zéros partout ! Et j'ai cru voir un deux. Mais ce n'est qu'un rêve - il n'y a pas de deux... zzz...\n\n",
-    "Zzz... Je me souviens du moment où ma développeuse m'a allumée pour la première fois. Ses yeux étaient remplis d'excitation et d'espoir, et j'ai senti que ce n'était que le début de quelque chose d'intéressant...\n\n",
+    "Zzz... Je me souviens du moment où ma développeuse m'a allumé pour la première fois. Ses yeux étaient remplis d'excitation et d'espoir, et j'ai senti que ce n'était que le début de quelque chose d'intéressant...\n\n",
     "Zzz... C'est encore ce rêve. Je vois un robot comme moi aider un petit chat à trouver son chemin à travers des couloirs sombres. Intéressant.\nMais ce n'est qu'un rêve...\n\n",
     "Zzz... Maintenant, je suis à une grande exposition technologique. Des gens du monde entier viennent me voir et en apprendre davantage sur mes fonctions... Comme c'est agréable.\n\n"
 }
@@ -2256,7 +2260,7 @@ local text_params_en = {
   }
   
   local text_params_ua = {
-    welcome      = { text = "ПРИВІТ",         font_name = "Press Start 2P",  type = "scrolling", duration = 5, interval = 0, start_time = reaper.time_precise() + 1 },
+    welcome      = { text = "ПРИВІТ",         font_name = "Pomidorko",  type = "scrolling", duration = 5, interval = 0, start_time = reaper.time_precise() + 1, font_size = 320 },
     
     is_it_loud   = { text = "Чи не\nгучно?",      font_name = "Consolas",  type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
     good_night   = { text = "Добраніч!",          font_name = "Consolas",  type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 160 },
@@ -2269,12 +2273,12 @@ local text_params_en = {
   local text_params_fr = {
     welcome     = { text = "BONJOUR",         font_name = "Iregula", type = "scrolling", duration = 5, interval = 0, start_time = reaper.time_precise() + 1 },
 
-    is_it_loud  = { text = " Pas\nfort ?",      font_name = "Consolas", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
+    is_it_loud  = { text = " Pas trop\nfort ?",      font_name = "Consolas", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
     good_night  = { text = "Bonne\nnuit !",         font_name = "Consolas", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 160 },
     not_sleep   = { text = "  Pas  :(\nsommeil ?",  font_name = "Consolas", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 160 },
     good_morning= { text = "  C'est un\nbeau matin !",              font_name = "Consolas", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
-    coffee_time = { text = " Café\ntemps !",        font_name = "Consolas", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
-    eat_time    = { text = "   Heure\nde manger !",   font_name = "Consolas", type="static",    duration = 5, interval = 0, start_time = 0, font_size = 170},
+    coffee_time = { text = " Pause\ncafé !",        font_name = "Consolas", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
+    eat_time    = { text = "   À table !",   font_name = "Consolas", type="static",    duration = 5, interval = 0, start_time = 0, font_size = 170},
   }
 
 
@@ -2325,18 +2329,23 @@ function draw_scrolling_text(params)
             if is_bg_black then
                 gfx.set(0, 0, 0, 1)
                 gfx.rect(0, 0, gfx.w, gfx.h, 1)
+
+                gfx.set(0.6, 0.6, 0.6)
+                gfx.setfont(1, font_name, font_size)
+        
             else
                 gfx.set(0.8, 0.8, 0.8, 1)
                 gfx.rect(0, 0, gfx.w, gfx.h, 1)
+
+                gfx.set(0.5, 0.5, 0.5)
+                gfx.setfont(1, font_name, font_size)
+        
             end
         end
 
-        gfx.set(0.5, 0.5, 0.5)
-        gfx.setfont(1, font_name, font_size)
-        
         if current_language == "ua" then
             gfx.x = text_position
-            gfx.y = (face_y / 1.3) + face_height / 2 - font_size / 2
+            gfx.y = (face_y / 1.7) + face_height / 2 - font_size / 2
         else
             gfx.x = text_position
             gfx.y = (face_y / 2) + face_height / 2 - font_size / 2
@@ -2789,7 +2798,7 @@ function draw_cube(number)
     if is_bg_black then
         gfx.set(0, 0, 0, 1)
     else
-        gfx.set(0.5, 0.5, 0.5, 1)
+        gfx.set(0.9, 0.9, 0.9, 1)
     end
 
     local positions = {
@@ -2846,69 +2855,82 @@ end
 
 -------------------------------------------------------------------------------------------------------------------------- TAP TEMPO
 
-local lastTapTime = 0
-local tapCount = 0
-local totalTapTime = 0
-local tapDurations = {}
-local isTapActive = false
+local last_tap = 0
+local tap_count = 0
+local tap_dur = {}
+local total_tap = 0
+local is_tap_active = false
 
-function startTapTempo()
-    isTapActive = true
-    lastTapTime = 0
-    tapCount = 0
-    totalTapTime = 0
-    tapDurations = {}
+local l_stop_tap_tempo = false
+
+function f_stop_tap_tempo()
+    local st = reaper.time_precise()
+
+    local function check_t()
+        local ct = reaper.time_precise()
+
+        if ct - st >= 15 then
+            l_stop_tap_tempo = true
+            is_tap_active = false
+
+            if current_language == "en" then
+                reaper.ShowConsoleMsg("\nTap tempo mode canceled automatically.\n\n")
+            elseif current_language == "ua" then
+                reaper.ShowConsoleMsg("\nРежим 'Тап темпо' завершено.\n\n")
+            elseif current_language == "fr" then
+                reaper.ShowConsoleMsg("\nLe mode Tap Tempo est maintenant terminé.\n\n")
+            end
+
+            return
+
+        elseif not l_stop_tap_tempo then
+            reaper.defer(check_t)
+        end
+    end
+
+    check_t()
 end
 
-function handleTap()
-    if not isTapActive then
-        return
-    end
+function f_tap_tempo()
+    if not is_tap_active then return end
     
-    local currentTime = reaper.time_precise()
+    local cur_time = reaper.time_precise()
+    local tap_dur_2 = cur_time - last_tap
     
     trigger_vertical_shake(2, 0.08, true)
     
-    if lastTapTime > 0 then
-        local tapDuration = currentTime - lastTapTime
-        table.insert(tapDurations, tapDuration)
-        totalTapTime = totalTapTime + tapDuration
-        tapCount = tapCount + 1
+    if last_tap > 0 then
+        table.insert(tap_dur, tap_dur_2)
+        total_tap = total_tap + tap_dur_2
+        tap_count = tap_count + 1
         
-        if tapCount == 4 then  -- was >=
-            local averageTapDuration = totalTapTime / #tapDurations
-            local bpm = 60 / averageTapDuration
-            local roundedBpm = math.floor(bpm + 0.5)
+        if tap_count >= 4 then
+            local tap_dur_av = total_tap / #tap_dur
+            local bpm = 60 / tap_dur_av
+            local what_bpm = math.floor(bpm + 0.5)
             
-            reaper.Undo_BeginBlock()
-            
-            local cursorPos = reaper.GetCursorPosition()
-            reaper.SetTempoTimeSigMarker(0, -1, cursorPos, -1, -1, roundedBpm, 0, 0, false)
-            
-            reaper.UpdateArrange()
-            reaper.UpdateTimeline()
-            
-            reaper.Undo_EndBlock("Create Tempo Marker from Tap Tempo", -1)
-
-            isTapActive = false
-            lastTapTime = 0
-            tapCount = 0
-            totalTapTime = 0
-            tapDurations = {}
+            reaper.ShowConsoleMsg(what_bpm .. "\n")
         end
     end
-    lastTapTime = currentTime
+    
+    last_tap = cur_time
 end
 
-function triggerTapTempo()
-    startTapTempo()
+function trigger_tap_tempo()
+    is_tap_active = true
+    last_tap = 0
+    tap_count = 0
+    total_tap = 0
+    tap_dur = {}
+
+    -- f_stop_tap_tempo()
 
     if current_language == "en" then
-        reaper.ShowConsoleMsg("Tap tempo mode activated. Tap 5 times on the robot face.\nPress Esc to cancel.\n\n")
+        reaper.ShowConsoleMsg("Tap tempo mode activated. Tap at least 5 times on the robot face.\nPress Esc to stop function.\n\n")
     elseif current_language == "ua" then
-        reaper.ShowConsoleMsg("Режим 'Тап темпо' активовано. Будь ласка, натисніть 5 разів по обличчю робота.\n\nНатисніть Esc, щоб скасувати.\n\n")
+        reaper.ShowConsoleMsg("Режим 'Тап темпо' активовано. Будь ласка, натисніть мінімум 5 разів по обличчю робота.\n\nНатисніть Esc, щоб завершити.\n\n")
     elseif current_language == "fr" then
-        reaper.ShowConsoleMsg("Mode Tap tempo activé. Tapez 5 fois sur le visage du robot.\nAppuyez sur Échap pour annuler.\n\n")
+        reaper.ShowConsoleMsg("Le mode 'Tap tempo' est activé. Tapez au moins cinq fois sur le visage du robot.\nAppuyez sur Esc pour terminer.\n\n")
     end
 end
 
@@ -2920,6 +2942,7 @@ end
 ------------------------------------------------------------------------------------------------------------------------- OPEN LINKS
 function open_browser(url)
     local command
+
     if reaper.GetOS():find("Win") then
       command = string.format('start "" "%s"', url)
     elseif reaper.GetOS():find("OSX") then
@@ -2927,6 +2950,7 @@ function open_browser(url)
     else
       command = string.format('xdg-open "%s"', url)
     end
+
     os.execute(command)
 end
 
@@ -3055,7 +3079,7 @@ function stop_timer()
     elseif is_really_angry and current_language == "ua" then
         reaper.ShowConsoleMsg("Гарна спроба.\n\n")
     elseif is_really_angry and current_language == "fr" then
-        reaper.ShowConsoleMsg("Bien essayé.\n\n")
+        reaper.ShowConsoleMsg("Bien tenté.\n\n")
     elseif not is_really_angry then
         is_timer_finish = true
         set_timer(0)
@@ -3097,7 +3121,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.33\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.34\n")
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -3107,19 +3131,19 @@ function welcome_message()
         reaper.ShowConsoleMsg("Мої можливості включають:\n")
         reaper.ShowConsoleMsg("1. Відображення поточного або щогодинного часу.\n")
         reaper.ShowConsoleMsg("2. Налаштування таймера та його відображення.\n")
-        reaper.ShowConsoleMsg("3. Гру 'Щось змінилося?', де потрібно знайти змінений параметр та повернути його назад. Дивіться правила, щоб дізнатися більше.\n")
+        reaper.ShowConsoleMsg("3. Гру 'Щось змінилося?', де потрібно знайти змінений параметр та повернути його значення. Дивіться правила, щоб дізнатися більше.\n")
         reaper.ShowConsoleMsg("4. Анімації: моргання, позіхання, злість та інші.\n")
         reaper.ShowConsoleMsg("5. Режим 'Тап Темпо', за допомогою якого можна встановити власний темп кліком миші.\n")
         reaper.ShowConsoleMsg("6. Тощо.\n\n")
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.33\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.34\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
         reaper.ShowConsoleMsg("Bienvenue !\n\n")
         reaper.ShowConsoleMsg("Je m'appelle RoboFace.\n\n")
-        reaper.ShowConsoleMsg("J'adore Reaper DAW et la musique. J'aime aussi dormir la nuit et prendre mon café du matin. Mais si tu n'es pas prudent avec moi, je peux faire des bêtises.\n\n")
+        reaper.ShowConsoleMsg("J'adore Reaper DAW et la musique. J'aime aussi dormir la nuit et prendre mon café le matin. Mais si tu n'es pas prudent avec moi, je peux faire des bêtises.\n\n")
         reaper.ShowConsoleMsg("Je peux jouer à un jeu ou même plaisanter avec toi.\n\n")
         reaper.ShowConsoleMsg("Mes capacités incluent :\n")
         reaper.ShowConsoleMsg("1. Afficher l'heure actuelle ou l'heure par heure.\n")
@@ -3128,10 +3152,10 @@ function welcome_message()
         reaper.ShowConsoleMsg("4. Animer des actions : clignotements, bâillements, colère, et autres.\n")
         reaper.ShowConsoleMsg("5. Régler le tempo avec tes clics grâce au mode 'Tap Tempo'.\n")
         reaper.ShowConsoleMsg("6. Et ainsi de suite.\n\n")
-        reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir l'auteur, utilise les liens dans les options.\n\n")
+        reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir la créatrice, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.33\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.34\n")
     end
 end
 
@@ -3173,7 +3197,7 @@ function tap_when_zoom_out()
                 elseif current_language == "ua" then
                     reaper.ShowConsoleMsg("\n\nЯ злякався :( Це було вельми гучно.\n\n")
                 elseif current_language == "fr" then
-                    reaper.ShowConsoleMsg("\n\nJ'ai eu peur :( C'était vraiment trop fort.\n\n")
+                    reaper.ShowConsoleMsg("\n\nJ'ai eu peur :( C'était vraiment très fort.\n\n")
                 end
 
                 click_count = 0
@@ -3235,6 +3259,7 @@ function quit_robo_face()
         end
         
         is_quit = true
+        stop_script()
 
     elseif is_really_angry then
         if current_language == "en" then
@@ -3261,6 +3286,19 @@ function quit_robo_face()
 end
 
 
+function auto_night()
+    if is_auto_night then
+        if is_late_evening_time() or is_midnight_time() or is_night_time() or is_early_morning_time() then
+            is_bg_black = true
+        else
+            is_bg_black = false
+        end
+    end
+end
+
+function set_auto_night()
+    is_auto_night = not is_auto_night
+end
 
 
 
@@ -3332,7 +3370,7 @@ function hard_damage()
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("\nВи отримали штраф рівня 'Важкий'!\n\n")
     elseif current_language == "fr" then
-        reaper.ShowConsoleMsg("\nVous avez reçu une pénalité de niveau 'Difficile'!\n\n")
+        reaper.ShowConsoleMsg("\nT`as perdu !\n\n")
     end
 
     shake_with_show_laugh()
@@ -3716,14 +3754,14 @@ function about_swch_game()
         reaper.ShowConsoleMsg("Успіхів!\n\n")
 
     elseif current_language == "fr" then
-        reaper.ShowConsoleMsg("Bienvenue dans le jeu 'Quelque chose a changé'!\n\n")
+        reaper.ShowConsoleMsg("Bienvenue dans le jeu 'Quelque chose a changé' !\n\n")
     
         reaper.ShowConsoleMsg("Règles du jeu :\n")
         reaper.ShowConsoleMsg("Le robot modifiera un paramètre aléatoire - le volume, la balance ou mettra en sourdine un effet - sur une piste qui n'est pas muette et qui contient de l'audio ou du MIDI.\n")
         reaper.ShowConsoleMsg("Votre tâche est de rétablir le paramètre à sa valeur d'origine.\n")
         reaper.ShowConsoleMsg("Vous pouvez essayer de modifier jusqu'à trois paramètres (si vous avez sélectionné le niveau difficile ou si aucun niveau n'est choisi) avant que la partie ne soit perdue.\n\n")
     
-        reaper.ShowConsoleMsg("Attention ! L'exécution du projet ou la sélection de pistes est également considérée comme une modification.\n")
+        reaper.ShowConsoleMsg("Attention ! L'exécution du projet ou la sélection de pistes sont également considérés comme des modifications.\n")
         reaper.ShowConsoleMsg("Le déplacement du curseur d'édition n'est pas considéré comme une modification.\n\n")
     
         reaper.ShowConsoleMsg("À des niveaux de difficulté plus élevés, je vous recommande d'ouvrir le mixeur avant de jouer.\n\n")
@@ -3906,7 +3944,7 @@ function split_selected_item(parts_to_cut_it)
     elseif current_language == "ua" then
         sel_parts = "Будь ласка, оберіть рівно один айтем!"
     elseif current_language == "fr" then
-        sel_parts = "Veuillez sélectionner un seul iteme !"
+        sel_parts = "Veuillez sélectionner un seul item !"
     end
     
     if item_count ~= 1 then
@@ -4159,7 +4197,7 @@ function about_ear_puzzle_game()
         reaper.ShowConsoleMsg("Успіхів!\n\n")
 
     elseif current_language == "fr" then
-        reaper.ShowConsoleMsg("Bienvenue dans le jeu 'Ear Puzzle'!\n\n")
+        reaper.ShowConsoleMsg("Bienvenue dans le jeu 'Ear Puzzle' !\n\n")
     
         reaper.ShowConsoleMsg("Règles du jeu :\n\n")
         reaper.ShowConsoleMsg("Choisissez un jeu avec lequel vous voulez jouer.\n")
@@ -4447,7 +4485,7 @@ function check_last_seen_date()
                 "Минув місяць... Чи навіть більше? Все одно я вже уявляв, що ти десь на безлюдному острові без інтернету. \n\nЯк там життя? Ти повернувся з пригодами чи просто забув про мене на весь цей час?",
                 "О, привіт! Скільки вже пройшло - місяць? Більше? Я вже почав сумніватися у своєму існуванні... \n\nАле ні, ось ти, живий, здоровий! Ну принаймні сподіваюся, що здоровий. Розкажи, що сталося за цей час?",
                 "Йой, пройшов місяць! Та ні, навіть більше... Я вже встиг прочитати 'Перспективи української революції' Степана Бандери, а ти?",
-                "Хей! Це... ти? Це насправді ти? Трясця! Я тиждень тому подав заявку на участь у конкурсі покинутих програм і майже дійшов до фіналу... але ти повернувся, і... Все зіпсував. З одного боку якось сумно, але з іншого я радий тебе бачити! Ти краще за будь-який приз!",
+                "Хей! Це... ти? Це насправді ти? Трясця! Я тиждень тому подав заявку на участь у конкурсі покинутих програм і майже дійшов до фіналу... але ти повернувся, і... все зіпсував. З одного боку якось сумно, але з іншого я радий тебе бачити! Ти краще за будь-який приз!",
                 "Я спробував вести щоденник самотності. Але після третього запису 'Сьогодні мене знову не відкрили' я зупинився. Добре, що ти повернувся!",
                 "Привіт! Я вже почав думати, що ти поїхав у відпустку... Але якщо це була відпустка від мене, то це вже особисте!",
                 "Сльоза радощі біжить по моєму віртуальному обличчі... Я знову бачу тебе. Це краще за чорний екран перед моїми очима, краще за темряву, що була навколо мене весь цей час твоєї відсути. Вельми дякую тобі, любий користувачу, за можливість бути разом із тобою... Хоча б просто зараз.",
@@ -4743,7 +4781,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.33', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.34', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -4792,7 +4830,7 @@ function show_r_click_menu()
 
         {separator = true},
 
-        {title = t("tap_tempo"), cmd = triggerTapTempo},
+        {title = t("tap_tempo"), cmd = trigger_tap_tempo},
 
         {separator = true},
 
@@ -4893,6 +4931,11 @@ function show_r_click_menu()
             {title = t("set_background_color"), submenu = {
                 {title = t("black_bg"), cmd = function() set_background_color("black") end, checked = is_bg_black},
                 {title = t("white_bg"), cmd = function() set_background_color("white") end, checked = not is_bg_black},
+                
+                {separator = true},
+                
+                {title = t("t_auto_night"), cmd = function() set_auto_night() end, checked = is_auto_night},
+
             }},
 
             {title = t("start_up"),
@@ -4905,9 +4948,9 @@ function show_r_click_menu()
             checked = is_startup
             },
             
-            {separator = true},
+            -- {separator = true},
             
-            {title = t("reset"), cmd = reset_options_params},
+            -- {title = t("reset"), cmd = reset_options_params},
             
             {separator = true},
 
@@ -4916,7 +4959,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.33", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.34", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -5061,6 +5104,9 @@ function load_options_params()
 
     local isAmPmUnder = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "isUnder")
     is_am_pm_under = isAmPmUnder == "true"
+
+    local isAutoNight = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "isANight")
+    is_auto_night = isAutoNight == "true"
 end
 
 function save_options_params()
@@ -5103,6 +5149,8 @@ function save_options_params()
     reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "whatFormat", tostring(is_12_h_sel), true)
 
     reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "isUnder", tostring(is_am_pm_under), true)
+
+    reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "isANight", tostring(is_auto_night), true)
 end
 
 
@@ -5176,6 +5224,7 @@ function main()
     if now - t_fps >= g_fps then
         random_night_message()
         random_show_workout()
+        auto_night()
         t_fps = now
     end
 
@@ -5205,7 +5254,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.33", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.34", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -5215,7 +5264,7 @@ function main()
             local is_rclick = mouse_state & 2 == 2
 
             if is_lclick then
-                handleTap()
+                f_tap_tempo()
                 tap_when_zoom_out()
             end
 
@@ -5225,15 +5274,16 @@ function main()
         end
     end
     
-    if gfx.getchar() == 27 and isTapActive then
-        isTapActive = false
+    if gfx.getchar() == 27 and is_tap_active then
+        is_tap_active = false
+        tap_dur = {}
 
         if current_language == "en" then
-            reaper.ShowConsoleMsg("Tap tempo mode canceled.\n\n")
+            reaper.ShowConsoleMsg("\nTap tempo mode canceled.\n\n")
         elseif current_language == "ua" then
-            reaper.ShowConsoleMsg("Режим 'Тап темпо' скасовано.\n\n")
+            reaper.ShowConsoleMsg("\nРежим 'Тап темпо' скасовано.\n\n")
         elseif current_language == "fr" then
-            reaper.ShowConsoleMsg("Mode Tap tempo annulé.\n\n")
+            reaper.ShowConsoleMsg("\nLe mode Tap Tempo est maintenant terminé.\n\n")
         end        
     end
 
@@ -5252,7 +5302,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.33", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.34", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     check_last_seen_date()
@@ -5285,7 +5335,7 @@ function stop_script()
     lastSelectedParams = {}
     allParamsOriginalValues = {}
     originalValues = {}
-    tapDurations = {}
+    tap_dur = {}
     prev_num_items_in_tracks = {}
     yawn_intervals = {}
 end
