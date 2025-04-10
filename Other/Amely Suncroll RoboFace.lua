@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.34
+-- @version 1.35
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -27,6 +27,7 @@
 --    + 1.32 fix making Reaper slow after a few hours work (I hope), add calendar messages, add welcome back messages, add EarPuzzle game, add workout animation, improve show animations within day time
 --    + 1.33 fix error with welcome back messages
 --    + 1.34 minor update French localisation, change 'Tap Tempo' function to just show bpm, made cube dots white with white background, add auto night mode (beta), change random time to show animations (was 2-3 hours, now 1-1,5 hours)
+--    + 1.35 important fix no show some type of emotions - everything is now tested and working!
 
 
 
@@ -315,7 +316,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.34", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.35", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -330,7 +331,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.34", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.35", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -639,6 +640,7 @@ local next_yawn_time = nil
 local angry_start_time = nil
 local last_loud_time = nil
 local cooldown_duration = 5
+local is_angry = false
 
 
 ---------------------------------- SHAKE PARAMETERS
@@ -668,9 +670,25 @@ local g_fps = 1
 
 ---------------------------------- OTHER PARAMETERS
 local is_reading = false
+local is_reading_a = false
+
+local show_book_one = false
+local show_book_two = false
+local show_book_three = false
+local show_book_four = false
+local show_book_five = false
+local show_book_six = false
+
 local is_workout = false
 local is_antennas = false
 local is_auto_night = false
+local t_f_f = false
+
+local is_sleeping = false
+local is_recording = false
+local is_yawning = false
+local is_sneeze_general = false
+local is_coffee = false
 
 
 
@@ -752,14 +770,40 @@ function draw_robot_face(scale, is_eye_open, is_sleeping, is_bg_black)
     gfx.rect(0, 0, gfx.w, gfx.h, 1)
 
 
+    ----------------------------------------------------------------------------------------------------------------------------- 24
+    local f_h = gfx.h / 2
+    local b_y = 0
+    local y_y = gfx.h / 2
+
+    if t_f_f then
+        gfx.set(0, 0.55, 1, 1) -- b
+        gfx.rect(0, b_y, gfx.w, f_h, 1)
+
+        gfx.set(1, 0.84, 0, 1) -- y
+        gfx.rect(0, y_y, gfx.w, f_h, 1)
+    end
+
+
     ------------------------------------------------------------------------------------------------------------------------- SHADOW
     if not is_bg_black then
         local shadow_offset = 3
+        
         if is_sleeping then
             gfx.set(0.4, 0.4, 0.4, 1)
             gfx.rect(face_x + shadow_offset, face_y + shadow_offset + animate_sleep(), face_width, face_height, 1)
         elseif not is_sleeping then
             gfx.set(0.5, 0.5, 0.5, 1)
+            gfx.rect(face_x + shadow_offset, face_y + shadow_offset, face_width, face_height, 1)
+        end
+        
+    elseif is_bg_black and t_f_f then
+        local shadow_offset = 3
+        
+        if is_sleeping then
+            gfx.set(0.1, 0.1, 0.1, 1)
+            gfx.rect(face_x + shadow_offset, face_y + shadow_offset + animate_sleep(), face_width, face_height, 1)
+        elseif not is_sleeping then
+            gfx.set(0.3, 0.3, 0.3, 1)
             gfx.rect(face_x + shadow_offset, face_y + shadow_offset, face_width, face_height, 1)
         end
     end
@@ -968,24 +1012,25 @@ function draw_robot_face(scale, is_eye_open, is_sleeping, is_bg_black)
             gfx.line(book_x, book_y + i, book_x + book_width / 2, book_y - book_height * (- 0.15) + i) -- R
             gfx.line(book_x + book_width, book_y + i, book_x + book_width / 2, book_y - book_height * (- 0.15) + i) -- L
             
+            if show_book_one then
+                gfx.line(book_x + book_width / 1.2, book_y + i,       book_x + book_width / 2, book_y - book_height * (- 0.15) + i) -- 1
+            elseif show_book_two then
+                gfx.line(book_x + book_width / 1.5, book_y + i,       book_x + book_width / 2, book_y - book_height * (- 0.15) + i) -- 2
+            elseif show_book_three then
+                gfx.line(book_x + book_width / 1.8, book_y + i,       book_x + book_width / 2, book_y - book_height * (- 0.15) + i) -- 3
+            elseif show_book_four then
+                gfx.line(book_x + book_width / 2.2, book_y + i,       book_x + book_width / 2, book_y - book_height * (- 0.15) + i) -- 4
+            elseif show_book_five then
+                gfx.line(book_x + book_width / 3,   book_y + i,       book_x + book_width / 2, book_y - book_height * (- 0.15) + i) -- 5
+            elseif show_book_six then
+                gfx.line(book_x + book_width / 6,   book_y + i,       book_x + book_width / 2, book_y - book_height * (- 0.15) + i) -- 6
+            end
+            
             gfx.line(book_x + i, book_y, book_x + i, book_y + book_height)
             gfx.line(book_x + book_width - i, book_y, book_x + book_width - i, book_y + book_height)
 
             gfx.line(book_x + book_width / 2 + i / 2, book_y + book_height * 0.2, book_x + book_width / 2, book_y + book_height)
         end
-
-        -- first frame
-            local apex_x = book_x + book_width / 2
-            local apex_y = book_y - book_height * (-0.15)
-            local right_x = book_x + book_width
-            local right_y = book_y
-            local mid_x = (apex_x + right_x) / 2
-            local mid_y = (apex_y + right_y) / 2 - book_height * 0.1
-
-            gfx.set(1, 0, 0, 1)
-            -- gfx.triangle(apex_x, apex_y, right_x, right_y, mid_x, mid_y)
-
-        -- second frame
 
     end
 
@@ -1491,6 +1536,28 @@ function get_arrange_focus()
     reaper.Main_OnCommand(40913, 0)
 end
 
+function queue(actions)
+    local start_time = reaper.time_precise()
+    local i = 1
+  
+    local function step()
+        local now = reaper.time_precise()
+
+        while i <= #actions and now - start_time >= actions[i][1] do
+            actions[i][2]() -- attempt to call a nil value (field 'integer index')
+            i = i + 1
+        end
+  
+        if i <= #actions then
+            reaper.defer(step)
+        else
+            return
+        end
+    end
+  
+    step()
+end
+
 
 
 
@@ -1738,7 +1805,6 @@ function check_for_yawn()
         init_yawn_intervals()
     end
 
-
     if next_yawn_time and current_time >= next_yawn_time then
         yawn_start_time = current_time
         next_yawn_time = nil
@@ -1767,7 +1833,7 @@ function animate_yawn()
 
     if yawn_start_time then
         if current_time - yawn_start_time <= yawn_duration then
-            is_eye_open = false 
+            is_eye_open = false
             return true 
         else
             yawn_start_time = nil  
@@ -1999,12 +2065,81 @@ local workout_interval = math.random(60, 100)
 function random_show_workout()
     local current_time = reaper.time_precise() / 60
 
-    if not is_angry and not is_sleeping and not is_recording and not is_angry and not is_reading and not is_workout and not is_coffee and (is_morning_time() or is_day_time()) then
+    if not (
+        is_angry or
+        is_sleeping or
+        is_yawning or
+        is_sneeze_general or
+        is_reading or
+        is_coffee
+    ) and (is_morning_time() or is_day_time()) then
         if current_time - last_workout_time >= workout_interval then
             shake_with_show_workout()
 
             last_workout_time = current_time
             workout_interval = math.random(60, 100)
+        end
+    end
+end
+
+
+
+------------------------------------------------------------------------------------------ BOOK
+
+function animation_book()
+    reaper.ShowConsoleMsg("book start\n")
+
+    queue{
+      {0, function() show_book_one = true end},
+      {0.15, function() show_book_one = false; show_book_two = true end},
+      {0.30, function() show_book_two = false; show_book_three = true end},
+      {0.45, function() show_book_three = false; show_book_four = true end},
+      {0.6, function() show_book_four = false; show_book_five = true end},
+      {0.75, function() show_book_five = false; show_book_six = true end},
+      {0.9, function() show_book_six = false end},
+    }
+end
+
+function animation_book_nx()
+    queue{
+        {1, function() animation_book() end},
+        {4, function() animation_book() end},
+        {7, function() animation_book() end},
+        {10, function() animation_book() end},
+
+        {16, function() animation_book() end},
+        {19, function() animation_book() end},
+        {22, function() animation_book() end},
+        {25, function() animation_book() end},
+
+        {30, function() is_reading = false end},
+    }
+end
+
+function animation_book_start()
+    is_reading = true
+    animation_book_nx()
+end
+
+local last_book_a_time = reaper.time_precise() / 60
+local book_a_interval = math.random(60, 100)
+
+function random_show_book_a()
+    local current_time = reaper.time_precise() / 60
+
+    if not (
+        is_angry or
+        is_sleeping or
+        is_yawning or
+        is_sneeze_general or
+        is_workout or
+        is_coffee
+    ) and (is_day_time() or is_evening_time()) then
+        if current_time - last_book_a_time >= book_a_interval then
+            animation_book_start()
+
+            last_book_a_time = current_time
+            book_a_interval = math.random(60, 100)
         end
     end
 end
@@ -2086,7 +2221,6 @@ end
 
 
 ---------------------------------------------------------------------------------------- SNEEZE
-is_sneeze_general = false
 
 function animate_sneeze()
     is_sneeze_general = true
@@ -2128,12 +2262,21 @@ end
 local last_sneeze_time = reaper.time_precise() / 60
 local sneeze_interval = math.random(60, 100)
 
-function random_sneeze()
+function random_show_sneeze()
     local current_time = reaper.time_precise() / 60
 
-    if not is_angry and not is_sleeping and not is_yawning and not is_sneeze_general then
+    if not (
+        is_angry or
+        is_sleeping or
+        is_yawning or
+        is_sneeze_general or
+        is_workout or
+        is_reading or
+        is_coffee
+    ) then
         if current_time - last_sneeze_time >= sneeze_interval then
             animate_sneeze()
+
             last_sneeze_time = current_time
             sneeze_interval = math.random(60, 100)
         end
@@ -2260,7 +2403,7 @@ local text_params_en = {
   }
   
   local text_params_ua = {
-    welcome      = { text = "ПРИВІТ",         font_name = "Pomidorko",  type = "scrolling", duration = 5, interval = 0, start_time = reaper.time_precise() + 1, font_size = 320 },
+    welcome      = { text = "ПРИВІТ",         font_name = "Pomidorko",  type = "scrolling", duration = 5, interval = 0, start_time = reaper.time_precise() + 1, font_size = 300 },
     
     is_it_loud   = { text = "Чи не\nгучно?",      font_name = "Consolas",  type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
     good_night   = { text = "Добраніч!",          font_name = "Consolas",  type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 160 },
@@ -2330,7 +2473,7 @@ function draw_scrolling_text(params)
                 gfx.set(0, 0, 0, 1)
                 gfx.rect(0, 0, gfx.w, gfx.h, 1)
 
-                gfx.set(0.6, 0.6, 0.6)
+                gfx.set(0.7, 0.7, 0.7)
                 gfx.setfont(1, font_name, font_size)
         
             else
@@ -3121,7 +3264,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.34\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.35\n")
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -3138,7 +3281,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.34\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.35\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
         reaper.ShowConsoleMsg("Bienvenue !\n\n")
@@ -3155,7 +3298,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir la créatrice, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.34\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.35\n")
     end
 end
 
@@ -4290,6 +4433,18 @@ function print_sp_date()
     end
 end
 
+function is_t_f_f()
+    local current_time = os.date("*t")
+    local day = current_time.day
+    local month = current_time.month
+    
+    if day == 24 and month == 2 then
+        t_f_f = true
+    else
+        t_f_f = false
+    end
+end
+
 
 
 local last_seen_key = "LastSeenDate"
@@ -4781,7 +4936,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.34', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.35', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -4793,7 +4948,7 @@ function show_r_click_menu()
     local dock_menu_title = is_docked and t("undock") or t("dock")
     local menu = {
 
-        -- {title = "test", cmd = animation_book},
+        {title = "test", cmd = shake_with_show_workout},
 
         {title = t("time"), submenu = {
             {title = t("current"), cmd = toggle_show_system_time, checked = is_show_system_time},
@@ -4959,7 +5114,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.34", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.35", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -5186,21 +5341,16 @@ function main()
             draw_robot_face(scale, is_eye_open, is_angry, is_bg_black)
             -- draw_pupils(scale)
             
-            
             if is_angry then
                 reaper.PreventUIRefresh(1)
             end
 
-            if not is_angry and not is_sleeping and not is_recording and not is_angry and not is_reading and not is_workout and not is_coffee then
+            if not is_angry and not is_sleeping and not is_recording and not is_reading and not is_workout and not is_coffee then
                 check_for_yawn()
                 local is_yawning = animate_yawn()
 
                 if not is_yawning and not is_recording and not is_sneeze_one and not is_sneeze_two then
                     animate_blink()
-                end
-
-                if not is_yawning and not is_recording and not is_sleeping and not is_angry and not is_reading and not is_workout and not is_coffee and (is_morning_time() or is_day_time() or is_evening_time()) then
-                    random_sneeze()
                 end
 
                 local state = type_of_text_over()
@@ -5222,8 +5372,11 @@ function main()
     end
 
     if now - t_fps >= g_fps then
-        random_night_message()
+        random_show_sneeze()
         random_show_workout()
+        random_show_book_a()
+
+        random_night_message()
         auto_night()
         t_fps = now
     end
@@ -5254,7 +5407,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.34", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.35", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -5302,13 +5455,14 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.34", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.35", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     check_last_seen_date()
     check_script_window_position()
     check_welcome_message()
     print_sp_date()
+    is_t_f_f()
     main()
     f_stop_one()
 
