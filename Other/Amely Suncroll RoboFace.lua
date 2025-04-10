@@ -4948,7 +4948,7 @@ function show_r_click_menu()
     local dock_menu_title = is_docked and t("undock") or t("dock")
     local menu = {
 
-        {title = "test", cmd = shake_with_show_workout},
+        -- {title = "test", cmd = shake_with_show_workout},
 
         {title = t("time"), submenu = {
             {title = t("current"), cmd = toggle_show_system_time, checked = is_show_system_time},
