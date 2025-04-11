@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.35
+-- @version 1.36
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -28,6 +28,7 @@
 --    + 1.33 fix error with welcome back messages
 --    + 1.34 minor update French localisation, change 'Tap Tempo' function to just show bpm, made cube dots white with white background, add auto night mode (beta), change random time to show animations (was 2-3 hours, now 1-1,5 hours)
 --    + 1.35 important fix no show some type of emotions - everything is now tested and working!
+--    + 1.36 fix show night dream in ukrainian but current language is french (excusez-moi)
 
 
 
@@ -316,7 +317,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.35", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.36", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -331,7 +332,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.35", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.36", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -1544,7 +1545,7 @@ function queue(actions)
         local now = reaper.time_precise()
 
         while i <= #actions and now - start_time >= actions[i][1] do
-            actions[i][2]() -- attempt to call a nil value (field 'integer index')
+            actions[i][2]()
             i = i + 1
         end
   
@@ -1784,7 +1785,7 @@ end
 
 function init_yawn_intervals()
     yawn_intervals = {}
-    local num_yawns = math.random(3, 4)
+    local num_yawns = math.random(2, 3)
     local base_time = reaper.time_precise()
 
     for i = 1, num_yawns do
@@ -1800,7 +1801,7 @@ function check_for_yawn()
     
     if not yawn_intervals then init_yawn_intervals() end
 
-    if current_time_table.hour == 0 and current_time_table.min == 0 and (is_early_morning_time() or is_late_evening_time()) then
+    if current_time_table.hour == 0 and current_time_table.min == 0 then
         yawn_start_time = current_time
         init_yawn_intervals()
     end
@@ -2087,8 +2088,6 @@ end
 ------------------------------------------------------------------------------------------ BOOK
 
 function animation_book()
-    reaper.ShowConsoleMsg("book start\n")
-
     queue{
       {0, function() show_book_one = true end},
       {0.15, function() show_book_one = false; show_book_two = true end},
@@ -2289,7 +2288,57 @@ end
 
 
 
-------------------------------------------------------------------------------- RANDOM MESSAGES
+-------------------------------------------------------------------------------------------------------------------- RANDOM MESSAGES
+
+---------------------------------------------------------------------------------- DAY MESSAGES
+
+--[[
+local day_messages_en = {
+    "123",
+}
+
+local day_messages_ua = {
+    "123",
+}
+
+local day_messages_fr = {
+    "123",
+}
+
+
+function show_day_message()
+    if current_language == "en" then
+        local randomIndex = math.random(#day_messages_en)
+        reaper.ShowConsoleMsg(day_messages_en[randomIndex] .. "\n")
+    elseif current_language == "ua" then
+        local randomIndex = math.random(#day_messages_ua)
+        reaper.ShowConsoleMsg(day_messages_ua[randomIndex] .. "\n")
+    elseif current_language == "fr" then
+        local randomIndex = math.random(#day_messages_fr)
+        reaper.ShowConsoleMsg(day_messages_fr[randomIndex] .. "\n")
+    end
+end
+
+local last_day_message_time = reaper.time_precise() / 60
+local day_message_interval = math.random(60, 180)
+
+function random_day_message()
+    local current_time = reaper.time_precise() / 60
+    local is_sleeping = should_robot_sleep()
+
+    if not is_angry and is_night_time() and not is_yawning and not is_day_message_general then
+        if current_time - last_day_message_time >= day_message_interval then
+            show_day_message()
+
+            last_day_message_time = current_time
+            day_message_interval = math.random(60, 180)
+        end
+    end
+end
+
+]]--
+
+-------------------------------------------------------------------------------- NIGHT MESSAGES
 
 local night_messages_en = {
     "Oh no... I see dream I forgot to save the project, again! Real nightmare...\n\n",
@@ -2349,7 +2398,7 @@ function show_night_message()
         local randomIndex = math.random(#night_messages_ua)
         reaper.ShowConsoleMsg(night_messages_ua[randomIndex] .. "\n")
     elseif current_language == "fr" then
-        local randomIndex = math.random(#night_messages_ua)
+        local randomIndex = math.random(#night_messages_fr)
         reaper.ShowConsoleMsg(night_messages_fr[randomIndex] .. "\n")
     end
 end
@@ -3264,7 +3313,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.35\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.36\n")
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -3281,7 +3330,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.35\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.36\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
         reaper.ShowConsoleMsg("Bienvenue !\n\n")
@@ -3298,7 +3347,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir la créatrice, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.35\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.36\n")
     end
 end
 
@@ -4936,7 +4985,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.35', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.36', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -5114,7 +5163,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.35", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.36", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -5345,25 +5394,12 @@ function main()
                 reaper.PreventUIRefresh(1)
             end
 
-            if not is_angry and not is_sleeping and not is_recording and not is_reading and not is_workout and not is_coffee then
+            if not is_angry and not is_sleeping and not is_recording and not is_reading and not is_workout and not is_coffee and (is_early_morning_time() or is_late_evening_time()) then
                 check_for_yawn()
                 local is_yawning = animate_yawn()
 
                 if not is_yawning and not is_recording and not is_sneeze_one and not is_sneeze_two then
                     animate_blink()
-                end
-
-                local state = type_of_text_over()
-                local params_table = get_current_text_params()
-
-                if state and params_table[state] then
-                    local stype = params_table[state].type
-
-                    if stype == "scrolling" and not l_stop_one then
-                        draw_scrolling_text(params_table[state])
-                    elseif stype == "static" then
-                        draw_static_text(params_table[state])
-                    end
                 end
             end
 
@@ -5379,6 +5415,19 @@ function main()
         random_night_message()
         auto_night()
         t_fps = now
+    end
+
+    local state = type_of_text_over()
+    local params_table = get_current_text_params()
+
+    if state and params_table[state] then
+       local stype = params_table[state].type
+
+        if stype == "scrolling" and not l_stop_one then
+            draw_scrolling_text(params_table[state])
+        elseif stype == "static" then
+            draw_static_text(params_table[state])
+        end
     end
 
     if is_me_closed or is_me_docked and not is_paused then
@@ -5407,7 +5456,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.35", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.36", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -5455,7 +5504,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.35", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.36", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     check_last_seen_date()
