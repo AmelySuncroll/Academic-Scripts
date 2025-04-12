@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.37
+-- @version 1.38
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -29,7 +29,8 @@
 --    + 1.34 minor update French localisation, change 'Tap Tempo' function to just show bpm, made cube dots white with white background, add auto night mode (beta), change random time to show animations (was 2-3 hours, now 1-1,5 hours)
 --    + 1.35 important fix no show some type of emotions - everything is now tested and working!
 --    + 1.36 fix show night dream in ukrainian but current language is french (excusez-moi)
---    + 1.37 fix keep small eyes after sneezing
+--    + 1.37 fix keep close eyes after sneezing
+--    + 1.38 little improvements for animations
 
 
 
@@ -319,7 +320,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.37", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.38", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -334,7 +335,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.37", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.38", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -2080,7 +2081,7 @@ function random_show_workout()
         is_sneeze_general or
         is_reading or
         is_coffee
-    ) then -- and (is_morning_time() or is_day_time()) then
+    ) and (is_morning_time() or is_day_time()) then
         if current_time - last_workout_time >= workout_interval then
             shake_with_show_workout()
 
@@ -2129,7 +2130,7 @@ function animation_book_start()
 end
 
 local last_book_a_time = reaper.time_precise() / 60
-local book_a_interval = math.random(60, 100)
+local book_a_interval = math.random(50, 100)
 
 function random_show_book_a()
     local current_time = reaper.time_precise() / 60
@@ -2141,12 +2142,12 @@ function random_show_book_a()
         is_sneeze_general or
         is_workout or
         is_coffee
-    ) then -- and (is_day_time() or is_evening_time()) then
+    ) and (is_day_time() or is_evening_time()) then
         if current_time - last_book_a_time >= book_a_interval then
             animation_book_start()
 
             last_book_a_time = current_time
-            book_a_interval = math.random(60, 100)
+            book_a_interval = math.random(50, 100)
             -- reaper.ShowConsoleMsg("book " .. book_a_interval .. "\n")
         end
     end
@@ -2270,7 +2271,7 @@ function animate_sneeze()
 end
 
 local last_sneeze_time = reaper.time_precise() / 60
-local sneeze_interval = math.random(60, 100)
+local sneeze_interval = math.random(80, 100)
 
 function random_show_sneeze()
     local current_time = reaper.time_precise() / 60
@@ -2288,7 +2289,7 @@ function random_show_sneeze()
             animate_sneeze()
 
             last_sneeze_time = current_time
-            sneeze_interval = math.random(60, 100)
+            sneeze_interval = math.random(80, 100)
             -- reaper.ShowConsoleMsg("sn " .. sneeze_interval .. "\n")
         end
     end
@@ -3325,7 +3326,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.37\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.38\n")
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -3342,7 +3343,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.37\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.38\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
         reaper.ShowConsoleMsg("Bienvenue !\n\n")
@@ -3359,7 +3360,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir la créatrice, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.37\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.38\n")
     end
 end
 
@@ -4997,7 +4998,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.37', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.38', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -5175,7 +5176,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.37", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.38", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -5468,7 +5469,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.37", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.38", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -5516,7 +5517,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.37", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.38", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     check_last_seen_date()
