@@ -2086,7 +2086,7 @@ function random_show_workout()
 
             last_workout_time = current_time
             workout_interval = math.random(60, 100)
-            reaper.ShowConsoleMsg("workout " .. workout_interval .. "\n")
+            -- reaper.ShowConsoleMsg("workout " .. workout_interval .. "\n")
         end
     end
 end
@@ -2147,7 +2147,7 @@ function random_show_book_a()
 
             last_book_a_time = current_time
             book_a_interval = math.random(60, 100)
-            reaper.ShowConsoleMsg("book " .. book_a_interval .. "\n")
+            -- reaper.ShowConsoleMsg("book " .. book_a_interval .. "\n")
         end
     end
 end
@@ -2289,7 +2289,7 @@ function random_show_sneeze()
 
             last_sneeze_time = current_time
             sneeze_interval = math.random(60, 100)
-            reaper.ShowConsoleMsg("sn " .. sneeze_interval .. "\n")
+            -- reaper.ShowConsoleMsg("sn " .. sneeze_interval .. "\n")
         end
     end
 end
