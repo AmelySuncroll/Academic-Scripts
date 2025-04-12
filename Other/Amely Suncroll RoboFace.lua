@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.38
+-- @version 1.39
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -31,6 +31,7 @@
 --    + 1.36 fix show night dream in ukrainian but current language is french (excusez-moi)
 --    + 1.37 fix keep close eyes after sneezing
 --    + 1.38 little improvements for animations
+--    + 1.39 fix not blink eyes after little improvements for animations, hahaha
 
 
 
@@ -320,7 +321,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.38", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.39", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -335,7 +336,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.38", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.39", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -547,7 +548,7 @@ end
 ------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------
 
-math.randomseed(math.floor(reaper.time_precise() / 60))
+-- math.randomseed(math.floor(reaper.time_precise() / 60))
 
 local robot_x = 0
 local robot_y = 0
@@ -1651,6 +1652,7 @@ end
 
 function animate_blink()
     local current_time = reaper.time_precise()
+    
     if is_eye_open and not is_angry and current_time - last_blink_time >= blink_interval then
         is_eye_open = false
         last_blink_time = current_time
@@ -3326,7 +3328,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.38\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.39\n")
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт!\n\n")
@@ -3343,7 +3345,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.38\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.39\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
         reaper.ShowConsoleMsg("Bienvenue !\n\n")
@@ -3360,7 +3362,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir la créatrice, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.38\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.39\n")
     end
 end
 
@@ -4998,7 +5000,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.38', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.39', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -5176,7 +5178,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.38", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.39", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -5407,8 +5409,11 @@ function main()
                 reaper.PreventUIRefresh(1)
             end
 
-            if not is_angry and not is_sleeping and not is_recording and not is_reading and not is_workout and not is_coffee and (is_early_morning_time() or is_late_evening_time()) then
-                check_for_yawn()
+            if not is_angry and not is_sleeping and not is_recording and not is_reading and not is_workout and not is_coffee then
+                if (is_early_morning_time() or is_late_evening_time()) then
+                    check_for_yawn()
+                end
+
                 local is_yawning = animate_yawn()
 
                 if not is_yawning and not is_recording and not is_sneeze_one and not is_sneeze_two then
@@ -5469,7 +5474,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.38", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.39", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -5517,7 +5522,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.38", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.39", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     check_last_seen_date()
