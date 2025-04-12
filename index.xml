@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="fddfe91b13ec76d84070ef60ce7aba13145f5732">
+<index version="1" name="Academic-Scripts" commit="b1269ec7d4889792c32492c4ad60fd56e230fa6e">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -856,6 +856,36 @@
 + 1.35 important fix no show some type of emotions - everything is now tested and working!
 + 1.36 fix show night dream in ukrainian but current language is french (excusez-moi)]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/fddfe91b13ec76d84070ef60ce7aba13145f5732/Other/Amely%20Suncroll%20RoboFace.lua</source>
+      </version>
+      <version name="1.37" author="Amely Suncroll" time="2025-04-12T14:29:10Z">
+        <changelog><![CDATA[+ init @
++ 1.01 fix error when not docked and playing
++ 1.1 add robot zoom, fix angry emotion (duration and some things), fix screen text messages and add something interesting else
++ 1.13 fix yawn animation when recording, add pause when you go to midi editor, add auto startup
++ 1.14 better sneeze emotion, change donate link and fix some small things
++ 1.15 fix cube zoom, adding "Games" folder
++ 1.17 optimisated: terrible load grafics if midi editor is open, add script state to action window
++ 1.18 optimisated: pause sleeping animation when click and drag mouse (anywhere)
++ 1.19 add Patreon link
++ 1.20 fix get sleep in one second after script start
++ 1.21 add clock format option: 12 or 24 hours (with am/pm)
++ 1.22 changed patreon link to ko-fi link
++ 1.23 add robomaze game link
++ 1.24 delete repeating "gfx.update" rows and leave only one of them; "Відображення таймера" changed to "Від. таймера" in ua language
++ 1.25 add some improvements to save fps: totally remove animation when delete all items and shake when edit cursor move to project start; remove seconds from all functions and animations are using time (but not from timer); fix correct stop script when click "Exit" in context menu; pupils are moving with roboface if metronome is on.
++ 1.26 fix high cpu load at night
++ 1.27 improve angry animation, fix rules for 'Something was changed?' game, fix small size of text messages
++ 1.28 fix issue not show 12 h format
++ 1.29 fix show night dreams while robo sleep during the day
++ 1.30 added full ukrainian and french localisation (translated to french via ChatGPT o3_mini); also changed zoom values to 50%, 70%, 90% and 100%
++ 1.31 little productivity improvements
++ 1.32 fix making Reaper slow after a few hours work (I hope), add calendar messages, add welcome back messages, add EarPuzzle game, add workout animation, improve show animations within day time
++ 1.33 fix error with welcome back messages
++ 1.34 minor update French localisation, change 'Tap Tempo' function to just show bpm, made cube dots white with white background, add auto night mode (beta), change random time to show animations (was 2-3 hours, now 1-1,5 hours)
++ 1.35 important fix no show some type of emotions - everything is now tested and working!
++ 1.36 fix show night dream in ukrainian but current language is french (excusez-moi)
++ 1.37 fix keep small eyes after sneezing]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/b1269ec7d4889792c32492c4ad60fd56e230fa6e/Other/Amely%20Suncroll%20RoboFace.lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll RoboMaze.lua" type="script" desc="RoboMaze">
