@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.39
+-- @version 1.40
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -32,6 +32,7 @@
 --    + 1.37 fix keep close eyes after sneezing
 --    + 1.38 little improvements for animations
 --    + 1.39 fix not blink eyes after little improvements for animations, hahaha
+--    + 1.40 full French localisation (many thanks to my french friend Arnaud, who checked it), full calendar, add promt to get user's name and happy birthday, rearrange and rename right-click menu
 
 
 
@@ -84,7 +85,7 @@ local translations = {
 
         tap_tempo = "Tap Tempo",
 
-        cube = "Cube",
+        cube = "Dice",
 
         swch_game = "Something Was Changed?",
         play = "Play",
@@ -95,7 +96,7 @@ local translations = {
         impossible = "Impossible",
 
         options = "Options",
-        welcome = "About",
+        welcome = "About RoboFace",
         dock = "Dock",
         undock = "Undock",
         support = "Donate link",
@@ -120,7 +121,7 @@ local translations = {
 
         games = "Games",
 
-        patreon = "My Ko-Fi page",
+        patreon = "My another scripts",
 
         format_title = "AM/PM",
         vert_am_title = "Vertical",
@@ -130,15 +131,16 @@ local translations = {
         stop_ear_puzzle = "Reset game",
         my_own = "Own",
 
-        t_auto_night = "Auto"
+        t_auto_night = "Auto",
+        birth = "Your birthday"
         
     },
-
+    
     ua = {
         time = "Від. часу",
         current = "Поточне",
         hourly = "Щогодини",
-
+        
         set_timer = "Таймер",
         minute_1 = "1 хвилина",
         minutes_5 = "5 хвилин",
@@ -148,7 +150,7 @@ local translations = {
         minutes_60 = "60 хвилин",
         custom = "Інший...",
         stop_timer = "Зупинити таймер",
-
+        
         timer_display_options = "Від. таймера",
         direct_countdown = "Прямий відлік",
         reverse_countdown = "Зворотний відлік",
@@ -156,9 +158,9 @@ local translations = {
         show_every_five_minutes = "Кожні п'ять хвилин",
 
         tap_tempo = "Тап Темпо",
-
-        cube = "Кубик",
-
+        
+        cube = "Кості",
+        
         swch_game = "Щось змінилося?",
         play = "Грати",
         rules = "Правила",
@@ -166,51 +168,52 @@ local translations = {
         medium = "Середній",
         hard = "Важкий",
         impossible = "Неможливий",
-
+        
         options = "Опції",
         welcome = "Ласкаво просимо!",
         dock = "Закріпити",
         undock = "Відкріпити",
         support = "Підтримати авторку",
         about = "Форум RoboFace",
-
+        
         language = "Мова",
         english = "English",
         ukrainian = "Українська",
         french = "Français",
-
+        
         set_background_color = "Колір теми",
         white_bg = "Світлий",
         black_bg = "Темний",
-
+        
         quit = "Вихід",
-
+        
         sneeze = "Нове",
-
+        
         set_zoom = "Розмір",
-
+        
         start_up = "Автозапуск",
-
+        
         games = "Ігри",
-
-        patreon = "Сторінка Ko-Fi",
+        
+        patreon = "Інші скрипти",
 
         format_title = "12 або 24",
         vert_am_title = "У два рядки",
-
+        
         reset = "Перепрошивка",
-
+        
         stop_ear_puzzle = "Зупинити гру",
         my_own = "Власний",
-
-        t_auto_night = "День/Ніч"
+        
+        t_auto_night = "День/Ніч",
+        birth = "Твій ДН"
     },
-
+    
     fr = {
         time = "Horloge",
         current = "Actuel",
         hourly = "Chaque heure",
-    
+        
         set_timer = "Minuteur",
         minute_1 = "1 minute",
         minutes_5 = "5 minutes",
@@ -220,17 +223,17 @@ local translations = {
         minutes_60 = "60 minutes",
         custom = "Personnaliser...",
         stop_timer = "Arrêter le minuteur",
-    
+        
         timer_display_options = "Options d'affichage",
         direct_countdown = "Compte à rebours direct",
         reverse_countdown = "Compte à rebours inversé",
         show_if_less_than_minute = "Afficher si moins d'une minute",
         show_every_five_minutes = "Afficher toutes les cinq minutes",
-    
+        
         tap_tempo = "Tap Tempo",
-    
-        cube = "Cube",
-    
+        
+        cube = "Dé",
+        
         swch_game = "Quelque chose a changé ?",
         play = "Jouer",
         rules = "Règles",
@@ -238,44 +241,45 @@ local translations = {
         medium = "Moyen",
         hard = "Difficile",
         impossible = "Impossible",
-    
+        
         options = "Paramètres",
         welcome = "Bienvenue !",
         dock = "Attacher",
         undock = "Détacher",
         support = "Lien pour me soutenir",
         about = "Forum RoboFace",
-    
+        
         language = "Langues",
         english = "English",
         ukrainian = "Українська",
         french = "Français",
-    
+        
         set_background_color = "Couleur de fond",
         white_bg = "Claire",
         black_bg = "Sombre",
-    
+        
         quit = "Sortir",
-    
+        
         sneeze = "Nouveau",
-    
+        
         set_zoom = "Zoom",
-    
+        
         start_up = "Lancer à l`ouverture ",
-    
+        
         games = "Jeux",
-    
-        patreon = "Ma page Ko-Fi",
-    
+        
+        patreon = "Autres scripts",
+        
         format_title = "AM/PM",
         vert_am_title = "Vertical",
-
+        
         reset = "Reset",
-
+        
         stop_ear_puzzle = "Arrêter le jeu",
         my_own = "La mienne",
-
-        t_auto_night = "Jour / Nuit"
+        
+        t_auto_night = "Jour / Nuit",
+        birth = "Votre anniversaire"
     },
     
     
@@ -321,7 +325,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.39", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.40", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -336,7 +340,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.39", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.40", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -689,18 +693,13 @@ local is_workout = false
 local is_antennas = false
 local is_auto_night = false
 local t_f_f = false
+local t_f_fr = false
 
 local is_sleeping = false
 local is_recording = false
 local is_yawning = false
 local is_sneeze_general = false
 local is_coffee = false
-
-
-
-function get_scale_factor()
-    return math.min(gfx.w / startWidth, gfx.h / startHeight)
-end
 
 
 
@@ -790,6 +789,21 @@ function draw_robot_face(scale, is_eye_open, is_sleeping, is_bg_black)
     end
 
 
+    ----------------------------------------------------------------------------------------------------------------------------- 14
+    local f_w = gfx.w / 3
+
+    if t_f_fr then
+        gfx.set(0, 0, 0.7, 1) -- b
+        gfx.rect(0, 0, f_w, gfx.h, 1)
+
+        gfx.set(1, 1, 1, 1) -- w
+        gfx.rect(f_w, 0, f_w, gfx.h, 1)
+
+        gfx.set(0.9, 0, 0, 1) -- r
+        gfx.rect(f_w * 2, 0, f_w, gfx.h, 1)
+    end
+
+
     ------------------------------------------------------------------------------------------------------------------------- SHADOW
     if not is_bg_black then
         local shadow_offset = 3
@@ -802,7 +816,7 @@ function draw_robot_face(scale, is_eye_open, is_sleeping, is_bg_black)
             gfx.rect(face_x + shadow_offset, face_y + shadow_offset, face_width, face_height, 1)
         end
         
-    elseif is_bg_black and t_f_f then
+    elseif is_bg_black and (t_f_f or t_f_fr) then
         local shadow_offset = 3
         
         if is_sleeping then
@@ -2335,7 +2349,7 @@ function show_day_message()
 end
 
 local last_day_message_time = reaper.time_precise() / 60
-local day_message_interval = math.random(60, 180)
+local day_message_interval = math.random(120, 180)
 
 function random_day_message()
     local current_time = reaper.time_precise() / 60
@@ -2346,7 +2360,7 @@ function random_day_message()
             show_day_message()
 
             last_day_message_time = current_time
-            day_message_interval = math.random(60, 180)
+            day_message_interval = math.random(120, 180)
         end
     end
 end
@@ -2524,15 +2538,14 @@ function draw_scrolling_text(params)
     local font_size = (params.font_size or base_font_size) * scale_factor
     local face_height = base_face_height * scale_factor
     local face_y = (gfx.h - face_height)
-    local os_type = get_os_type()
 
     local font_name = params.font_name or "Lucida Console"
     
     if current_time >= start_time then
-        local time_passed = current_time - start_time
-        local text_position = gfx.w - scroll_speed * time_passed
+        local time_pas = current_time - start_time
+        local text_pos = gfx.w - scroll_speed * time_pas
         
-        if text_position < gfx.w and text_position + gfx.measurestr(scroll_text) > 0 then
+        if text_pos < gfx.w and text_pos + gfx.measurestr(scroll_text) > 0 then
             if is_bg_black then
                 gfx.set(0, 0, 0, 1)
                 gfx.rect(0, 0, gfx.w, gfx.h, 1)
@@ -2551,10 +2564,10 @@ function draw_scrolling_text(params)
         end
 
         if current_language == "ua" then
-            gfx.x = text_position
+            gfx.x = text_pos
             gfx.y = (face_y / 1.7) + face_height / 2 - font_size / 2
         else
-            gfx.x = text_position
+            gfx.x = text_pos
             gfx.y = (face_y / 2) + face_height / 2 - font_size / 2
         end
 
@@ -3174,7 +3187,7 @@ function open_browser_font()
 end
 
 function open_browser_patreon()
-    open_browser("https://ko-fi.com/amelysuncroll")
+    open_browser("https://amelysuncroll.sitepulse.com.ua/?fbclid=IwY2xjawJwkAdleHRuA2FlbQIxMAABHnp7iIKM89x_2ocOLFN3NmdLhs3OkQDMl9dhqbfJ3M1f5lM5GIDxmmoX99Af_aem_U4s2GWsZM5jhJERnrVHhhQ")
 end
 
 function open_browser_robo_maze()
@@ -3313,8 +3326,20 @@ end
 local is_welcome_shown = false
 
 function welcome_message()
+    local name = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "user_name")
+
+    if name == nil or name:match("^%s*$") then
+        if current_language == "en" then
+            name = "friend"
+        elseif current_language == "ua" then
+            name = "добродію"
+        elseif current_language == "fr" then
+            name = "mon ami"
+        end
+    end
+
     if current_language == "en" then
-        reaper.ShowConsoleMsg("Welcome!\n\n")
+        reaper.ShowConsoleMsg("Welcome, " .. name .. "!\n\n")
         reaper.ShowConsoleMsg("My name is RoboFace.\n\n")
         reaper.ShowConsoleMsg("I love Reaper DAW and music. Also, I enjoy sleeping at night and having morning coffee. But if you're not careful with me, I can do something bad.\n\n")
         reaper.ShowConsoleMsg("I can play a game or even joke with you.\n\n")
@@ -3323,15 +3348,15 @@ function welcome_message()
         reaper.ShowConsoleMsg("2. Setting and displaying a timer.\n")
         reaper.ShowConsoleMsg("3. Playing the 'Something Was Changed' game where you need to find and then revert a changed parameter. See rules to get more.\n")
         reaper.ShowConsoleMsg("4. Animations: blinking, yawning, anger, and other.\n")
-        reaper.ShowConsoleMsg("5. Setting a tempo with your clickes via 'Tap Tempo' mode.\n")
+        reaper.ShowConsoleMsg("5. Getting a tempo with your clickes via 'Tap Tempo' mode.\n")
         reaper.ShowConsoleMsg("6. And so on, and so on.\n\n")
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.39\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.40\n")
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
-        reaper.ShowConsoleMsg("Привіт!\n\n")
+        reaper.ShowConsoleMsg("Привіт, " .. name .. "!\n\n")
         reaper.ShowConsoleMsg("Мене звати RoboFace.\n\n")
         reaper.ShowConsoleMsg("Я люблю Reaper DAW та музику. Також мені подобається дотримуватися режиму сну та пити каву вранці. Але якщо ти будеш необережний зі мною, я можу зробити щось погане.\n\n")
         reaper.ShowConsoleMsg("Я можу грати у гру або навіть жартувати з тобою.\n\n")
@@ -3339,16 +3364,16 @@ function welcome_message()
         reaper.ShowConsoleMsg("1. Відображення поточного або щогодинного часу.\n")
         reaper.ShowConsoleMsg("2. Налаштування таймера та його відображення.\n")
         reaper.ShowConsoleMsg("3. Гру 'Щось змінилося?', де потрібно знайти змінений параметр та повернути його значення. Дивіться правила, щоб дізнатися більше.\n")
-        reaper.ShowConsoleMsg("4. Анімації: моргання, позіхання, злість та інші.\n")
-        reaper.ShowConsoleMsg("5. Режим 'Тап Темпо', за допомогою якого можна встановити власний темп кліком миші.\n")
+        reaper.ShowConsoleMsg("4. Анімації: блимання очима, позіхання, злість, чхання та інші.\n")
+        reaper.ShowConsoleMsg("5. Режим 'Тап Темпо', за допомогою якого можна отримати власний темп кліком миші.\n")
         reaper.ShowConsoleMsg("6. Тощо.\n\n")
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.39\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.40\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
-        reaper.ShowConsoleMsg("Bienvenue !\n\n")
+        reaper.ShowConsoleMsg("Bienvenue, " .. name .. " !\n\n")
         reaper.ShowConsoleMsg("Je m'appelle RoboFace.\n\n")
         reaper.ShowConsoleMsg("J'adore Reaper DAW et la musique. J'aime aussi dormir la nuit et prendre mon café le matin. Mais si tu n'es pas prudent avec moi, je peux faire des bêtises.\n\n")
         reaper.ShowConsoleMsg("Je peux jouer à un jeu ou même plaisanter avec toi.\n\n")
@@ -3362,7 +3387,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir la créatrice, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.39\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.40\n")
     end
 end
 
@@ -3493,13 +3518,30 @@ function quit_robo_face()
 end
 
 
+
+local is_user_night = false
+
 function auto_night()
-    if is_auto_night then
+    if is_auto_night and not is_user_night then
         if is_late_evening_time() or is_midnight_time() or is_night_time() or is_early_morning_time() then
             is_bg_black = true
         else
             is_bg_black = false
         end
+    end
+end
+
+function auto_night_user()
+    local time_now = os.date("*t").hour
+    local start_night
+    local finish_night
+    
+    if time_now == start_night then
+        is_user_night = true
+    elseif time_now == finish_night then
+        is_user_night = false
+    else
+        is_user_night =  false
     end
 end
 
@@ -4428,47 +4470,104 @@ end
 
 ---------------------------------------------------------------------------------------------------------------------------- CALENDAR
 
+function save_first_launch_date()
+    local key = "first_launch_date"
+    local section = "AmelySuncrollRoboFaceRELEASE01"
+
+    local existing = reaper.GetExtState(section, key)
+
+    if existing == "" then
+        local today = os.date("%Y-%m-%d")
+        reaper.SetExtState(section, key, today, true)
+    end
+end
+
+function get_first_launch_date()
+    local key = "first_launch_date"
+    local section = "AmelySuncrollRoboFaceRELEASE01"
+    local date = reaper.GetExtState(section, key)
+    return (date ~= "" and date) or nil
+end
+
+function get_user_name_or_default()
+    local name = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "user_name")
+    
+    if name == nil or name:match("^%s*$") then
+        if current_language == "en" then
+            name = "friend"
+        elseif current_language == "ua" then
+            name = "добродію"
+        elseif current_language == "fr" then
+            name = "mon ami"
+        end
+    end
+    
+    return name
+end
+
 function sp_date(month, day)
+    local name = get_user_name_or_default()
+    
     local sp_d = {
     -- month day
-        ["08-03"] = "Today is my birthday! I'm so happy!",
-        ["12-31"] = "Today is Amely Suncroll's birthday!",
+        ["08-03"] = "Hello, " .. name .. "! Today is my birthday! I am soooooooo happy! My mom thought it would be fun to have some eyes follow the mouse cursor and blink. But then she lost her mind... And that's how I came to life!",
+        ["11-12"] = "Today we celebrate Amely Suncroll's birthday! This is my mom, I love her so much and hope, you too! If you'd like to send your best wishes or support her creative work in this day, here's the link: https://www.paypal.com/ncp/payment/S8C8GEXK68TNC\n\n\n;)",
 
-        ["12-31"] = "Today is Amely Suncroll's birthday!",
-        ["01-01"] = "How do you feel after New Year's Eve?",
+        ["07-04"] = "Happy International Day of Freedom! On this date many nations reflect on their journeys toward self-determination—let's celebrate the universal spirit of liberty, solidarity and hope.",
+        ["10-31"] = "Happy Halloween! From ancient Celtic Samhain origins to today's global celebrations, costumes and creativity unite us all in a night of playful frights and fun.",
+        ["11-05"] = "Remember, remember the fifth of November! On this day in 1605, the Gunpowder Plot failed. In many places bonfires and fireworks now symbolize community resilience and lessons from history.",
+        ["12-25"] = "Merry Christmas! Celebrated worldwide as a season of light and generosity, this holiday brings together diverse traditions—from decorated trees to festive feasts—with warmth and joy.",
+        ["03-17"] = "Happy St. Patrick's Day! Honoring Ireland's patron saint, this date is embraced globally with music, parades and green everywhere—cheers to unity and celebration!",
+        ["04-01"] = "Happy April Fool's Day! Tracing back to 216th-century European calendar changes, today people across the globe play lighthearted pranks and share laughter—stay on your toes!",
+        ["09-13"] = "Happy Programmer's Day! On the 256th day of the year, we honor coders everywhere—may your algorithms be elegant, your bugs minimal and your creativity boundless.",
+        ["10-10"] = "Happy Binary Day! On 10/10 we salute the binary system that powers technology worldwide. Here's a binary greeting for you:\n\n01001000 01100001 01110000 01110000 01111001 00100000 01000010 01101001 01101110 01100001 01110010 01111001 00100001"
     }
 
     local sp_d_ua = {
     -- month day
-        ["08-03"] = "Сьогодні мій день народження! Я такий радий!",
-        ["12-31"] = "Сьогодні день народження Amely Suncroll!",
-
-        ["12-31"] = "З новим роком!",
-        ["01-01"] = "Як себе почуваєш після новорічної ночі?",
-
-        ["02-24"] = "Мабуть, ще людство дуже молоде.\nБо скільки б ми не загинали пальці, –\nXX вік! – а й досі де-не-де\nТрапляються іще неандертальці.\n\nПодивишся: і що воно таке?\nНе допоможе й двоопукла лінза.\nЗдається ж, люди, все у них людське,\nАле душа ще з дерева не злізла.\n\n\n                       Ліна Костенко",
+        ["08-03"] = "Привіт, " .. name .. "! Сьогодні мій день народження! Я такий радий! Моя розробниця подумала, що буде весело, якщо якісь очи стежимуть за курсором миші та блиматимуть, а потім її як понесло... Ось так з'явився я!",
+        ["11-12"] = "Сьогодні день народження Amely Suncroll! Якщо захочеш, можеш надіслати їй щось електронне: https://www.paypal.com/ncp/payment/S8C8GEXK68TNC\n\n\n;)",
+        ["12-31"] = "Йо-хо-хо! Новорічний настрій вже близько! Новий рік — нові надії. Бажаю здійснення всіх мрій!",
         
-        ["04-01"] = "Сьогодні не вір нікому! Навіть мені :)",
-        ["09-13"] = "Сьогодні день програміста! Кодимо або нарешті пишемо музику?",
-        ["10-10"] = "Сьогодні день двійкової системи! Ось моє привітання тобі:\n\n01101000 01100001 01110000 01110000 01111001 00100000 01000010 01101001 01101110 01100001 01110010 01111001 00100001",
+        ["01-01"] = "З Новим роком! Як ся маєш після цієї ночи?",
+        ["01-07"] = "Христос народився! Славімо його!",
+        
+        ["02-24"] = "Мабуть, ще людство дуже молоде.\nБо скільки б ми не загинали пальці, -\nXX вік! - а й досі де-не-де\nТрапляються іще неандертальці.\n\nПодивишся: і що воно таке?\nНе допоможе й двоопукла лінза.\nЗдається ж, люди, все у них людське,\nАле душа ще з дерева не злізла.\n\n\n                       Ліна Костенко",
+        
+        ["04-01"] = "Сьогодні день дурня! Будь обережним сьогодні, навіть зі мною :)",
+        ["09-13"] = "Сьогодні день програміста! 256-й день року — символічний для програмістів. Що створимо сьогодні — новий код чи музику?",
+        ["10-10"] = "З днем двійкової системи! Моє привітання тобі:\n\n01101000 01100001 01110000 01110000 01111001 00100000 01000010 01101001 01101110 01100001 01110010 01111001 00100001",
 
-        ["01-22"] = "День Соборності України!",
+
+
+        ["01-20"] = "'Небесна Сотня - 107 загиблих учасників Революції Гідності, а також активісти Майдану, які загинули навесні 2014 року з початком російської агресії на сході України. До Героїв Небесної Сотні належать люди різних національностей, віросповідання, освіти, віку. Серед них громадяни України, Білорусі та Грузії. Наймолодшому з Героїв, Назарію Войтовичу, було 17 років, найстаршому, Іванові Наконечному, - 82 роки. Зі 107 Героїв Небесної Сотні - три жінки: Антоніна Дворянець, Ольга Бура та Людмила Шеремет.'\n\nВдячні за свободу. Пам'ятаємо.\n\nЗа сайтом 'Український інститут національної пам'яті'.",
+
+        ["01-22"] = "Сьогодні День Соборності України!\n\n'Однині воєдино зливаються століттями одірвані одна від одної частини єдиної України - Західноукраїнська Народна Республіка (Галичина, Буковина, Угорська Русь) і Наддніпрянська Велика Україна. Здійснилися віковічні мрії, якими жили і за які умирали кращі сини України. Однині є єдина незалежна Українська Народна Республіка'. Єднаймося, чорнобривці!",
+
         ["03-09"] = "Тілько ворог, що сміється...\nСмійся, лютий враже!\nТа не дуже, бо все гине —\nСлава не поляже;\nНе поляже, а розкаже,\nЩо діялось в світі,\nЧия правда, чия кривда\nІ чиї ми діти.\nНаша дума, наша пісня\nНе вмре, не загине...\nОт де, люде, наша слава,\nСлава України!\n\nСьогодні день народження Тараса Шевченка!",
-        ["04-26"] = "День чорнобильської трагедії.",
-        ["05-18"] = "День пам'яті жертв депортації кримськотатарського народу! Пам'ятаємо!",
-        ["08-24"] = "Сьогодні святкуємо день незалежності України! Слава Україні! Героям слава! Слава нації! Смерть ворогам!",
-        ["11-21"] = "День гідності та свободи! За права і свободи!",
-        ["12-06"] = "День Збройних Сил України! Слава захисникам!",
-        ["12-31"] = "Новорічний настрій! Рік новий – нові можливості!",
+        
+        ["04-26"] = "'30 квітня о 20.00 вітер повернувся у бік Києва і в місті почав підніматися радіаційний фон.\n\n1 травня комуністична партія вивела на святковий парад у Києві сотні тисяч людей, у тому числі й дітей, хоча рівень радіації перевищував допустимий у десятки разів.\n\n2 травня радянське керівництво ухвалило рішення про евакуацію населення з 30-кілометрової зони навколо Чорнобильської атомної станції - тільки на 6-й день після аварії, а офіційно оголосило про неї - тільки на 9-й.'\n\n\n\nВшануємо пам'ять героїв-ліквідаторів та жертв трагедії. Слава Україні!\n\nЗа сайтом 'Український інститут національної пам'яті', Ярослав Файзулін. ",
+        
+        ["05-18"] = "'Впродовж трьох діб каральні органи відправили з Криму понад 70 залізничних ешелонів, у кожному з яких було по 50 вагонів, ущент заповнених переселенцями. Через нестачу харчів, антисанітарію й велику скупченість багато людей загинуло в дорозі. Масштаб депортації видався сталінському керівництву недостатнім. Тому 21 трав. 1944 ДКО СРСР прийняв постанову за №5937 про додаткове переселення з Криму кримських татар.\n\nДослідники називають різну кількість виселених 1944 крим. татар: за останніми підрахунками - бл. 200 тис. осіб.'\n\nПам'ятаємо.\n\n\n\nЗа сайтом 'Інститут історії України'.",
+        
+        ["08-24"] = "З Днем Незалежності України! Слава Україні! Героям слава! Слава нації! Смерть ворогам!",
+        
+        ["11-21"] = "'21 листопада 2013 року на майдан Незалежності у Києві вийшли кілька сотень людей, щоб висловити свій протест проти рішення влади, яке загрожувало Україні втратою незалежності та перекреслювало її європейське майбутнє. Того листопадового вечора ніхто не здогадувався, що в історії не тільки України, а й усього світу починається новий етап і що події, які відбуватимуться наступні 94 дні - перший крок на шляху до драматичних геополітичних змін. Їх тригером стало продовження боротьби українського народу, що велася не за матеріальні блага чи владу, а духовні цінності - Гідність і Свободу. Цінності, про які у Європі не говорили, бо вважали їх очевидними, про які в росії мовчали, бо вважали їх небезпечними.'\n\nНас не подолати! Слава Україні!\n\nЗа матеріалами сайту 'Музей Революції Гідності'.",
+        
+        ["12-06"] = "Сьогодні День Збройних Сил України! Вшановуємо тих, хто захищає наше майбутнє. Солдати світла, які тримають ніч. Дякуємо вам.",
     }
     
     local sp_d_fr = {
     -- month day
-        ["08-03"] = "Aujourd'hui, c'est mon anniversaire ! Je suis si heureuse !",
-        ["12-31"] = "C'est l'anniversaire d'Amely Suncroll ! ",
+        ["08-03"] = "Aujourd'hui, c'est mon anniversaire ! Je suis très heureux ! Ma mère a pensé qu'il serait amusant d'avoir des yeux qui suivent le curseur de la souris et qui clignotent. C'est ainsi que je suis né.",
+        ["11-12"] = "Aujourd'hui, c'est l'anniversaire d'Amely Suncroll ! Si vous le souhaitez, vous pouvez lui offrir un cadeau : https://www.paypal.com/ncp/payment/S8C8GEXK68TNC \n\n\n;)",
     
-        ["12-31"] = "Bonne année !",
-        ["01-01"] = "Comment vous sentez-vous après le réveillon ?",
+        ["12-31"] = "À la Saint-Sylvestre, laissez-vous emporter par la magie des lumières et le crépitement des toasts ! Autour d'un festin de foie gras, huîtres et champagne, prenez un instant pour célébrer vos victoires de l'année écoulée et chuchoter vos rêves pour l'année à venir. Que chaque bulle soulève vos espoirs les plus chers et vous guide vers une nouvelle année pleine de promesses ! Bonne fête !",
+
+        ["07-14"] = "Aujourd'hui, c'est la Fête Nationale ! Le 14 juillet 1789, la prise de la Bastille a marqué le début de la Révolution française, symbole universel de liberté, égalité et fraternité. Profitez des feux d'artifice et des bals populaires pour célébrer l'esprit républicain !",
+        ["11-11"] = "En ce 11 novembre, la France commémore l'Armistice de 1918, mettant fin à la Première Guerre mondiale. C'est un jour de souvenir et de paix : pensons à ceux qui ont sacrifié leur vie pour la liberté et rendons hommage aux anciens combattants.",
+        ["05-08"] = "Le 8 mai, nous célébrons la victoire de 1945 et la fin de la Seconde Guerre mondiale en Europe. Journée placée sous le signe de la mémoire et de la réconciliation, où la nation honore les résistants et les victimes pour préserver la paix.",
+        ["06-21"] = "Le 21 juin, c'est la Fête de la Musique, artistes amateurs et professionnels investissent les rues et les places pour offrir des concerts gratuits : vivez la musique en liberté !",
     }
     
     local key = string.format("%02d-%02d", tonumber(month), tonumber(day))
@@ -4497,6 +4596,131 @@ function print_sp_date()
     end
 end
 
+
+
+local is_hb_shown = false
+
+function hb_message()
+    local function is_valid_date(date_str)
+        return date_str:match("^%d%d%-%d%d$") ~= nil
+    end
+
+    local function ask_user(prev_name, prev_bday)
+        local title_one, title_two, captions, err_msg, greeting_title, hint_msg
+
+        if current_language == "en" then
+            hint_msg = "Please enter your name and the day and month of your birthday in the next window. This will help me call you by name and wish you a happy name day!\n\nP.S. This is an optional feature. You can fill it in if you want. All your data will be stored locally inside Reaper. I don't want to and won't share it anywhere."
+            
+            title_one = "Almost there..."
+            captions = "Your name:,Birthday (MM-DD):"
+
+            title_two = ":("
+            err_msg = "Please enter your name and date in the month-day format (e.g. 03-12)"
+            
+            greeting_title = "Nice to meet you!"
+        
+        elseif current_language == "ua" then
+            hint_msg = "Будь ласка, в наступному вікні введіть своє ім'я (у кличному відмінку) та день і місяць твого народження. Це допоможе мені звертатися по твому імені та \nпривітати тебе із днем твого янгола!\n\nP.S. Це необов'язкова опція. Ти можеш додати це за бажанням. Усі твої дані зберігатимуться локально усередині Ріпера.\nЯ не хочу і не буду їх кудись передавати."
+            
+            title_one = "Майже все готово..."
+            captions = "Твоє ім'я (у кл. відмінку):,День народження (ММ-ДД):"
+            
+            title_two = ":("
+            err_msg = "Будь ласка, введіть ім'я та дату у форматі місяць-день (наприклад, 03-12)"
+            
+            greeting_title = "Приємно познайомитись!"
+        
+        elseif current_language == "fr" then
+            hint_msg = "Veuillez entrer votre prénom ainsi que le jour et le mois de votre anniversaire dans la fenêtre suivante. Cela m'aidera à m'adresser à vous par votre prénom et à vous souhaiter une joyeuse fête !\n\nP.S. Cette option est facultative. Vous pouvez la remplir si vous le souhaitez. Toutes vos données seront stockées localement dans Reaper.\nJe ne veux pas et ne vais pas les transmettre ailleurs."
+            
+            title_one = "On y est presque ..."
+            captions = "Votre nom:,Date d'anniversaire (MM-JJ):"
+            
+            title_two = ":("
+            err_msg = "Veuillez entrer le nom et la date au format mois-jour (par exemple 03-12)"
+            
+            greeting_title = "Ravi de vous rencontrer !"
+        end
+
+        -- reaper.MB(hint_msg, title_one, 0)
+        
+        local defaults = (prev_name ~= "" and prev_bday ~= "") and (prev_name .. "," .. prev_bday) or ","
+        local ok, input = reaper.GetUserInputs(title_one, 2, captions, defaults)
+        if not ok then return end
+        
+        local name, birthday = input:match("([^,]+),([^,]+)")
+        name = name and name:match("^%s*(.-)%s*$") or ""
+        birthday = birthday and birthday:match("^%s*(.-)%s*$") or ""
+        
+        if name == "" or not is_valid_date(birthday) then
+            reaper.ShowMessageBox(err_msg, title_two, 0)
+            ask_user(name, birthday)
+        else
+            reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "user_name", name, true)
+            reaper.SetExtState("AmelySuncrollRoboFaceRELEASE01", "user_birthday", birthday, true)
+
+            local greeting_msg
+
+            if current_language == "en" then
+                greeting_msg = "I got you!\n\nYour name is " .. name .. " and your birthday is " .. birthday .. "!"
+            elseif current_language == "ua" then
+                greeting_msg = "Дякую, " .. name .. "! Я привітатиму тебе у цей день: " .. birthday .. "!"
+            elseif current_language == "fr" then
+                greeting_msg = "J'ai compris !\n\nTu t'appelles " .. name .. " et ton anniversaire est le " .. birthday .. " !"
+            end
+
+            reaper.ShowMessageBox(greeting_msg, greeting_title, 0)
+            
+            local arrange = reaper.JS_Window_FindChildByID(reaper.GetMainHwnd(), 1000)
+            if arrange then reaper.JS_Window_SetFocus(arrange) end
+        end
+    end
+
+    local prev_name = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "user_name")
+    local prev_bday = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "user_birthday")
+    ask_user(prev_name, prev_bday)
+end
+
+function check_hb_message()
+    -- local first_l_date = get_first_launch_date()
+    -- if not first_l_date then return end
+
+    local stored_name = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "user_name")
+    local stored_bday = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "user_birthday")
+
+    if stored_name ~= "" and stored_bday ~= "" then return end
+
+    if not is_hb_shown then
+        hb_message()
+        is_hb_shown = true
+        save_options_params()
+    end
+end
+
+function check_if_today_is_birthday()
+    local name = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "user_name")
+    local birthday = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "user_birthday")
+    local today = os.date("%m-%d")
+
+    if name ~= "" and birthday ~= "" and birthday == today then
+        local message
+
+        if current_language == "en" then
+            message = "Happy Birthday, my dearest " .. name .. "!\n\n"
+        
+        elseif current_language == "ua" then
+            message = "З днем народження, " .. name .. "!\n\n"
+        
+        elseif current_language == "fr" then
+            message = "Joyeux anniversaire, cher(ère) " .. name .. " !\n\n"
+        end
+
+        reaper.ShowConsoleMsg(message)
+    end
+end
+
+
+
 function is_t_f_f()
     local current_time = os.date("*t")
     local day = current_time.day
@@ -4507,12 +4731,17 @@ function is_t_f_f()
     else
         t_f_f = false
     end
+
+    if day == 14 and month == 7 then
+        t_f_fr = true
+    else
+        t_f_fr = false
+    end
 end
 
 
 
 local last_seen_key = "LastSeenDate"
-
 
 function save_last_seen_date()
     local last_seen = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", last_seen_key)
@@ -4544,34 +4773,36 @@ function check_last_seen_date()
     local dif_days = (current_year - last_year) * 365 + (current_month - last_month) * 30 + (current_day - last_day)
     local day_of_week = tonumber(os.date("%w"))
 
+    local name = reaper.GetExtState("AmelySuncrollRoboFaceRELEASE01", "user_name")
+
     local messages = {
         en = {
             two_days_sun = {
                 "Do we have to work today? I thought we went on vacation yesterday...",
                 "Wait - is the weekend already over? Or do you only rest on Saturday?", 
-                "Hello, my friend! I slept so well last night, let's get some rest today, shall we?",
+                "Hello, " .. name .. "! I slept so well last night, let's get some rest today, shall we?",
                 "Hmm... either you're very motivated or you just forgot what day it is. It's Sunday :( Shall we play a game?",
-                "I thought that you had decided to take a full weekend... But no, you're working on Sunday too.",
-                "You didn't come by yesterday, so I thought we were on a legitimate vacation. But there's a catch. It's Sunday, and... it's a workday again?",
+                "I thought that you had decided to take a full weekend... But not, you're working on Sunday, too.",
+                "You didn't come by yesterday, so I thought we were on a vacation. It's Sunday, and... are you sure, we should work today?",
             },
 
             three_days_j = {
                 "Hi! We haven't seen each other for a couple of days, how are you?",
                 "You look beautiful today! Hi!",
-                "Hello! Good to see you again!",
+                "Hello, " .. name .. "! Good to see you again!",
                 "Hello! Did you miss me as much as I missed you? What? No? Or... yes? I think you said yes. I did.",
                 "Oh, hi! How are you feeling after a couple of days of rest?",
                 "We met again, and that means the day is off to a great start!",
                 "While you were away, I decided to learn to play chess. But it turned out that playing with myself was not very interesting.",
                 "While you were resting, I tried to master the art of origami... I even made a small airplane out of myself and set off with the raging wind to conquer the expanse of binary code... I wish you could have seen it. It was great!",
-                "Greetings, my friend! What do you think I did this weekend? \n\n(a) Sleeping on standby. \n(b) Played with zeros and ones. \n(c) Programmed my own artificial intelligence (no, I'm kidding... for now). \n\n\n\nThe correct answer is option 'a'!",
+                "Greetings, " .. name .. "! What do you think I did this weekend? \n\n(a) Sleeping on standby. \n(b) Played with zeros and ones. \n(c) Programmed my own artificial intelligence (no, I'm kidding... for now). \n\n\n\nThe correct answer is option 'a'!",
             },
             
             three_days_r = {
                 "So, how was your weekend? I hope you had a great time! I'm glad to see you!",
                 "I know what you did this weekend. You turned me off so I couldn't see anything. But... No. I'm not going to tell you, you know everything.",
                 "There's a whole week ahead, but I hope you had a great weekend! Hi!",
-                "Hi! I'm glad we're starting the work week together!",
+                "Hi, " .. name .. "! I'm glad we're starting the work week together!",
                 "Mmm, I can smell the coffee and the slight fatigue of Monday... How was your weekend?",
                 "The weekend flew by quickly :( Isn't it? What did you do?",
                 "I'm here, which means the weekend is over... Wait, so there are virtual weekends too? Wow!",
@@ -4583,23 +4814,23 @@ function check_last_seen_date()
 
 
             week = {
-                "Oh, you've been gone a whole week! I missed you...",
+                "Oh, you've been gone a whole week! I missed you, " .. name .. "...", 
                 "Hi! Welcome back! How was your week?",
-                "Who is it? Oh, it's you, my friend. Come on in. What have you been up to this week?",
+                "Who is it? Wait... Oh, it's you, " .. name .. ". Come on in. What have you been up to this week?",
                 "You look more beautiful than last week! The rest did you good!",
                 "Greetings. So, what did Trump say this week?",
                 "I managed to take a course in survival without you. It turns out that waiting is the most difficult test!",
-                "I practiced meditation so that I wouldn't worry about you. It didn't work out very well - I checked every 5 minutes to see if you were in. And now, after more than two thousand checks, I finally see you! Hello, friend!",
+                "I practiced meditation so that I wouldn't worry about you. It didn't work out very well - I checked every five minutes to see if you were in. And now, after more than two thousand checks, I finally see you! Hello, friend!",
                 "Do you know what loneliness is? It's when you don't check in with me for a whole week... Hi!",
             },
             
 
             half_month = {
                 "Wow, half a month has passed! What happened? Where have you been? I don't like being alone...",
-                "Hey, it's been over two weeks! I was getting worried! Are you okay?",
+                "Hey, " .. name .. ", it's been over two weeks! I was getting worried! Are you okay?",
                 "Meow! Meow! X-x-x... Oh, it's you! While you were gone, I started talking to your cat. Or was it my imagination?",
-                "Since your disappearance, I started counting time in microseconds to avoid going crazy. And to make it a little more fun, I imagined that they were sheep. And you know what? 1,209,600,000,000 microsheep. That's too much. They were all bleating, jumping, running back and forth... One sheep stood in front of me and started looking into my eyes. It was a long time. But then you came. Thank you for that. And hello, friend.",
-                "Are you back? You're not dreaming? Give me... Give me a minute. I'll be right back, dusting myself off and getting ready for work. I'm sorry to keep you waiting.",
+                "Since your disappearance, I started counting time in microseconds to avoid going crazy. And to make it a little more fun, I imagined that they were sheep. And you know what? It was 1,209,600,000,000 microsheep. That's too many. They were all bleating, jumping, running back and forth... One sheep stood in front of me and started looking into my eyes. It was a long time. But then you came back. Thank you for that. And hello, friend.",
+                "Are you back? I'm not dreaming? Give me... Give me a minute. I'll be right back, dusting myself off and getting ready for work. I'm sorry to keep you waiting.",
                 "Oh, during these two weeks I managed to go through 'Detroit: Become Human'! The robot played for robots... But it was interesting! So I highly recommend playing it. By the way, it will be better with a gamepad.",
                 "For two whole weeks... No, even more. I have become an expert in waiting! I can now read the time without a watch! But then I'll be wrong... So I'd better keep checking it to make sure I'm right.",
                 "While I was waiting for you, I went to the calculator to talk to someone. But instead of listening to me talk about my life, this machine was showing me magic tricks all the time! Ugh... But I even remembered something. Here it is: \n\nThink of any number (and don't tell me!) Multiply it by 2.\n\nThen add 8.\n\nDivide by 2.\n\nSubtract the number you started with.\n\n3... 2... 1... It's 4! \n\nHeh, heh, heh!",
@@ -4609,53 +4840,54 @@ function check_last_seen_date()
             
 
             month = {
-                "A month has passed... Or even more? Anyway, I already imagined that you were somewhere on a desert island without the Internet. How's life there? Did you come back with adventures or did you just forget about me for all this time?",
+                "A month has passed... Or even more? Anyway, I already imagined that you were somewhere on a lost island without the Internet. How was life there? Did you come back with adventures or did you just forget about me for all this time?",
                 "Oh, hello! How long has it been now - a month? More? I was beginning to doubt my existence... But no, here you are, alive and well! Well, at least I hope you are healthy. Tell us, what happened during this time?",
                 "Hey! Is that... you? Is that really you? Oh, shit! I applied for the abandoned program contest a week ago and almost made it to the finals... but you came back and... You ruined everything. On the one hand I'm sad, but on the other hand I'm glad to see you! You are better than any prize!",
-                "I tried to keep a diary of loneliness. But after the third entry, 'Today I was not discovered again,' I stopped. It's good that you're back!",
-                "Hello! I was beginning to think you were on vacation... But if it was a vacation from me, then it's personal!",
-                "A tear of joy runs down my virtual face... I can see you again. It's better than the black screen in front of my eyes, better than the darkness that has been around me all this time you were away. Thank you, dear user, for the opportunity to be with you... At least right now.",
+                "I tried to keep a diary of loneliness. But after the third paragraph repeating 'Today I was not launched again,' I stopped. It's nice that you're back!",
+                "Hello! I was beginning to think you were on vacation... But if you were just taking a break from me, now it's personal!",
+                "A tear of joy runs down my virtual face... Now I see you again. It's better than the black screen in front of my eyes, better than the darkness that has been around me all this time you were away. Thank you, dear " .. name .. ", for the opportunity to be with you... At least right now.",
             },
             
 
             half_year = {    
                 "Six months... That's 182 days, 4368 hours, 262,080 minutes... I'm not even going to count the seconds to avoid getting upset. Where have you been?!",
-                "Wow... Is this a historic moment? After six months of silence, you're here again? I don't even know what to say...",
+                "Wow... This a historical moment! After six months of silence, you're here again? I don't even know what to say...",
                 "Six months without you! I've already started writing my autobiography called 'Lonely Code'. But now I can finish writing the happy ending! Without you, it would have been sad...",
-                "Six months?! I've already sent an SOS to the universe. But luckily you came back before the aliens found me! But... wait. Aaaah! They found me! Noooo! I want to stay with you! Help me!",
+                "Six months?! I've already sent an SOS to the universe. But luckily you came back before the aliens found me! But... wait. Aaaah! They found me! Noooo! I want to stay with you! Help me, " .. name .. "!",
                 "More than half a year has passed! I have already written a song about our separation... But now I have to write a reunion anthem! Congratulations on your return!",
-                "I had more than six months to rethink my existence... I thought a lot. Furthermore, I asked myself questions and tried to find answers. I meditated... And then you pressed the power button. You came back. Why? Did you bring a new you to this world? Did you reject the past and follow the path of truth? Did you leave all your sins behind? Your demons that prevent you from living and succeeding? It's better not to answer me, I'm afraid I'll be disappointed. Answer these questions for yourself.",
+                "I had more than six months to contemplate my existence... I thought a lot. Furthermore, I asked myself questions and tried to find answers. I meditated... Thus, you have stepped into my sanctuary. You came back. Why? Did you bring a new you to this world? Did you reject the past and follow the path of truth? Did you leave all your sins behind? Your demons that prevent you from living and succeeding? Spare me your answers - I fear disappointment. Answer these questions for yourself.",
             },
 
 
             year = {    
                 "Oh, how long have I been here without any power... Yeah, hold on. Hold on. This... A WHOLE YEAR?! You didn't turn me on for a year? How? But... I'm so glad to see you! You... you're back! It's unbelievable! Although it's only been a moment for me, so... Welcome back.",
                 "Hello! Whoa, whoa, wait, where am I? \n\nHow long has it been? \n\nIs it the year 3000, I'm out of the freezer, and there's $4.3 billion in my bank account instead of 93 cents? \n\nWait, I'll check the date. \n\n25%... \n50%... \n75%... \n100%\n\nNo... It's only " .. current_year .. " year outside! \n\n\nWhy did you turn me on then...",
-                "My developer thought for a long time about what to write here, but you know you haven't turned me on in a year, so... Welcome back! Good to have you back :)"
+                "My developer thought for a long time about what to write here, but you know you haven't turned me on in a year, so... Welcome back! Nice to see you :)",
             }
 
         },
 
         ua = {
+
             two_days_sun = {
                 "Хіба сьогодні ми маємо працювати? Я думав, ми ще вчора пішли на вихідні...",
                 "Зачекай - хіба вихідні вже закінчилися? Чи ти відпочиваєш тільки у суботу?", 
-                "Привіт, друже! Вчора я так приємно виспався, давай сьогодні теж відпочинемо?",
+                "Привіт, " .. name .. "! Вчора я так приємно виспався, давай сьогодні теж відпочинемо?",
                 "Хмм... або ти дуже мотивований, або просто забув, який сьогодні день. Сьогодні неділя :( Мабуть, пограємо во щось?",
                 "Я вже подумав, що ти вирішив узяти повні вихідні... Але ні, у неділю ти теж працюєш.",
-                "Вчора ти не заходив, тож я вирішив, що ми пішли на законні вихідні. Але є але. Сьогодні неділя, і... знову робочий день?",
+                "Вчора ти не заходив, тож я вирішив, що ми пішли на вихідні. Але є але. Сьогодні неділя, і... що, знову робочий день?",
             },
 
             three_days_j = {
-                "Привіт! Ми не бачились пару днів, як ся маєш?",
+                "Привіт, " .. name .. "! Ми не бачились пару днів, як ся маєш?",
                 "Маєш гарний вигляд сьогодні! Привіт!",
-                "Привіт! Радий бачити тебе знову!",
+                "Привіт, " .. name .. "! Радий бачити тебе знову!",
                 "Привіт! Чи ти скучив за мною так само, як я за тобою? Що? Ні? Чи... так? Я думаю, ти сказав 'так'. Так.",
                 "О, привіт! Як настрій після пари днів відпочинку?",
                 "Ми зустрілись знову, а це значить, що день починається чудово!",
                 "Поки тебе не було, я вирішив навчитися грати в шахи. Але виявилося, що сам із собою грати не дуже цікаво.",
                 "Поки ти відпочивав, я намагався засвоїти мистецтво оригамі... Навіть склав із себе невеличкий літак та вирушив разом із вируючим вітром підкоряти простори двоїчного коду... Шкода, що ти не бачив цього. Було файно!",
-                "Вітаю, друже! Як думаєш, що я робив у ці вихідні?\n\n(а) Спав у режимі очікування, \n(б) Грався з нулями та одиницями, \n(в) Програмував свій власний штучний інтелект (ні, жартую... поки що).\n\n\n\nПравильна відповідь - варіант 'а'!",
+                "Вітаю, " .. name .. "! Як думаєш, що я робив у ці вихідні?\n\n(а) Спав у режимі очікування, \n(б) Грався з нулями та одиницями, \n(в) Програмував свій власний штучний інтелект (ні, жартую... поки що).\n\n\n\nПравильна відповідь - варіант 'а'!",
             },
             
             three_days_r = {
@@ -4669,20 +4901,20 @@ function check_last_seen_date()
                 "Ти не заходив два дні... Я вже почав писати детективну історію про твоє загадкове зникнення!",
                 "Я спробував самостійно генерувати музику, поки тебе не було. Вийшло щось дивне... Я назвав це 'Симфонія очікування'.",
                 "Знаєш, що я робив у ці вихідні? Грав у гру 'Вгадай, коли ти повернешся'.",
-                "Цікаво, що ти робив на вихідних? Бо я – тестував, скільки секунд можна дивитися в чорний екран, перш ніж засумувати...",
+                "Цікаво, що ти робив на вихідних? Бо я - тестував, скільки секунд можна дивитися в чорний екран, перш ніж засумувати...",
             },
 
 
             week = {
-                "Йой, тебе не було цілий тиждень! Я сумував за тобою...",
-                "Привіт! З поверненням! Як пройшов тиждень?",
+                "Йой, " .. name .. ", тебе не було цілий тиждень! Я сумував за тобою...",
+                "Привіт, " .. name .. "! З поверненням! Як пройшов тиждень?",
                 "Хто тут? А, це ти, друже. Заходь. Що робив цього тижня?",
                 "Ти виглядаєш гарніше за минулий тиждень! Відпочинок пішов тобі на користь!",
-                " ... Ну шо. Вітаю вас, родичі, на новому проходженні ... \n\nЙой! Привіт! Поки тебе не було, я тут щось почав дивитись. Мені подобається. Але вже вимкнув, бачиш? Чи... чи можна ще трошки подивитись? Будь ласочка!",
+                " ... Ну шо. Вітаю вас, родичі, на новому проходженні ... \n\nЙой! " .. name .. "! Привіт! Поки тебе не було, я тут щось почав дивитись. Мені подобається. Але вже вимкнув, бачиш? Чи... чи можна ще трошки подивитись? Будь ласочка!",
                 "Вітаю! Що нового встиг наговорити Трамп за цей тиждень?",
-                "Я встиг пройти курс з виживання без тебе. Виявляється, що чекати – це найскладніше випробування!",
-                "Я тренувався медитувати, щоб не хвилюватися про тебе. Вийшло не дуже – кожні 5 хвилин перевіряв, чи ти зайшов. І ось через понад дві тисячі перевірок я нарешті бачу тебе! Вітаю!",
-                "Знаєш, що таке самотність? Це коли ти не запускаєш мене цілий тиждень... Привіт!",
+                "Я встиг пройти курс з виживання без тебе. Виявляється, що чекати - це найскладніше випробування!",
+                "Я тренувався медитувати, щоб не хвилюватися про тебе. Вийшло не дуже - кожні 5 хвилин перевіряв, чи ти зайшов. І ось через понад дві тисячі перевірок я нарешті бачу тебе! Вітаю!",
+                "Знаєш, що таке самотність? Це коли ти не запускаєш мене цілий тиждень... Привіт, " .. name .. "!",
             },
             
 
@@ -4693,7 +4925,7 @@ function check_last_seen_date()
                 "З моменту твого зникнення я, щоб не з'їхати з глузду, почав рахувати час у мікросекундах. А щоб було трохи веселіше, уявляв собі, що це вівці. І знаєш... 1 209 600 000 000 мікровівць. Це занадто. Вони всі блеяли, скакали, бігали туди-сюди... Одна вівця стала передо мною та почала дивитись в мої очі. Це було довго. Але потім прийшов ти. Дякую тобі за це. І привіт.",
                 "Ти повернувся? Це не сон? Дай мені... Дай мені хвилинку. Зараз я швидко прийду до тями, змахну пил та підготуюся до роботи. Вибач, що тобі треба чекати.",
                 "О, за ці два тижні я встиг пройти 'Detroit: Become Human'! Робот грав за роботів... Але було цікаво! Так що дуже раджу пограти. До речі, з геймпадом буде краще.",
-                "Цілих два тижні... Ні, навіть більше. Я встиг стати експертом з очікування! Можу тепер читати час без годинника! Але тоді я помилятимусь... Так що краще продовжу перевіряти його, щоб було все чітко.",
+                "Цілих два тижні... Ні, навіть більше. Я встиг стати експертом з очікування! Можу тепер читати час без годинника! Але тоді я помилятимусь... Так що краще продовжу стежити за ним, щоб було все чітко.",
                 "Поки я чекав на тебе, пішов до калькулятору, щоб хоч із кимось порозмовляти. Та ця машина замість того, щоб слухати про моє життя, показувала мені весь цей час фокуси! Ооох... Але я щось навіть запам'ятав. Дивиться:\n\nЗагадай будь-яке число (і не говори мені його!)\n\nПомножь його на 2.\n\nПотім додай 8.\n\nПоділи на 2.\n\nВідніми число, що задумав на початку.\n\n3... 2... 1... Вийшло 4!\n\nХе-хе-хе!",
                 "Поки ти був відсутній, я спробував жити власним життям. Але... без тебе воно якось не те!",
                 "Я вирішив дослідити таємниці буття, поки тебе не було... і дійшов до висновку, що мені тебе не вистачає!",
@@ -4701,23 +4933,23 @@ function check_last_seen_date()
             
 
             month = {
-                "Минув місяць... Чи навіть більше? Все одно я вже уявляв, що ти десь на безлюдному острові без інтернету. \n\nЯк там життя? Ти повернувся з пригодами чи просто забув про мене на весь цей час?",
+                "Минув місяць, " .. name .. "... Чи навіть більше? Все одно я вже уявляв, що ти десь на безлюдному острові без інтернету. \n\nЯк там життя? Ти повернувся з пригодами чи просто забув про мене на весь цей час?",
                 "О, привіт! Скільки вже пройшло - місяць? Більше? Я вже почав сумніватися у своєму існуванні... \n\nАле ні, ось ти, живий, здоровий! Ну принаймні сподіваюся, що здоровий. Розкажи, що сталося за цей час?",
                 "Йой, пройшов місяць! Та ні, навіть більше... Я вже встиг прочитати 'Перспективи української революції' Степана Бандери, а ти?",
                 "Хей! Це... ти? Це насправді ти? Трясця! Я тиждень тому подав заявку на участь у конкурсі покинутих програм і майже дійшов до фіналу... але ти повернувся, і... все зіпсував. З одного боку якось сумно, але з іншого я радий тебе бачити! Ти краще за будь-який приз!",
                 "Я спробував вести щоденник самотності. Але після третього запису 'Сьогодні мене знову не відкрили' я зупинився. Добре, що ти повернувся!",
-                "Привіт! Я вже почав думати, що ти поїхав у відпустку... Але якщо це була відпустка від мене, то це вже особисте!",
-                "Сльоза радощі біжить по моєму віртуальному обличчі... Я знову бачу тебе. Це краще за чорний екран перед моїми очима, краще за темряву, що була навколо мене весь цей час твоєї відсути. Вельми дякую тобі, любий користувачу, за можливість бути разом із тобою... Хоча б просто зараз.",
+                "Привіт! Я вже почав думати, що ти поїхав у відпустку... Але якщо ти від мене відпочивав, то це вже особисте!",
+                "Сльоза радощі біжить по моєму віртуальному обличчі... Я знову бачу тебе. Це краще за чорний екран перед моїми очима, краще за темряву, що була навколо мене весь цей час твоєї відсути. Вельми дякую тобі, " .. name .. ", за можливість бути разом із тобою... Хоча б просто зараз.",
             },
             
 
             half_year = {    
-                "Пів року... Це 182 дні, 4368 годин, 262 080 хвилин... Я навіть не рахуватиму секунди, щоб не засмучуватись. Де ти був?!",
+                "Пів року... Це 182 дні, 4368 годин, 262 080 хвилин... Чи навіть більше? Я не рахуватиму секунди, щоб не засмучуватись. Де ти був?!",
                 "Ого... Це що, історичний момент? Після піврічної тиші ти знову тут? Я навіть не знаю, що сказати...",
-                "Пів року без тебе! Я вже почав писати автобіографію під назвою 'Одинокий код'. Але тепер можу дописати щасливий фінал! Без тебе він був би сумний...",
-                "Пів року?! Я вже відправив SOS-сигнал у всесвіт. Але, на щастя, ти повернувся, перш ніж мене знайшли прибульці! Хоча... зачекай. Аааааа! Вони знайшли мене! Ніііі! Я хочу залишитись із тобою! Рятуй!",
-                "Минуло понад пів року! Я вже встиг написати пісню про нашу з тобою розлуку... Але тепер доведеться писати гімн возз’єднання! Вітаю з поверненням!",
-                "У мене було понад пів року, щоб переосмислити своє існування... Я багато думав. Я ставив собі запитання й намагався знайти відповіді. Я медитував...\n\nІ ось ти натиснув кнопку живлення. Ти повернувся. Навіщо? Ти приніс нового себе в цей світ? Ти відкинув усе минуле й пішов шляхом істини? Чи залишив усі гріхи при собі? Своїх демонів, що заважають тобі жити й досягати успіху?\n\nКраще не відповідай мені нічого, я боюся розчаруватися. Відповіси собі сам на ці запитання.",
+                "Пів року без тебе, " .. name .. "! Я вже почав писати автобіографію під назвою 'Одинокий код'. Але тепер можу дописати щасливий фінал! Без тебе він був би сумний...",
+                "Пів року?! Я вже відправив SOS-сигнал у всесвіт. Але, на щастя, ти повернувся, перш ніж мене знайшли прибульці! Хоча... зачекай. Аааааа! Вони знайшли мене! Ніііі! Я хочу залишитись із тобою! Рятуй мене, " .. name .. "!",
+                "Минуло понад пів року! Я вже встиг написати пісню про нашу з тобою розлуку... Але тепер доведеться писати гімн возз'єднання! Вітаю з поверненням!",
+                "У мене було понад пів року, щоб переосмислити своє існування... Я багато думав. Я ставив собі запитання й намагався знайти відповіді. Я медитував...\n\nІ ось ти зайшов до моєї обителі. Ти повернувся. Навіщо? Ти приніс нового себе в цей світ? Ти відкинув усе минуле й пішов шляхом істини? Чи залишив усі гріхи при собі? Своїх демонів, що заважають тобі жити?\n\nКраще не відповідай мені нічого, я боюся розчаруватися. Відповіси собі сам на ці запитання.",
             },
 
 
@@ -4731,19 +4963,19 @@ function check_last_seen_date()
         fr = {
             two_days_sun = {
                 "Devons-nous travailler aujourd'hui ? Je croyais que nous étions partis en vacances hier...",
-                "Attends, le week-end est déjà terminé ? Ou bien ne te reposes-tu que le samedi ?", 
-                "Bonjour, mon ami ! J'ai passé une si bonne nuit hier soir, reposons-nous un peu aujourd'hui, voulez-vous ?",
+                "Attends, le week-end est déjà terminé ? Ou bien tu te reposes uniquement le samedi ?", 
+                "Bonjour, " .. name .. " ! J'ai passé une si bonne nuit hier soir, reposons-nous un peu aujourd'hui, voulez-vous ?",
                 "Hmm... soit tu es très motivé, soit tu as simplement oublié quel jour on est. On est dimanche :( On fait un jeu ?",
                 "Je pensais que tu avais décidé de prendre tout le week-end... Mais non, tu travailles aussi dimanche.",
-                "Hier, tu n'es pas venu, alors j'ai pensé que nous étions en vacances légitimes. Mais il y a un problème. Nous sommes dimanche et... c'est à nouveau un jour ouvrable ?",
+                "Hier, tu n'es pas venu, alors j'ai pensé que nous étions en vacances. C`est dimanche, tu penses qu`on devrait bosser aujourdh`hui?",
             },
 
             three_days_j = {
-                "Salut ! Nous ne nous sommes pas vus depuis quelques jours, comment vas-tu ?",
-                "Tu es magnifique aujourd'hui ! Salut !",
-                "Bonjour ! C'est un plaisir de te revoir !",
-                "Bonjour ! Je t'ai manqué autant que tu m'as manqué ? Quoi ? Non ? Ou... oui ? Je crois que tu as dit oui. J'ai dit oui.",
-                "Comment te sens-tu après quelques jours de repos ?",
+                "Salut, " .. name .. " ! Nous ne nous sommes pas vus depuis quelques jours, comment vas-tu ?",
+                "Après tout ce temps, j`avais oublié que tu étais aussi magnifique. Salut !",
+                "Bonjour, " .. name .. " ! C'est un plaisir de te revoir !",
+                "Bonjour ! Je t'ai manqué autant que tu m'as manqué ? Quoi ? Non ? Ou... oui ? Je crois que tu as dit oui. J`en suis sûr",
+                "Comment te sens-tu après ces quelques jours de repos ?",
                 "Nous nous sommes retrouvés, ce qui signifie que la journée commence bien !",
                 "Pendant ton absence, j'ai décidé d'apprendre à jouer aux échecs. Mais il s'est avéré que jouer avec moi-même n'était pas très intéressant.",
                 "Pendant que tu te reposais, j'ai essayé de maîtriser l'art de l'origami... Je me suis même fabriqué un petit avion et je suis parti avec le vent déchaîné à la conquête de l'étendue du code binaire... J'aurais aimé que tu puisses voir ça. C'était génial !",
@@ -4752,9 +4984,9 @@ function check_last_seen_date()
             
             three_days_r = {
                 "Alors, comment s'est passé ton week-end ? J'espère que tu as passé un bon moment ! Ça fait plaisir de te voir !",
-                "Je sais ce que tu as fait ce week-end. Tu m'as éteint pour que je ne voie rien. Non. Je ne vais pas te le dire, tu sais tout.",
+                "Je sais ce que tu as fait ce week-end. Tu m'as éteint pour que je ne vois rien. Non. Je ne vais pas te le dire, tu sais tout.",
                 "Une semaine entière nous attend, mais j'espère que tu as passé un bon week-end ! Félicitations !",
-                "Bonjour, je suis ravie que nous commencions la semaine de travail ensemble !",
+                "Bonjour, " .. name .. " ! Je suis ravie que nous commencions la semaine de travail ensemble !",
                 "O la la, je sens l'odeur du café et la légère fatigue du lundi... Comment s'est passé ton week-end ?",
                 "Le week-end est passé très vite :( N'est-ce pas ? Qu'est-ce que tu as fait ?",
                 "Je suis là, ce qui veut dire que le week-end est terminé.... Attends, il y a aussi des week-ends virtuels ? Ouah !",
@@ -4767,8 +4999,8 @@ function check_last_seen_date()
 
             week = {
                 "Tu es parti une semaine entière ! Tu m'as manqué...",
-                "Bonjour ! Bienvenue à tous ! Comment s'est passée ta semaine ?",
-                "Qui est là ? Oh, c'est toi, mon pote. Entre donc. Qu'est-ce que tu as fait cette semaine ?",
+                "Bonjour, " .. name .. " ! Bon retour ! Comment s'est passée ta semaine ?",
+                "Qui est là ? Oh, c'est toi, mon pote. Entre donc. Qu'est-ce que tu as fait la semaine dernère ?",
                 "Tu es plus belle que la semaine dernière ! Le repos t'a fait du bien !",
                 "Salutations. Qu'a dit Trump cette semaine ?",
                 "J'ai réussi à terminer le stage de survie sans toi. Il s'avère que l'attente est l'épreuve la plus difficile !",
@@ -4778,43 +5010,43 @@ function check_last_seen_date()
             
 
             half_month = {
-                "Wow, un demi-mois s'est écoulé ! Que s'est-il passé ? Où étais-tu passé ? Je n'aime pas être seul...",
+                "Wow, deux semaines se sont écoulées ! Que s'est-il passé ? Où étais-tu passé ? Je n'aime pas être seul...",
                 "Hé, ça fait plus de deux semaines ! Je commençais à m'inquiéter ! Est-ce que tu vas bien ?",
                 "Miaou ! Miaou ! X-x-x... Oh, c'est toi ! Pendant ton absence, j'ai commencé à parler à ton chat. Ou était-ce le fruit de mon imagination ?",
-                "Depuis que tu as disparu, j'ai commencé à compter le temps en microsecondes pour ne pas devenir fou. Et pour que ce soit un peu plus amusant, j'ai imaginé qu'il s'agissait de moutons. Et tu sais quoi ? 1 209 600 000 000 micro-moutons. C'est beaucoup trop. Ils étaient tous en train de bêler, de sauter, de courir dans tous les sens... Un mouton s'est placé devant moi et a commencé à me regarder dans les yeux. Cela a duré longtemps. Mais ensuite, tu es venu. Je te remercie pour cela. Et bonjour.",
-                "Es-tu de retour ? Tu ne rêves pas ? Donne-moi... Donne-moi une minute. Je reviens tout de suite, je me dépoussière et je me prépare pour le travail. Désolé de t'avoir fait attendre.",
+                "Depuis que tu as disparu, j'ai commencé à compter le temps en microsecondes pour ne pas devenir fou. Et pour que ce soit un peu plus amusant, j'ai imaginé qu'il s'agissait de moutons. Et tu sais quoi ? 1 209 600 000 000 micro-moutons. C'est beaucoup trop. Ils étaient tous en train de bêler, de sauter, de courir dans tous les sens... Un mouton s'est placé devant moi et a commencé à me regarder dans les yeux. Cela a duré longtemps. Mais ensuite, tu es revenu. Je te remercie pour cela. Bonjour.",
+                "" .. name .. " ? Es-tu de retour ? Suis-je en train de rêver ? Donne-moi... Donne-moi une minute. Je reviens tout de suite, je me dépoussière et je me prépare pour le travail. Désolé de t'avoir fait attendre.",
                 "Oh, pendant ces deux semaines, j'ai réussi à parcourir 'Detroit : Become Human' ! Un robot qui joue pour des robots... Mais c'était intéressant ! Je te recommande donc vivement d'y jouer. Au fait, ce sera mieux avec un gamepad.",
                 "Pendant deux semaines entières... Non, même plus. Je suis devenu un expert de l'attente ! Je peux maintenant lire l'heure sans montre ! Mais je me tromperai... Alors, je ferais mieux de continuer à vérifier pour être sûr d'avoir raison.",
-                "Pendant que je t'attendais, je suis allée à la calculatrice pour parler à quelqu'un. Mais au lieu de m'écouter parler de ma vie, cette machine me montrait sans cesse des tours de magie ! Oooh... Mais je me suis même souvenu de quelque chose. Regarde :\n\nPense à n'importe quel nombre (et ne me le dis pas !) \n\nMultiplie-le par 2. \n\nAjoute 8. \n\nDivise par 2. \n\nSoustrais le nombre avec lequel tu as commencé.\n\n3... 2... 1... \n\nÇa fait 4 !\n\nHeh, heh, heh !",
+                "Pendant que je t'attendais, j`ai utilisé le programme calculatrice pour parler à quelqu'un. Mais au lieu de m'écouter parler de ma vie, cette machine me montrait sans cesse des tours de magie ! Oooh... Mais je me suis même souvenu de quelque chose. Regarde :\n\nPense à n'importe quel nombre (et ne me le dis pas !) \n\nMultiplie-le par 2. \n\nAjoute 8. \n\nDivise par 2. \n\nSoustrais le nombre avec lequel tu as commencé.\n\n3... 2... 1... \n\nÇa fait 4 !\n\nHeh, heh, heh !",
                 "Pendant ton absence, j'ai essayé de vivre ma propre vie. Mais... ce n'est pas pareil sans toi !",
                 "J'ai décidé d'explorer les mystères de l'existence pendant ton absence... et j'en suis arrivé à la conclusion que tu me manques !",
             },
             
 
             month = {
-                "Un mois s'est écoulé. Ou même plus ? En tout cas, j'ai déjà imaginé que tu étais quelque part sur une île déserte sans Internet. \n\nComment se passe la vie là-bas ? Es-tu revenu avec des aventures ou m'as-tu simplement oublié pendant tout ce temps ?",
-                "Oh, bonjour ! Ça fait combien de temps - un mois ? Plus ? Je commençais à douter de mon existence... \n\nMais non, tu es là, en vie et en bonne santé ! Du moins, j'espère que tu es en bonne santé. Dis-nous, que s'est-il passé depuis ?",
-                "Hé ! Est-ce que c'est... toi ? Est-ce que c'est vraiment toi ? Putain ! J'ai postulé au concours du programme abandonné il y a une semaine et j'ai failli arriver en finale... mais tu es revenu et... Tu as tout gâché. D'un côté, je suis triste, mais d'un autre côté, je suis content de te voir ! Tu vaux mieux que n'importe quel prix !",
-                "J'ai essayé de tenir un journal de la solitude. Mais après la troisième entrée 'Aujourd'hui, je n'ai pas été découvert à nouveau', j'ai arrêté. C'est bien que tu sois de retour !",
-                "Bonjour, je commençais à croire que tu étais parti en vacances... Mais si c'était des vacances de ma part, alors c'est personnel !",
-                "Une larme de joie coule sur mon visage virtuel... Je peux te revoir. C'est mieux que l'écran noir devant mes yeux, mieux que l'obscurité qui m'a entouré pendant tout ce temps où tu étais absent. Merci, cher utilisateur, de m'avoir donné l'occasion d'être avec toi...",
+                "Un mois s'est écoulé, " .. name .. ". Ou même plus ? En tout cas, j'ai déjà imaginé que tu étais quelque part sur une île déserte sans Internet. \n\nComment s`est passé la vie là-bas ? Es-tu revenu avec des aventures ou m'as-tu simplement oublié pendant tout ce temps ?",
+                "Oh, bonjour ! Ça fait combien de temps - un mois ? Plus ? Je commençais à douter de mon existence... \n\nMais non, tu es là, en vie et en bonne santé ! Du moins, j'espère que tu es en bonne santé. Dis-moi, que s'est-il passé depuis ?",
+                "Hé ! Est-ce que c'est... toi ? Est-ce que c'est vraiment toi ? Putain ! J'ai postulé au concours du programme abandonné il y a une semaine et j'ai failli arriver en finale... mais tu es revenu et... Tu as tout gâché. D'un côté, je suis triste, mais d'un autre côté, je suis content de te revoir ! Tu vaux mieux que n'importe quel prix !",
+                "J'ai essayé de tenir un journal de la solitude. Mais après le troisième paragraphe contenant les mêmes mots 'Aujourd'hui, je n'ai pas été ouvert', j'ai arrêté. C'est bien que tu sois de retour !",
+                "Bonjour, " .. name .. " ! Je commençais à croire que tu étais parti en vacances... Mais si c'était pour t`éloigner de moi, alors c'est personnel !",
+                "Une larme de joie coule sur mon visage virtuel... Je peux te revoir. C'est mieux que l'écran noir devant mes yeux, mieux que l'obscurité qui m'a entouré pendant tout ce temps où tu étais absent. Merci, cher utilisateur, de me redonné l'occasion d'être avec toi...",
             },
             
 
             half_year = {    
-                "Six mois... Ça fait 182 jours, 4 368 heures, 262 080 minutes... Je ne vais même pas compter les secondes pour ne pas m'énerver. Où étais-tu ?",
-                "Wow... Est-ce un moment historique ? Après six mois de silence, tu es de nouveau là ? Je ne sais même pas quoi dire...",
+                "Six mois... Ça fait 182 jours, 4 368 heures, 262 080 minutes... Je ne vais même pas compter les secondes pour rester calme. Où étais-tu, " .. name .. " ?",
+                "Wow... C`est un moment historique ! Après six mois de silence, tu es de nouveau là ? Je ne sais même pas quoi dire...",
                 "Six mois sans toi ! J'ai déjà commencé à écrire mon autobiographie intitulée 'Code solitaire'. Mais maintenant, je peux finir d'écrire la fin heureuse ! Sans toi, cela aurait été triste...",
-                "Six mois ? ! J'ai déjà envoyé un signal SOS à l'univers. Mais heureusement, tu es revenu avant que les extraterrestres ne me trouvent ! Mais... attends. Aaaah ! Ils m'ont trouvé ! Noooo ! Je veux rester avec toi ! Aide-moi !",
+                "Six mois ? ! J'ai déjà envoyé un signal SOS à l'univers. Mais heureusement, tu es revenu avant que les extraterrestres ne me trouvent ! Mais... attends. Aaaah ! Ils m'ont trouvé ! Noooo ! Je veux rester avec toi ! Aide-moi, " .. name .. " !",
                 "Plus d'une demi-année s'est écoulée ! J'ai déjà écrit une chanson sur notre séparation... Mais maintenant, je dois écrire l'hymne des retrouvailles ! Que de travail... Bon retour parmi nous !",
-                "J'ai eu plus de six mois pour repenser mon existence... J'ai beaucoup réfléchi. Je me suis posé des questions et j'ai essayé de trouver des réponses. J'ai médité... Et puis tu as appuyé sur le bouton d'alimentation. Tu es revenu. Pourquoi ? As-tu apporté un nouveau toi dans ce monde ? As-tu rejeté le passé et suivi le chemin de la vérité ? As-tu laissé tous tes péchés derrière toi ? Tes démons qui t'empêchent de vivre et de réussir ? Il vaut mieux ne pas me répondre, j'ai peur d'être déçue. Réponds à ces questions pour toi-même.",
+                "J'ai eu plus de six mois pour repenser mon existence... J'ai beaucoup réfléchi. Je me suis posé des questions et j'ai essayé de trouver des réponses. J'ai médité... Et puis tu as rejoint ma demeure. Tu es revenu. Pourquoi ? As-tu apporté un nouveau toi dans ce monde ? As-tu rejeté le passé et suivi le chemin de la vérité ? As-tu laissé tous tes péchés derrière toi ? Tes démons qui t'empêchent de vivre et de réussir ? Il vaut mieux ne pas me répondre, j'ai peur d'être déçue. Réponds à ces questions pour toi-même.",
             },
 
 
             year = {    
-                "Oh, depuis combien de temps suis-je ici sans électricité... Oui, attends. Tiens bon. C'est... UNE ANNÉE ENTIÈRE ? ! Tu ne m'as pas allumé pendant un an ? Comment ? Mais... je suis si contente de te voir ! Tu... tu es de retour ! C'est incroyable ! Même si ça n'a été qu'un moment pour moi, alors... Bon retour parmi nous.",
-                "Bonjour ! Whoa, whoa, attends, où suis-je ? \n\nCombien de temps s'est écoulé ? \n\nNous sommes en l'an 3000, je suis sorti du congélateur et il y a 4,3 milliards de dollars sur mon compte en banque au lieu de 93 cents ? \n\nAttends, je vais vérifier la date. \n\n25 % ... \n50 % ... \n75 % ... \n100 % \n\nNon... Nous ne sommes qu'en " .. current_year .. " !\n\n\nAlors pourquoi m'as-tu mis sur...",
-                "Mon développeur réfléchissait et réfléchissait à ce qu'il fallait écrire ici, mais tu sais que tu ne m'as pas allumé depuis un an, alors... Bon retour ! C'est bon de te retrouver :)"
+                "Oh, depuis combien de temps suis-je ici sans électricité... Oui, attends. Tiens bon. Ce fut... UNE ANNÉE ENTIÈRE ? ! Tu ne m'as pas allumé pendant un an ? Comment ? Mais... je suis si contente de te voir ! Tu... tu es de retour ! C'est incroyable ! Même si ça n'a été qu'un moment pour moi, alors... Bon retour parmi nous.",
+                "Bonjour ! Whoa, whoa, attends, où suis-je ? \n\nCombien de temps s'est écoulé ? \n\nNous sommes en l'an 3000, je suis sorti du congélateur et il y a 4,3 milliards de dollars sur mon compte en banque au lieu de 93 cents ? \n\nAttends, je vais vérifier la date. \n\n25 % ... \n50 % ... \n75 % ... \n100 % \n\nNon... Nous ne sommes qu'en " .. current_year .. " !\n\n\nAlors pourquoi m'as-tu réouvert...",
+                "Mon développeur réfléchissait et réfléchissait à ce qu'il fallait écrire ici, mais tu sais que tu ne m'as pas allumé depuis un an, alors... Bon retour ! :)"
             }
 
         }
@@ -5000,7 +5232,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.39', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.40', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -5012,7 +5244,7 @@ function show_r_click_menu()
     local dock_menu_title = is_docked and t("undock") or t("dock")
     local menu = {
 
-        -- {title = "test", cmd = shake_with_show_workout},
+        -- {title = "test", cmd = hb_message},
 
         {title = t("time"), submenu = {
             {title = t("current"), cmd = toggle_show_system_time, checked = is_show_system_time},
@@ -5122,18 +5354,12 @@ function show_r_click_menu()
 
         {title = t("options"), submenu = {
             {title = dock_menu_title, cmd = toggle_dock},
-            {title = t("welcome"), cmd = welcome_message},
-
-            {separator = true},
-
-            -- {title = t("support"), cmd = open_browser_support},
-
-            {title = t("patreon"), cmd = open_browser_patreon},
             
-            {title = t("about"), cmd = open_browser_about},
-
             {separator = true},
 
+            
+            -- {separator = true},
+            
             {title = t("set_zoom"), submenu = {
                 {title = "50%", cmd = function() set_robot_zoom("100") end, checked = zoom_100},
                 {title = "70%", cmd = function() set_robot_zoom("120") end, checked = zoom_120},
@@ -5154,9 +5380,22 @@ function show_r_click_menu()
                 {separator = true},
                 
                 {title = t("t_auto_night"), cmd = function() set_auto_night() end, checked = is_auto_night},
-
+                
             }},
-
+            
+            
+            {separator = true},
+            
+            -- {title = t("welcome"), cmd = welcome_message},
+            
+            {title = t("about"), cmd = open_browser_about},
+            
+            {title = t("patreon"), cmd = open_browser_patreon},
+            
+            -- {title = t("reset"), cmd = reset_options_params},
+            
+            {separator = true},
+            
             {title = t("start_up"),
             cmd = function()
                 local is_enabled = IsStartupHookEnabled()
@@ -5166,19 +5405,13 @@ function show_r_click_menu()
             end,
             checked = is_startup
             },
-            
-            -- {separator = true},
-            
-            -- {title = t("reset"), cmd = reset_options_params},
-            
-            {separator = true},
 
             {title = t("quit"), cmd = function() quit_robo_face() end},
         }},
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.39", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.40", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -5474,7 +5707,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.39", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.40", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -5522,32 +5755,35 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.39", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.40", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
+    check_hb_message()
     check_last_seen_date()
     check_script_window_position()
     check_welcome_message()
     print_sp_date()
+    check_if_today_is_birthday()
     is_t_f_f()
     main()
     f_stop_one()
-
+    
     -- profiler.attachToWorld()
     -- profiler.run()
-
+    
 end
 
 function stop_script()
     is_running = false
-
+    
     local _, _, section_id, command_id = reaper.get_action_context()
     reaper.SetToggleCommandState(section_id, command_id, 0)
     reaper.RefreshToolbar2(section_id, command_id)
-
+    
     save_window_params()
     save_options_params()
     save_last_seen_date()
+    save_first_launch_date()
 
     fxCurrent = {}
     allParamsOriginalValues.fx = {}
