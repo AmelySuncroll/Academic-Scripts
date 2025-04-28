@@ -6,6 +6,9 @@
 --    + init @
 --    + 1.1 add tabs, add autocreate files '...list 1', '...list 2' etc
 
+-- @provides
+--   [script main]List/*.lua
+
 -- @about Set any actions as a startup - just add them here and forget forever.
 
 -- @donation https://www.paypal.com/paypalme/suncroll
