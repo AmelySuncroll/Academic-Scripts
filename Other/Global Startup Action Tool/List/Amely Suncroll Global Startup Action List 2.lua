@@ -1,9 +1,10 @@
 -- @description Global Startup Action List 2
 -- @author Amely Suncroll, Alex_Ik
--- @version 1.1
+-- @version 1.11
 -- @changelog
 --    + init @
 --    + 1.1 add tabs
+--    + 1.11 add folder for files
 -- @noIndex
 
 local r = reaper
