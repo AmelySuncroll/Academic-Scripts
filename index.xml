@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="ebcb8ae0b4a309a4f3f867dc1ebefac959f5aa67">
+<index version="1" name="Academic-Scripts" commit="55bcbf5f7caf836c89dea0087acb5f251dfa56be">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -1301,13 +1301,6 @@
     </reapack>
   </category>
   <category name="Other/Global Startup Action Tool/List">
-    <reapack name="Amely Suncroll Global Startup Action List 3.lua" type="script" desc="Global Startup Action List 3">
-      <version name="1.1" author="Amely Suncroll, Alex_Ik" time="2025-04-28T10:16:02Z">
-        <changelog><![CDATA[+ init @
-+ 1.1 add tabs]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/445a0198aa8470a624233350b28343c62ecd7379/Other/Global%20Startup%20Action%20Tool/List/Amely%20Suncroll%20Global%20Startup%20Action%20List%203.lua</source>
-      </version>
-    </reapack>
     <reapack name="Amely Suncroll Global Startup Action List 4.lua" type="script" desc="Global Startup Action List 4">
       <version name="1.1" author="Amely Suncroll, Alex_Ik" time="2025-04-28T10:16:16Z">
         <changelog><![CDATA[+ init @
