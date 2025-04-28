@@ -7,7 +7,7 @@
 --    + 1.1 add tabs, add autocreate files '...list 1', '...list 2' etc
 --    + 1.11 add separate folder for list files
 
--- @provides [nomain]List/*.lua
+-- @provides [nomain] List/*.lua
 
 -- @about Set any actions as a startup - just add them here and forget forever.
 
