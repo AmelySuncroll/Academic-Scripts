@@ -7,7 +7,7 @@
 --    + 1.1 add tabs, add autocreate files '...list 1', '...list 2' etc
 
 -- @provides
---   [script main]List/*.lua
+--    [script main]List/*.lua
 
 -- @about Set any actions as a startup - just add them here and forget forever.
 
@@ -51,7 +51,7 @@ local show_cursor = true
 
 
 local function check_and_create_additional_script()
-  local baseDir = reaper.GetResourcePath() .. "/Scripts/Academic-Scripts/Other/Global Startup Action Tool/"
+  local baseDir = reaper.GetResourcePath() .. "/Scripts/Academic-Scripts/Other/Global Startup Action Tool/List/"
   local listFiles = {
     baseDir .. "Amely Suncroll Global Startup Action List 1.lua",
     baseDir .. "Amely Suncroll Global Startup Action List 2.lua",
@@ -114,7 +114,7 @@ r.defer(runMidiEditorActions)
 end
 
 local function get_current_script_path()
-  local baseDir = reaper.GetResourcePath() .. "/Scripts/Academic-Scripts/Other/Global Startup Action Tool/"
+  local baseDir = reaper.GetResourcePath() .. "/Scripts/Academic-Scripts/Other/Global Startup Action Tool/List/"
   
   if is_list1 then
       return baseDir .. "Amely Suncroll Global Startup Action List 1.lua"
@@ -335,6 +335,7 @@ local function should_ignore_action(script)
             return true
         end
     end
+
     return false
 end
 
@@ -414,7 +415,7 @@ local function handle_mouse_clicks(x, y)
 end
 
 local function handle_input(char)
-  if char == 13 then -- Enter
+  if char == 13 then -- enter
       if inputText ~= "" then
           local dictionary_id
 
@@ -429,14 +430,18 @@ local function handle_input(char)
               inputText = ""
           end
       end
-  elseif char == 22 then -- Ctrl+V
-      local clipboardText = reaper.CF_GetClipboard()
-      if clipboardText then
-          inputText = inputText .. clipboardText
-      end
+  elseif char == 22 then -- ctrl + v
+        local clipboardText = reaper.CF_GetClipboard()
+
+        if clipboardText then
+            if is_arrange_view or is_midi_editor then
+                inputText = inputText .. clipboardText
+            end
+        end
+
   elseif char >= 32 and char <= 126 then
       inputText = inputText .. string.char(char)
-  elseif char == 8 then -- Backspace
+  elseif char == 8 then -- backspace
       inputText = inputText:sub(1, -2)
   end
 end
@@ -714,6 +719,39 @@ function grafics()
         gfx.drawstr(aboutText)
     end
 
+    local text = "press enter"
+    local text_w, text_h = gfx.measurestr(text)
+    local text_x = gfx.w - text_w - 33
+    local text_y = 50
+    local gradient_width = 200
+    local shift = 10
+
+    for i = 0, gradient_width - 1 do
+        local alpha = i / gradient_width
+        gfx.set(0.4, 0.4, 0.4, alpha)
+
+        if not is_about then
+            gfx.line(text_x - gradient_width - shift + i, text_y, text_x - gradient_width - shift + i, text_y + text_h)
+        end 
+    end
+
+    gfx.set(0.4, 0.4, 0.4, 1)
+
+    if not is_about then
+        gfx.rect(text_x - shift, text_y, text_w * 1.3, text_h, true)
+    end
+
+    gfx.x = text_x
+    gfx.y = text_y
+
+    gfx.set(0.9, 0.9, 0.9, 1)
+
+    if inputText == "" then
+        -- noth
+    else
+        gfx.printf(text)
+    end
+
     gfx.x, gfx.y = 10, 100
     
     if not is_about then
@@ -731,6 +769,7 @@ function grafics()
             end
             
             gfx.x = 30 
+
             if inputText == "" then
                 gfx.set(0.9, 0.9, 0.9)
             else
@@ -756,11 +795,12 @@ end
 
 function main()
     local char = gfx.getchar()
+
     if char == 27 then
         return
     elseif char >= 0 then
-        handle_input(char)
         reaper.defer(main)
+        handle_input(char)
     end
     
     if not is_about then
