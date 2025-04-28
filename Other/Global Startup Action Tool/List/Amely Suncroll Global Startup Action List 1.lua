@@ -4,6 +4,7 @@
 -- @changelog
 --    + init @
 --    + 1.1 add tabs
+-- @noIndex
 
 local r = reaper
 
