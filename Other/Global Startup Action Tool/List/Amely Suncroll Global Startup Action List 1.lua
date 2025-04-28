@@ -1,6 +1,6 @@
 -- @description Global Startup Action List 1
 -- @author Amely Suncroll, Alex_Ik
--- @version 1.11
+-- @version 1.12.3
 -- @changelog
 --    + init @
 --    + 1.1 add tabs
