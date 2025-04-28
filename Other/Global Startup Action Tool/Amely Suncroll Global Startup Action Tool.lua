@@ -1,6 +1,6 @@
 -- @description Global Startup Action Tool
 -- @author Amely Suncroll, Alex_Ik
--- @version 1.1
+-- @version 1.11
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
