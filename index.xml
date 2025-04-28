@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="9915ab4f2a4484428e24a1685a25fb6cc7b4571e">
+<index version="1" name="Academic-Scripts" commit="72f16fc91079cc38fc99a66b5935a005380c1fc4">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -1279,26 +1279,6 @@
       <version name="1.0" author="Amely Suncroll" time="2024-09-15T13:34:58Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/2e3d6316a6837e4c62f6c944f25a76cebac1b2d8/Other/Create%20'Play'%20Marker/Amely%20Suncroll%20Play%20or%20Stop%20project%20from%20'PLAY'%20marker%20or%20edit%20cursor.lua</source>
-      </version>
-    </reapack>
-  </category>
-  <category name="Other/Global Startup Action">
-    <reapack name="Amely Suncroll Global Startup Action (settings).lua" type="script" desc="Global Startup Action (settings)">
-      <metadata>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="1.0" author="Amely Suncroll, Alex_Ik" time="2024-09-03T06:30:53Z">
-        <changelog><![CDATA[+ init @]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/2c20058fa5585cf3becb996bded0a548d654d875/Other/Global%20Startup%20Action/Amely%20Suncroll%20Global%20Startup%20Action%20(settings).lua</source>
-      </version>
-    </reapack>
-    <reapack name="Amely Suncroll Global Startup Action List.lua" type="script" desc="Global Startup Action List">
-      <metadata>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="1.0" author="Amely Suncroll, Alex_Ik" time="2024-09-03T06:30:53Z">
-        <changelog><![CDATA[+ init @]]></changelog>
-        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/2c20058fa5585cf3becb996bded0a548d654d875/Other/Global%20Startup%20Action/Amely%20Suncroll%20Global%20Startup%20Action%20List.lua</source>
       </version>
     </reapack>
   </category>
