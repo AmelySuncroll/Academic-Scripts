@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="2e33eeafa2ca657b485e2a37167f7899c41c7c81">
+<index version="1" name="Academic-Scripts" commit="4269b29127816cd1405e6c2122cdbdf5f265f92e">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -1312,6 +1312,12 @@
 + 1.12 ---
 + 1.12.1 ---]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/2e33eeafa2ca657b485e2a37167f7899c41c7c81/Other/Global%20Startup%20Action%20Tool/Amely%20Suncroll%20Global%20Startup%20Action%20Tool.lua</source>
+      </version>
+      <version name="1.12.2" author="Amely Suncroll, Alex_Ik" time="2025-04-28T11:49:27Z">
+        <changelog><![CDATA[+ init @
++ 1.1 add tabs, add autocreate files '...list 1', '...list 2' etc
++ 1.11 add separate folder for list files]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/4269b29127816cd1405e6c2122cdbdf5f265f92e/Other/Global%20Startup%20Action%20Tool/Amely%20Suncroll%20Global%20Startup%20Action%20Tool.lua</source>
       </version>
     </reapack>
   </category>
