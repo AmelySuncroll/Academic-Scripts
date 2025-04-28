@@ -5,9 +5,10 @@
 -- @changelog
 --    + init @
 --    + 1.1 add tabs, add autocreate files '...list 1', '...list 2' etc
+--    + 1.11 add separate folder for list files
 
-@provides
-  [nomain] List/*.lua
+-- @provides
+-- [nomain]List/*.lua
 
 -- @about Set any actions as a startup - just add them here and forget forever.
 
@@ -21,7 +22,7 @@
 local startX = 570
 local startY = 350 
 local startWidth = 800 
-local startHeight = 460
+local startHeight = 450
 local script_window_title = "Global Startup Action Tool"
 gfx.init(script_window_title, startWidth, startHeight, 0, startX, startY)
 
