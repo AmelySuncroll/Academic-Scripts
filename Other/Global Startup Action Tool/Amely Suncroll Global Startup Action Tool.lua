@@ -21,7 +21,7 @@
 local startX = 570
 local startY = 350 
 local startWidth = 800 
-local startHeight = 450
+local startHeight = 460
 local script_window_title = "Global Startup Action Tool"
 gfx.init(script_window_title, startWidth, startHeight, 0, startX, startY)
 
