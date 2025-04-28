@@ -9,8 +9,7 @@
 --    + 1.12 ---
 --    + 1.12.1 ---
 
-@provides 
-  [script]List/*.lua
+--@provides[nomain]List/*.lua
 
 -- @about Set any actions as a startup - just add them here and forget forever.
 
