@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="8ad0f89e5530bb65931f38de87e39d9cc1057fbb">
+<index version="1" name="Academic-Scripts" commit="a1ae38b27083ab6598642c8c981981360fb4e385">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -237,80 +237,6 @@
       <version name="1.01" author="Amely Suncroll" time="2024-06-09T08:19:10Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/0f44082d5c36b12ee84fbeeb7526b29d7f3b71a2/MIDI%20Editor/Academic%20Scripts/Amely%20Suncroll%20Academic%20Voice%20(original).lua</source>
-      </version>
-    </reapack>
-  </category>
-  <category name="MIDI Editor/Create 'Play' Marker">
-    <reapack name="Amely Suncroll Create 'PLAY' marker (like in ProTools) (toggle).lua" type="script" desc="Create 'PLAY' marker (like in ProTools) (toggle)">
-      <metadata>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="1.0" author="Amely Suncroll" time="2024-09-15T13:32:49Z">
-        <changelog><![CDATA[+ init @]]></changelog>
-        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/5d257697068826012ce85ad0481ea75eed2e8780/MIDI%20Editor/Create%20'Play'%20Marker/Amely%20Suncroll%20Create%20'PLAY'%20marker%20(like%20in%20ProTools)%20(toggle).lua</source>
-      </version>
-    </reapack>
-    <reapack name="Amely Suncroll Move 'PLAY' marker to edit cursor.lua" type="script" desc="Move 'PLAY' marker to edit cursor">
-      <metadata>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="1.0" author="Amely Suncroll" time="2024-09-15T13:32:49Z">
-        <changelog><![CDATA[+ init @]]></changelog>
-        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/5d257697068826012ce85ad0481ea75eed2e8780/MIDI%20Editor/Create%20'Play'%20Marker/Amely%20Suncroll%20Move%20'PLAY'%20marker%20to%20edit%20cursor.lua</source>
-      </version>
-    </reapack>
-    <reapack name="Amely Suncroll Move 'PLAY' marker to midi editor start.lua" type="script" desc="Move 'PLAY' marker to midi editor start">
-      <metadata>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="1.0" author="Amely Suncroll" time="2024-09-19T00:04:51Z">
-        <changelog><![CDATA[+ init @]]></changelog>
-        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/167db8c0594ac0cc056b4bc5617a79619dd2d632/MIDI%20Editor/Create%20'Play'%20Marker/Amely%20Suncroll%20Move%20'PLAY'%20marker%20to%20midi%20editor%20start.lua</source>
-      </version>
-    </reapack>
-    <reapack name="Amely Suncroll Move 'PLAY' marker to next marker.lua" type="script" desc="Move 'PLAY' marker to next marker">
-      <metadata>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="1.0" author="Amely Suncroll" time="2024-09-15T13:32:49Z">
-        <changelog><![CDATA[+ init @]]></changelog>
-        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/5d257697068826012ce85ad0481ea75eed2e8780/MIDI%20Editor/Create%20'Play'%20Marker/Amely%20Suncroll%20Move%20'PLAY'%20marker%20to%20next%20marker.lua</source>
-      </version>
-    </reapack>
-    <reapack name="Amely Suncroll Move 'PLAY' marker to previous marker.lua" type="script" desc="Move 'PLAY' marker to previous marker">
-      <metadata>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="1.0" author="Amely Suncroll" time="2024-09-15T13:32:49Z">
-        <changelog><![CDATA[+ init @]]></changelog>
-        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/5d257697068826012ce85ad0481ea75eed2e8780/MIDI%20Editor/Create%20'Play'%20Marker/Amely%20Suncroll%20Move%20'PLAY'%20marker%20to%20previous%20marker.lua</source>
-      </version>
-    </reapack>
-    <reapack name="Amely Suncroll Move 'PLAY' marker to project start.lua" type="script" desc="Move 'PLAY' marker to project start">
-      <metadata>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="1.0" author="Amely Suncroll" time="2024-09-15T13:32:49Z">
-        <changelog><![CDATA[+ init @]]></changelog>
-        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/5d257697068826012ce85ad0481ea75eed2e8780/MIDI%20Editor/Create%20'Play'%20Marker/Amely%20Suncroll%20Move%20'PLAY'%20marker%20to%20project%20start.lua</source>
-      </version>
-    </reapack>
-    <reapack name="Amely Suncroll Move 'PLAY' marker to time selection start.lua" type="script" desc="Move 'PLAY' marker to time selection start">
-      <metadata>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="1.0" author="Amely Suncroll" time="2024-09-15T13:32:49Z">
-        <changelog><![CDATA[+ init @]]></changelog>
-        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/5d257697068826012ce85ad0481ea75eed2e8780/MIDI%20Editor/Create%20'Play'%20Marker/Amely%20Suncroll%20Move%20'PLAY'%20marker%20to%20time%20selection%20start.lua</source>
-      </version>
-    </reapack>
-    <reapack name="Amely Suncroll Play or Stop project from 'PLAY' marker or edit cursor.lua" type="script" desc="Play or Stop project from 'PLAY' marker or edit cursor">
-      <metadata>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="1.0" author="Amely Suncroll" time="2024-09-15T13:32:49Z">
-        <changelog><![CDATA[+ init @]]></changelog>
-        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/5d257697068826012ce85ad0481ea75eed2e8780/MIDI%20Editor/Create%20'Play'%20Marker/Amely%20Suncroll%20Play%20or%20Stop%20project%20from%20'PLAY'%20marker%20or%20edit%20cursor.lua</source>
       </version>
     </reapack>
   </category>
