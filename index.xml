@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="29f96b8a913c1a12900868ddef1a3d76f617c7d0">
+<index version="1" name="Academic-Scripts" commit="a11eae0dd891910024bba0df246fa9ff5f7541cc">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -1005,6 +1005,10 @@
       <version name="1.0" author="Amely Suncroll" time="2025-01-15T13:50:43Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/a618a3517e9dd58da0f95db75fef4b14a4b10908/Other/Arrange%20View/Amely%20Suncroll%20Mute%20tracks%20(like%20Cubase).lua</source>
+      </version>
+      <version name="1.01" author="Amely Suncroll" time="2025-05-01T08:23:54Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/a11eae0dd891910024bba0df246fa9ff5f7541cc/Other/Arrange%20View/Amely%20Suncroll%20Mute%20tracks%20(like%20Cubase).lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll Optimize VST (move them from one track to anothers inside new folder to reduce CPU).lua" type="script" desc="Optimize VST (move them from one track to anothers inside new folder to reduce CPU)">
