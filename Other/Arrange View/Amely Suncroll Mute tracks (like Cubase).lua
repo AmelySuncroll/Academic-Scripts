@@ -1,6 +1,6 @@
 -- @description Mute tracks (like Cubase)
 -- @author Amely Suncroll
--- @version 1.0
+-- @version 1.01
 -- @changelog
 --    + init @
 
