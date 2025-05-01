@@ -1,6 +1,6 @@
 -- @description Create 'PLAY' marker (like in ProTools) (toggle)
 -- @author Amely Suncroll
--- @version 1.01
+-- @version 1.02
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
