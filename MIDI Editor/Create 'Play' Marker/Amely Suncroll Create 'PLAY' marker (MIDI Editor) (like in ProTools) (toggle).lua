@@ -5,7 +5,7 @@
 -- @changelog
 --    + init @
 --    + 1.01
--- @provides [midi_editor]Play/*.lua
+-- @provides [main=midi_editor]Play/*.lua
 
 local marker_color = reaper.ColorToNative(1, 127, 63) | 0x1000000
 local marker_name = "PLAY ▶"
