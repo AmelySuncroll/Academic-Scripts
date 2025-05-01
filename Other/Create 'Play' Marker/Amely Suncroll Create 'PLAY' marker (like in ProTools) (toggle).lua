@@ -1,9 +1,11 @@
 -- @description Create 'PLAY' marker (like in ProTools) (toggle)
 -- @author Amely Suncroll
--- @version 1.0
+-- @version 1.01
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
+--    + 1.01
+-- @provides [main]Play/*.lua
 
 -- @about Play your project from 'PLAY' marker, not edit cursor. Set 'Amely Suncroll Play or Stop project from 'PLAY' marker or edit cursor' script on 'Space' button before using this script.
 
@@ -14,8 +16,6 @@
 -- Personal support:
 -- https://t.me/amely_suncroll_support
 -- amelysuncroll@gmail.com
-
-local reaper = reaper
 
 local marker_color = reaper.ColorToNative(215, 215, 215) | 0x1000000
 local marker_name = "▶|| PLAY"
