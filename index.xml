@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="a11eae0dd891910024bba0df246fa9ff5f7541cc">
+<index version="1" name="Academic-Scripts" commit="d727203b63baa11f742bb69873971095749f8faa">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -318,36 +318,6 @@
       <version name="1.0" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Delete%20selected%20chords%20except%20the%20lowest%20note.lua</source>
-      </version>
-    </reapack>
-    <reapack name="Amely Suncroll Deselect midi notes with right mouse click (like FL Studio).lua" type="script" desc="Deselect midi notes with right mouse click (like FL Studio)">
-      <metadata>
-        <description><![CDATA[{\rtf1\ansi\deff0{\fonttbl{\f0 \fswiss Helvetica;}{\f1 Courier;}}
-{\colortbl;\red255\green0\blue0;\red0\green0\blue255;}
-\widowctrl\hyphauto
-
-{\pard \ql \f0 \sa180 \li0 \fi0 Click right mouse click just one time to deselect all midi notes. Hold right mouse click to delete midi notes (if you set up delete notes by right drag) and keep others selected.\par}
-}
-]]></description>
-        <link rel="website">https://forum.cockos.com/showthread.php?t=291012</link>
-      </metadata>
-      <version name="1.03" author="Amely Suncroll" time="2024-06-09T07:39:57Z">
-        <changelog><![CDATA[+ Improved toolbar icon handling
-+ Remove "working" and "stopped" messages]]></changelog>
-        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/f1d1ff58f163f694c8f0eb5549f3fd84d52ba6fa/MIDI%20Editor/Other/Amely%20Suncroll%20Deselect%20midi%20notes%20with%20right%20mouse%20click%20(like%20FL%20Studio).lua</source>
-      </version>
-      <version name="1.04" author="Amely Suncroll" time="2024-06-17T06:16:35Z">
-        <changelog><![CDATA[+ Improved toolbar icon handling
-+ Remove "working" and "stopped" messages
-+ Fix unmute notes if was muted]]></changelog>
-        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/eab0d14cc028e9d96222ab46b85bb4caec2f1a39/MIDI%20Editor/Other/Amely%20Suncroll%20Deselect%20midi%20notes%20with%20right%20mouse%20click%20(like%20FL%20Studio).lua</source>
-      </version>
-      <version name="1.05" author="Amely Suncroll" time="2024-12-18T18:08:07Z">
-        <changelog><![CDATA[+ Improved toolbar icon handling
-+ Remove "working" and "stopped" messages
-+ Fix unmute notes if was muted
-+ Changed treshold to 0.1 and add reaper's native deselecting function]]></changelog>
-        <source main="midi_editor">https://github.com/AmelySuncroll/Academic-Scripts/raw/cd0f4e6ac9b5cc17dbf546fb36e17f20d407cb35/MIDI%20Editor/Other/Amely%20Suncroll%20Deselect%20midi%20notes%20with%20right%20mouse%20click%20(like%20FL%20Studio).lua</source>
       </version>
     </reapack>
     <reapack name="Amely Suncroll First remove time selection and then close piano roll.lua" type="script" desc="First remove time selection and then close piano roll">
