@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.40
+-- @version 1.41
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -33,6 +33,7 @@
 --    + 1.38 little improvements for animations
 --    + 1.39 fix not blink eyes after little improvements for animations, hahaha
 --    + 1.40 full French localisation (many thanks to my french friend Arnaud, who checked it), full calendar, add promt to get user's name and happy birthday, rearrange and rename right-click menu
+--    + 1.41 improved ukrainian localization, fix not show welcome back messages after the time
 
 
 
@@ -137,8 +138,8 @@ local translations = {
     },
     
     ua = {
-        time = "Від. часу",
-        current = "Поточне",
+        time = "Від. час",
+        current = "Поточний",
         hourly = "Щогодини",
         
         set_timer = "Таймер",
@@ -161,7 +162,7 @@ local translations = {
         
         cube = "Кості",
         
-        swch_game = "Щось змінилося?",
+        swch_game = "Що змінилося?",
         play = "Грати",
         rules = "Правила",
         easy = "Легкий",
@@ -325,7 +326,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.40", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.41", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -340,7 +341,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.40", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.41", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -3353,24 +3354,24 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.40\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.41\n")
     elseif current_language == "ua" then
-        reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді давай познайомимося ще раз, вже солов'їною.\n\n")
+        reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді нумо познайомимося ще раз, уже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт, " .. name .. "!\n\n")
         reaper.ShowConsoleMsg("Мене звати RoboFace.\n\n")
-        reaper.ShowConsoleMsg("Я люблю Reaper DAW та музику. Також мені подобається дотримуватися режиму сну та пити каву вранці. Але якщо ти будеш необережний зі мною, я можу зробити щось погане.\n\n")
-        reaper.ShowConsoleMsg("Я можу грати у гру або навіть жартувати з тобою.\n\n")
+        reaper.ShowConsoleMsg("Я люблю Reaper DAW та музику. Також мені подобається дотримуватися режиму сну та пити каву вранці. Але якщо ти будеш необережний зі мною, я можу зробити дещо погане.\n\n")
+        reaper.ShowConsoleMsg("Я можу грати в ігри або навіть жартувати з тобою.\n\n")
         reaper.ShowConsoleMsg("Мої можливості включають:\n")
-        reaper.ShowConsoleMsg("1. Відображення поточного або щогодинного часу.\n")
-        reaper.ShowConsoleMsg("2. Налаштування таймера та його відображення.\n")
-        reaper.ShowConsoleMsg("3. Гру 'Щось змінилося?', де потрібно знайти змінений параметр та повернути його значення. Дивіться правила, щоб дізнатися більше.\n")
+        reaper.ShowConsoleMsg("1. Відображення поточного часу або щогодини.\n")
+        reaper.ShowConsoleMsg("2. Налаштування таймера.\n")
+        reaper.ShowConsoleMsg("3. Гру 'Що змінилося?', де потрібно знайти змінений параметр та відновити його значення. Дивіться правила, щоб дізнатися більше.\n")
         reaper.ShowConsoleMsg("4. Анімації: блимання очима, позіхання, злість, чхання та інші.\n")
-        reaper.ShowConsoleMsg("5. Режим 'Тап Темпо', за допомогою якого можна отримати власний темп кліком миші.\n")
+        reaper.ShowConsoleMsg("5. Режим 'Тап Темпо', за допомогою якого можна перевірити власний темп клацом миші.\n")
         reaper.ShowConsoleMsg("6. Тощо.\n\n")
-        reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати автора, звертайся за посиланнями в опціях.\n\n")
+        reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати авторку, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.40\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.41\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
         reaper.ShowConsoleMsg("Bienvenue, " .. name .. " !\n\n")
@@ -3387,7 +3388,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir la créatrice, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.40\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.41\n")
     end
 end
 
@@ -3988,7 +3989,7 @@ function about_swch_game()
         reaper.ShowConsoleMsg("Good luck!\n\n")
 
     elseif current_language == "ua" then
-        reaper.ShowConsoleMsg("Ласкаво просимо до гри 'Щось Змінилося'!\n\n")
+        reaper.ShowConsoleMsg("Ласкаво просимо до гри 'Що змінилося?'!\n\n")
 
         reaper.ShowConsoleMsg("Правила гри:\n")
         reaper.ShowConsoleMsg("Робот змінить випадковий параметр (гучність або панораму або вимкне один fx) однієї з доріжок, яка не замьючена і має аудіо або міді.\n")
@@ -4795,7 +4796,7 @@ function check_last_seen_date()
                 "We met again, and that means the day is off to a great start!",
                 "While you were away, I decided to learn to play chess. But it turned out that playing with myself was not very interesting.",
                 "While you were resting, I tried to master the art of origami... I even made a small airplane out of myself and set off with the raging wind to conquer the expanse of binary code... I wish you could have seen it. It was great!",
-                "Greetings, " .. name .. "! What do you think I did this weekend? \n\n(a) Sleeping on standby. \n(b) Played with zeros and ones. \n(c) Programmed my own artificial intelligence (no, I'm kidding... for now). \n\n\n\nThe correct answer is option 'a'!",
+                "Greetings, " .. name .. "! What do you think I did this weekend? \n\n(a) Sleeping on standby; \n(b) Played with zeros and ones; \n(c) Programmed my own artificial intelligence (nooo, I'm kidding... for now). \n\n\n\nThe correct answer is option 'a'!",
             },
             
             three_days_r = {
@@ -4887,7 +4888,7 @@ function check_last_seen_date()
                 "Ми зустрілись знову, а це значить, що день починається чудово!",
                 "Поки тебе не було, я вирішив навчитися грати в шахи. Але виявилося, що сам із собою грати не дуже цікаво.",
                 "Поки ти відпочивав, я намагався засвоїти мистецтво оригамі... Навіть склав із себе невеличкий літак та вирушив разом із вируючим вітром підкоряти простори двоїчного коду... Шкода, що ти не бачив цього. Було файно!",
-                "Вітаю, " .. name .. "! Як думаєш, що я робив у ці вихідні?\n\n(а) Спав у режимі очікування, \n(б) Грався з нулями та одиницями, \n(в) Програмував свій власний штучний інтелект (ні, жартую... поки що).\n\n\n\nПравильна відповідь - варіант 'а'!",
+                "Вітаю, " .. name .. "! Як думаєш, що я робив у ці вихідні?\n\n(а) Спав у режимі очікування; \n(б) Грався з нулями та одиницями; \n(в) Програмував свій власний штучний інтелект (ні, жартую... поки що).\n\n\n\nПравильна відповідь - варіант 'а'!",
             },
             
             three_days_r = {
@@ -4979,7 +4980,7 @@ function check_last_seen_date()
                 "Nous nous sommes retrouvés, ce qui signifie que la journée commence bien !",
                 "Pendant ton absence, j'ai décidé d'apprendre à jouer aux échecs. Mais il s'est avéré que jouer avec moi-même n'était pas très intéressant.",
                 "Pendant que tu te reposais, j'ai essayé de maîtriser l'art de l'origami... Je me suis même fabriqué un petit avion et je suis parti avec le vent déchaîné à la conquête de l'étendue du code binaire... J'aurais aimé que tu puisses voir ça. C'était génial !",
-                "Salutations, mon ami ! À ton avis, qu'est-ce que j'ai fait ce week-end ? \n\n(a) Dormir en veille, \n(b) Jouer avec des zéros et des uns, \n(c) Programmer ma propre intelligence artificielle (non, je plaisante... pour l'instant).\n\n\n\nLa bonne réponse est l'option 'a' !",
+                "Salutations, mon ami ! À ton avis, qu'est-ce que j'ai fait ce week-end ? \n\n(a) Dormir en veille ; \n(b) Jouer avec des zéros et des uns ; \n(c) Programmer ma propre intelligence artificielle (non, je plaisante... pour l'instant).\n\n\n\nLa bonne réponse est l'option 'a' !",
             },
             
             three_days_r = {
@@ -5053,11 +5054,13 @@ function check_last_seen_date()
     }
 
     local function get_shown_messages(category)
-        local data = reaper.GetExtState("ScriptMessages", category)
+        local shown_key = "shown_" .. category
+        local data = reaper.GetExtState("ScriptMessages", shown_key)
+        
         if data == "" then return {} end
 
         local shown = {}
-
+        
         for num in data:gmatch("%d+") do
             table.insert(shown, tonumber(num))
         end
@@ -5066,54 +5069,65 @@ function check_last_seen_date()
     end
 
     local function save_shown_messages(category, shown)
+        local shown_key = "shown_" .. category
         local data = table.concat(shown, ",")
-        reaper.SetExtState("ScriptMessages", category, data, true)
-
-        -- reaper.ShowConsoleMsg("\nsaved for " .. category .. ": " .. data)
-    end
-
-    local function contains(table, value)
-        for _, v in ipairs(table) do
-            if v == value then
-                return true
-            end
-        end
-        return false
+        
+        reaper.SetExtState("ScriptMessages", shown_key, data, true)
+        -- reaper.ShowConsoleMsg("\nsaved for " .. shown_key .. ": " .. data .. "\n")
     end
 
     local function get_random_message(category)
-        local messages = messages[current_language][category]
-        local total = #messages
+        -- Отримуємо масив повідомлень для поточної мови та категорії
+        local msg_list = messages[current_language] and messages[current_language][category]
 
-        if total == 0 then return nil end
+        if not msg_list then
+            -- reaper.ShowConsoleMsg("no [" .. category .. "] for [" .. current_language .. "].\n")
+            return nil
+        end
+
+        local total = #msg_list
+        
+        if total == 0 then
+            -- reaper.ShowConsoleMsg(" [" .. category .. "] no msg\n")
+            return nil
+        end
 
         local shown = get_shown_messages(category)
 
         if #shown >= total then
+            -- reaper.ShowConsoleMsg(" [" .. category .. "] shown reset\n")
             shown = {}
-            -- reaper.ShowConsoleMsg("\nall msg for '" .. category .. "' showed\n")
+        else
+            local left = total - #shown
+            -- reaper.ShowConsoleMsg(" [" .. category .. "] left " .. left .. " з " .. total .. "\n")
         end
 
         local available = {}
-
         for i = 1, total do
-            if not contains(shown, i) then
+            local already_shown = false
+            for _, s in ipairs(shown) do
+                if s == i then
+                    already_shown = true
+                    break
+                end
+            end
+            if not already_shown then
                 table.insert(available, i)
             end
         end
 
-        -- reaper.ShowConsoleMsg("\navai: " .. table.concat(available, ", "))
-
-        if #available == 0 then return nil end
+        if #available == 0 then
+            -- reaper.ShowConsoleMsg(" [" .. category .. "] no msg\n")
+            return nil
+        end
 
         local index = available[math.random(#available)]
         table.insert(shown, index)
-
         save_shown_messages(category, shown)
 
-        -- reaper.ShowConsoleMsg("\nchoose #" .. index .. " for " .. category .. "\n")
+        -- reaper.ShowConsoleMsg("shown" .. index .. " for [" .. category .. "]\n")
 
-        return messages[index]
+        return msg_list[index]
     end
     
     local message = nil
@@ -5130,9 +5144,10 @@ function check_last_seen_date()
             message = get_random_message("three_days_j")
         end
 
+
     elseif dif_days >= 7 and dif_days <= 13 then
         message = get_random_message("week")
-    elseif dif_days >= 14 and dif_days <= 29 then
+    elseif dif_days >= 14 and dif_days <= 29 then  
         message = get_random_message("half_month")
     elseif dif_days >= 30 and dif_days <= 179 then
         message = get_random_message("month")
@@ -5153,6 +5168,11 @@ function check_last_seen_date()
 
         return
     end
+end
+
+
+function reset_options_params()
+  reaper.DeleteExtState("AmelySuncrollRoboFaceRELEASE01", last_seen_key, true)
 end
 
 
@@ -5232,7 +5252,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.40', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.41', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -5411,7 +5431,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.40", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.41", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -5707,7 +5727,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.40", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.41", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -5755,7 +5775,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.40", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.41", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     check_hb_message()
