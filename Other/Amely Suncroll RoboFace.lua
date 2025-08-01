@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.41
+-- @version 1.42
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -34,6 +34,7 @@
 --    + 1.39 fix not blink eyes after little improvements for animations, hahaha
 --    + 1.40 full French localisation (many thanks to my french friend Arnaud, who checked it), full calendar, add promt to get user's name and happy birthday, rearrange and rename right-click menu
 --    + 1.41 improved ukrainian localization, fix not show welcome back messages after the time
+--    + 1.42 add zoom to clock, timer and cube same as roboface's zoom
 
 
 
@@ -152,7 +153,7 @@ local translations = {
         custom = "Інший...",
         stop_timer = "Зупинити таймер",
         
-        timer_display_options = "Від. таймера",
+        timer_display_options = "Параметри показу",
         direct_countdown = "Прямий відлік",
         reverse_countdown = "Зворотний відлік",
         show_if_less_than_minute = "Якщо менше хвилини",
@@ -326,7 +327,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.41", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.42", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -341,7 +342,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.41", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.42", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -596,6 +597,7 @@ local function set_robot_zoom(zoom_value)
         zoom_150 = false
         robot_zoom = 100
     end
+
     return robot_zoom
 end
 
@@ -733,6 +735,16 @@ function set_background_color(color)
         is_bg_black = false
     else
         is_bg_black = true
+    end
+
+    if is_auto_night then
+        if current_language == "en" then
+            reaper.ShowConsoleMsg("Firstly, turn off the 'Auto' automatic color change option!\n\n")
+        elseif current_language == "ua" then
+            reaper.ShowConsoleMsg("Спочатку вимкніть опцію автоматичної зміни коліру 'День/Ніч'!\n\n")
+        elseif current_language == "fr" then
+            reaper.ShowConsoleMsg("Tout d'abord, désactivez l'option de changement de couleur automatique ' Jour / Nuit ' ! \n\nCe message a été traduit avec l'aide d'un traducteur. Il n'a pas été vérifié par un véritable locuteur natif.\n\n")
+        end
     end
 end
 
@@ -1904,11 +1916,11 @@ function check_for_angry()
 
             if angry_count == 3 then
                 if current_language == "en" then
-                    reaper.ShowConsoleMsg("If you will do it again, I will go away immediately.\n\n")
+                    reaper.ShowConsoleMsg("It was so loud! If you will do it again, I will go away immediately.\n\n")
                 elseif current_language == "ua" then
-                    reaper.ShowConsoleMsg("Якщо ти зробиш це знову, я негайно піду.\n\n")
+                    reaper.ShowConsoleMsg("Це було так гучно! Якщо ти зробиш це знову, я негайно піду.\n\n")
                 elseif current_language == "fr" then
-                    reaper.ShowConsoleMsg("Si tu recommences, je m`en vais.\n\n")                
+                    reaper.ShowConsoleMsg("C'était tellement fort ! Si tu recommences, je m`en vais.\n\n")                
                 end
             end
 
@@ -2764,8 +2776,10 @@ function show_system_time()
         return
     end
 
-    local scale_factor = get_scale_factor()
-    local font_size = 200 * scale_factor
+    local base_scale = get_scale_factor()  
+    local dynamic_scale = robot_zoom / 100
+    local scale = base_scale * dynamic_scale
+    local font_size = 200 * scale
     local displayTime
     local hour_12, minute, am_pm
 
@@ -2913,8 +2927,10 @@ function show_timer_time()
         return
     end
 
-    local scale_factor = get_scale_factor()
-    local font_size = 200 * scale_factor
+    local base_scale = get_scale_factor()  
+    local dynamic_scale = robot_zoom / 100
+    local scale = base_scale * dynamic_scale
+    local font_size = 200 * scale
     local displayTime = string.format("%02d:%02d", math.floor(remaining_time / 60), remaining_time % 60)
 
     -- bg
@@ -2980,9 +2996,11 @@ function show_random_cube()
 end
 
 function draw_cube(number)
-    local scale_factor = get_scale_factor()
-    local cube_size = robot_zoom * 2 * scale_factor
-    local dot_size = robot_zoom / 2.3 * scale_factor
+    local base_scale = get_scale_factor()  
+    local dynamic_scale = robot_zoom / 140
+    local scale = base_scale * dynamic_scale
+    local cube_size = robot_zoom * 2 * scale
+    local dot_size = robot_zoom / 2.3 * scale
     local half_dot_size = dot_size / 2
 
     local face_x = (gfx.w - cube_size) / 2
@@ -3354,7 +3372,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.41\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.42\n")
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді нумо познайомимося ще раз, уже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт, " .. name .. "!\n\n")
@@ -3371,7 +3389,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати авторку, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.41\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.42\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
         reaper.ShowConsoleMsg("Bienvenue, " .. name .. " !\n\n")
@@ -3388,7 +3406,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir la créatrice, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.41\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.42\n")
     end
 end
 
@@ -3548,6 +3566,16 @@ end
 
 function set_auto_night()
     is_auto_night = not is_auto_night
+
+    if is_auto_night then
+        if current_language == "en" then
+            reaper.ShowConsoleMsg("The RoboFace theme color will switches automatically at 22:00 and 07:00. You can also pay attention to the script for automatically changing the Reaper theme by time: https://forum.cockos.com/showthread.php?t=300772. In future updates, the ability to set your own time will be added.\n\n")
+        elseif current_language == "ua" then
+            reaper.ShowConsoleMsg("Колір теми РобоФейсу перемикатиметься автоматично о 22:00 та 07:00. Також Ви можете звернути увагу на скрипт автоматичної зміни теми Рипера за часом: https://forum.cockos.com/showthread.php?t=300772. У майбутніх оновленнях буде додано можливість встановлювати власний час.\n\n")
+        elseif current_language == "fr" then
+            reaper.ShowConsoleMsg("La couleur du thème RoboFace changera automatiquement à 22h00 et à 07h00. Vous pouvez également consulter le script permettant de modifier automatiquement le thème de Reaper en fonction de l'heure : https://forum.cockos.com/showthread.php?t=300772. Dans les prochaines mises à jour, la possibilité de définir votre propre heure sera ajoutée. \n\nCe message a été traduit avec l'aide d'un traducteur. Il n'a pas été vérifié par un véritable locuteur natif.\n\n")
+        end
+    end
 end
 
 
@@ -5252,7 +5280,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.41', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.42', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -5394,8 +5422,8 @@ function show_r_click_menu()
             }},
 
             {title = t("set_background_color"), submenu = {
-                {title = t("black_bg"), cmd = function() set_background_color("black") end, checked = is_bg_black},
                 {title = t("white_bg"), cmd = function() set_background_color("white") end, checked = not is_bg_black},
+                {title = t("black_bg"), cmd = function() set_background_color("black") end, checked = is_bg_black},
                 
                 {separator = true},
                 
@@ -5431,7 +5459,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.41", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.42", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -5727,7 +5755,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.41", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.42", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -5775,7 +5803,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.41", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.42", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     check_hb_message()
