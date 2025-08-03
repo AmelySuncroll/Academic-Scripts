@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.42
+-- @version 1.43
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -35,6 +35,7 @@
 --    + 1.40 full French localisation (many thanks to my french friend Arnaud, who checked it), full calendar, add promt to get user's name and happy birthday, rearrange and rename right-click menu
 --    + 1.41 improved ukrainian localization, fix not show welcome back messages after the time
 --    + 1.42 add zoom to clock, timer and cube same as roboface's zoom
+--    + 1.43 improved animations: add eyes focus on book when reading, not mouse cursor; also eyes closed when workout because it is so hard to keep it open
 
 
 
@@ -327,7 +328,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.42", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.43", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -342,7 +343,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.42", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.43", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -1246,9 +1247,16 @@ function draw_pupils(scale)
         end
 
         local target_x, target_y
-        
-        if reaper.GetPlayState() == 0 then
+        local book_width = face_width * 0.9
+
+        if reaper.GetPlayState() == 0 and not is_reading and not is_workout then
             target_x, target_y = gfx.mouse_x, gfx.mouse_y
+        elseif reaper.GetPlayState() == 0 and is_reading and not is_workout then
+            target_x = face_x + face_width / 2
+            target_y = face_y + eye_offset_y + (eye_size - pupil_size) / 0 -- down
+        -- elseif reaper.GetPlayState() == 0 and is_workout and not is_reading then
+        --     target_x = face_x + face_width / 2
+        --     target_y = face_y + eye_offset_y + (eye_size - pupil_size) / 2 -- up
         else
             local play_position = reaper.GetPlayPosition() 
             local view_start, view_end = reaper.GetSet_ArrangeView2(0, false, 0, 0) 
@@ -2057,6 +2065,7 @@ end
 
 function animation_workout()
     is_workout = true
+    is_eye_open = false
 
     workout_start_time = reaper.time_precise()
     workout_duration = 5
@@ -2072,6 +2081,7 @@ function shake_with_show_workout() -- this function structure was written comple
                 
                 if reaper.time_precise() >= startTime + 18 then
                     is_workout = false -- here is end of cycle
+                    is_eye_open = true
                 else
                     reaper.defer(function() trigger_with_delay(index) end)
                 end
@@ -3372,7 +3382,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.42\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.43\n")
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді нумо познайомимося ще раз, уже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт, " .. name .. "!\n\n")
@@ -3389,7 +3399,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати авторку, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.42\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.43\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
         reaper.ShowConsoleMsg("Bienvenue, " .. name .. " !\n\n")
@@ -3406,7 +3416,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir la créatrice, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.42\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.43\n")
     end
 end
 
@@ -5280,7 +5290,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.42', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.43', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -5292,7 +5302,7 @@ function show_r_click_menu()
     local dock_menu_title = is_docked and t("undock") or t("dock")
     local menu = {
 
-        -- {title = "test", cmd = hb_message},
+        -- {title = "test", cmd = animate_sneeze},
 
         {title = t("time"), submenu = {
             {title = t("current"), cmd = toggle_show_system_time, checked = is_show_system_time},
@@ -5459,7 +5469,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.42", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.43", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -5755,7 +5765,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.42", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.43", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -5803,7 +5813,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.42", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.43", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     check_hb_message()
