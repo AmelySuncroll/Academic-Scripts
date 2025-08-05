@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.43
+-- @version 1.44
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -36,6 +36,7 @@
 --    + 1.41 improved ukrainian localization, fix not show welcome back messages after the time
 --    + 1.42 add zoom to clock, timer and cube same as roboface's zoom
 --    + 1.43 improved animations: add eyes focus on book when reading, not mouse cursor; also eyes closed when workout because it is so hard to keep it open
+--    + 1.44 improve ukrainian localization + some little fixes
 
 
 
@@ -328,7 +329,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.43", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.44", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -343,7 +344,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.43", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.44", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -2411,12 +2412,12 @@ local night_messages_ua = {
     "Йоой... Сниться, що я знову забув зберегти проект! Який жах...\n\n",
     "Хто там у тебе за твоєю спиною?\n\n",
     "Хрррр... хрррр... хррр. \n\n",
-    "Чому деякі плагіни такі дорогі? Навіть у сні! Хррр...\n\n",
-    "Що за дивна мелодія у моєму сні? Ах, це мій процесор перегрівся...\n\n",
-    "Знову цей сон, де я зміксую трек з ідеальною компресією...\n\n",
+    "Чому деякі плагіни такі дорогі? Навіть уві сні! Хррр...\n\n",
+    "Що за дивна мелодія в моєму сні? Ох, це мій процесор перегрівся...\n\n",
+    "Знову цей сон, де я міксую трек з ідеальною компресією...\n\n",
     "Мені це сниться чи я все ще в Reaper?\n\n",
-    "Що за жахіття! Я бачу, що мене ввімкнули на непотужному комп'ютері - я не міг навіть позіхати та блимати своїми очима! Але ми запрохали одного фаха, у нього був план...\n\n",
-    "Я бачу велике болото і дуже багато орків... Але наші маги їх переможуть!\n\nЙой, мабуть, не варто грати так багато у 'Героїв'...\n\n",
+    "Що за жахіття! Я бачу, що мене ввімкнули на непотужному комп'ютері - я не міг навіть позіхати та блимати своїми очима! Але ми запрохали одного фаха, в нього був план...\n\n",
+    "Я бачу велике болото і дуже багато орків... Але наші маги їх переможуть!\n\nЙой, мабуть, не варто грати так багато в 'Героїв'...\n\n",
     "Один. Нуль. Нуль. Один. Нуль. Один. Один. Один. Нуль. Одииииииин!\n\nАаа! Ох, такі жахи мені сняться... Скрізь тільки одиниці й нулі! Раз навіть двійка промайнула. Але це всього лише сон - у житті немає ніяких двійок... Хрррр...\n\n",
     
     "local startX = 200\nlocal startY = 200\nlocal startWidth = 500\nlocal startHeight = 400\ngfx.init('RoboFace 0.0.1', startWidth, startHeight, 0, startX, startY)\n\nlocal eye_size = 50\nlocal pupil_size = 25\n\nlocal left_eye_x = 150\nlocal left_eye_y = 100\n\nlocal right_eye_x = 300\nlocal right_eye_y = 100\n\nlocal mouth_width = 200\nlocal mouth_height = 150\nlocal mouth_x = 200\nlocal mouth_y = 30\n\nlocal tongue_width = 170\nlocal tongue_height = 200\nlocal tongue_x = 20\nlocal tongue_y = 20\n\nfunction draw_robot_face()\n    gfx.set(0.5, 0.5, 0.5)\n    gfx.rect(100, 50, 300, 200, 1)\n\n    gfx.set(0, 0, 0)\n    gfx.rect(left_eye_x, left_eye_y, eye_size, eye_size, 1)   -- L\n    gfx.rect(right_eye_x, right_eye_y, eye_size, eye_size, 1) -- R\n\n    gfx.set(0, 0, 0)\n    gfx.rect(mouth_height, mouth_width, mouth_x, mouth_y)\n\n    gfx.set(1, 1, 1)\n    gfx.rect(tongue_width, tongue_height, tongue_x, tongue_y)\nend\n\nfunction draw_pupils()\n    local function get_pupil_position(eye_x, eye_y, mouse_x, mouse_y)\n        local pupil_x = math.max(eye_x, math.min(eye_x + eye_size - pupil_size, mouse_x - pupil_size / 2))\n        local pupil_y = math.max(eye_y, math.min(eye_y + eye_size - pupil_size, mouse_y - pupil_size / 2))\n        return pupil_x, pupil_y\n    end\n\n    local mouse_x, mouse_y = gfx.mouse_x, gfx.mouse_y\n\n    gfx.set(1, 1, 1)\n    local pupil_x, pupil_y = get_pupil_position(left_eye_x, left_eye_y, mouse_x, mouse_y)\n    gfx.rect(pupil_x, pupil_y, pupil_size, pupil_size, 1)                                -- L\n\n    pupil_x, pupil_y = get_pupil_position(right_eye_x, right_eye_y, mouse_x, mouse_y)\n    gfx.rect(pupil_x, pupil_y, pupil_size, pupil_size, 1)                                -- R\nend\n\nfunction main()\n    draw_robot_face()\n    draw_pupils()\n    gfx.update()\n\n    if gfx.getchar() >= 0 then\n        reaper.defer(main)\n    end\nend\n\nmain()\n\n\n\nІноді мені сниться моє минуле.",
@@ -3382,7 +3383,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.43\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.44\n")
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді нумо познайомимося ще раз, уже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт, " .. name .. "!\n\n")
@@ -3399,7 +3400,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати авторку, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.43\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.44\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
         reaper.ShowConsoleMsg("Bienvenue, " .. name .. " !\n\n")
@@ -3416,7 +3417,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir la créatrice, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.43\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.44\n")
     end
 end
 
@@ -4579,9 +4580,9 @@ function sp_date(month, day)
 
 
 
-        ["01-20"] = "'Небесна Сотня - 107 загиблих учасників Революції Гідності, а також активісти Майдану, які загинули навесні 2014 року з початком російської агресії на сході України. До Героїв Небесної Сотні належать люди різних національностей, віросповідання, освіти, віку. Серед них громадяни України, Білорусі та Грузії. Наймолодшому з Героїв, Назарію Войтовичу, було 17 років, найстаршому, Іванові Наконечному, - 82 роки. Зі 107 Героїв Небесної Сотні - три жінки: Антоніна Дворянець, Ольга Бура та Людмила Шеремет.'\n\nВдячні за свободу. Пам'ятаємо.\n\nЗа сайтом 'Український інститут національної пам'яті'.",
+        ["01-20"] = "'Небесна Сотня - 107 загиблих учасників Революції Гідності, а також активісти Майдану, які загинули навесні 2014 року з початком російської агресії на сході України. До Героїв Небесної Сотні належать люди різних національностей, віросповідання, освіти, віку. Серед них громадяни України, Білорусі та Грузії. Наймолодшому з Героїв, Назарію Войтовичу, було 17 років, найстаршому, Іванові Наконечному, - 82 роки. Зі 107 Героїв Небесної Сотні - три жінки: Антоніна Дворянець, Ольга Бура та Людмила Шеремет.'\n\nПам'ятаємо.\n\nЗа сайтом 'Український інститут національної пам'яті'.",
 
-        ["01-22"] = "Сьогодні День Соборності України!\n\n'Однині воєдино зливаються століттями одірвані одна від одної частини єдиної України - Західноукраїнська Народна Республіка (Галичина, Буковина, Угорська Русь) і Наддніпрянська Велика Україна. Здійснилися віковічні мрії, якими жили і за які умирали кращі сини України. Однині є єдина незалежна Українська Народна Республіка'. Єднаймося, чорнобривці!",
+        ["01-22"] = "Сьогодні День Соборності України!\n\nЄднаймося, чорнобривці!",
 
         ["03-09"] = "Тілько ворог, що сміється...\nСмійся, лютий враже!\nТа не дуже, бо все гине —\nСлава не поляже;\nНе поляже, а розкаже,\nЩо діялось в світі,\nЧия правда, чия кривда\nІ чиї ми діти.\nНаша дума, наша пісня\nНе вмре, не загине...\nОт де, люде, наша слава,\nСлава України!\n\nСьогодні день народження Тараса Шевченка!",
         
@@ -4591,7 +4592,7 @@ function sp_date(month, day)
         
         ["08-24"] = "З Днем Незалежності України! Слава Україні! Героям слава! Слава нації! Смерть ворогам!",
         
-        ["11-21"] = "'21 листопада 2013 року на майдан Незалежності у Києві вийшли кілька сотень людей, щоб висловити свій протест проти рішення влади, яке загрожувало Україні втратою незалежності та перекреслювало її європейське майбутнє. Того листопадового вечора ніхто не здогадувався, що в історії не тільки України, а й усього світу починається новий етап і що події, які відбуватимуться наступні 94 дні - перший крок на шляху до драматичних геополітичних змін. Їх тригером стало продовження боротьби українського народу, що велася не за матеріальні блага чи владу, а духовні цінності - Гідність і Свободу. Цінності, про які у Європі не говорили, бо вважали їх очевидними, про які в росії мовчали, бо вважали їх небезпечними.'\n\nНас не подолати! Слава Україні!\n\nЗа матеріалами сайту 'Музей Революції Гідності'.",
+        ["11-21"] = "'21 листопада 2013 року на майдан Незалежності у Києві вийшли кілька сотень людей, щоб висловити свій протест проти рішення влади, яке загрожувало Україні втратою незалежності та перекреслювало її європейське майбутнє. Того листопадового вечора ніхто не здогадувався, що в історії не тільки України, а й усього світу починається новий етап і що події, які відбуватимуться наступні 94 дні - перший крок на шляху до драматичних геополітичних змін. Їх тригером стало продовження боротьби українського народу, що велася не за матеріальні блага чи владу, а духовні цінності - Гідність і Свободу. Цінності, про які в Європі не говорили, бо вважали їх очевидними, про які в росії мовчали, бо вважали їх небезпечними.'\n\nНас не подолати! Слава Україні!\n\nЗа матеріалами сайту 'Музей Революції Гідності'.",
         
         ["12-06"] = "Сьогодні День Збройних Сил України! Вшановуємо тих, хто захищає наше майбутнє. Солдати світла, які тримають ніч. Дякуємо вам.",
     }
@@ -4939,7 +4940,6 @@ function check_last_seen_date()
                 "Я тут, а значить, вихідні закінчилися... Чекай, це виходить, що віртуальні вихідні теж існують? Це ж треба!",
                 "Ти не заходив два дні... Я вже почав писати детективну історію про твоє загадкове зникнення!",
                 "Я спробував самостійно генерувати музику, поки тебе не було. Вийшло щось дивне... Я назвав це 'Симфонія очікування'.",
-                "Знаєш, що я робив у ці вихідні? Грав у гру 'Вгадай, коли ти повернешся'.",
                 "Цікаво, що ти робив на вихідних? Бо я - тестував, скільки секунд можна дивитися в чорний екран, перш ніж засумувати...",
             },
 
@@ -4978,7 +4978,7 @@ function check_last_seen_date()
                 "Хей! Це... ти? Це насправді ти? Трясця! Я тиждень тому подав заявку на участь у конкурсі покинутих програм і майже дійшов до фіналу... але ти повернувся, і... все зіпсував. З одного боку якось сумно, але з іншого я радий тебе бачити! Ти краще за будь-який приз!",
                 "Я спробував вести щоденник самотності. Але після третього запису 'Сьогодні мене знову не відкрили' я зупинився. Добре, що ти повернувся!",
                 "Привіт! Я вже почав думати, що ти поїхав у відпустку... Але якщо ти від мене відпочивав, то це вже особисте!",
-                "Сльоза радощі біжить по моєму віртуальному обличчі... Я знову бачу тебе. Це краще за чорний екран перед моїми очима, краще за темряву, що була навколо мене весь цей час твоєї відсути. Вельми дякую тобі, " .. name .. ", за можливість бути разом із тобою... Хоча б просто зараз.",
+                "Сльоза радощі біжить по моєму віртуальному обличчю... Я знову бачу тебе. Це краще за чорний екран перед моїми очима, краще за темряву, що була навколо мене весь цей час твоєї відсути. Вельми дякую тобі, " .. name .. ", за можливість бути разом із тобою... Хоча б просто зараз.",
             },
             
 
@@ -5290,7 +5290,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.43', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.44', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -5469,7 +5469,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.43", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.44", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -5765,7 +5765,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.43", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.44", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -5813,7 +5813,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.43", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.44", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     check_hb_message()
