@@ -7,8 +7,8 @@
 --    + 1.01
 -- @provides [main=midi_editor]Play/*.lua
 
-local marker_color = reaper.ColorToNative(1, 127, 63) | 0x1000000
-local marker_name = "PLAY ▶"
+local marker_color = reaper.ColorToNative(215, 215, 215) | 0x1000000
+local marker_name = "▶|| PLAY"
 local current_edit_pos = reaper.GetCursorPosition()
 
 function add_marker()
@@ -35,6 +35,7 @@ if not delete_marker(marker_color) then
   add_marker()
 end
 
-reaper.Undo_EndBlock("Toggle маркера 'PLAY ▶'", -1)
+reaper.Undo_EndBlock("Toggle set marker '▶|| PLAY'", -1)
 
 reaper.UpdateArrange()
+
