@@ -1,10 +1,11 @@
 -- @description Create 'PLAY' marker (like in ProTools) (toggle)
 -- @author Amely Suncroll
--- @version 1.02
+-- @version 1.03
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
 --    + 1.01
+--    + 1.03 fix scripts - now it is working
 -- @provides [main=midi_editor]Play/*.lua
 
 local marker_color = reaper.ColorToNative(215, 215, 215) | 0x1000000
@@ -38,4 +39,5 @@ end
 reaper.Undo_EndBlock("Toggle set marker '▶|| PLAY'", -1)
 
 reaper.UpdateArrange()
+
 
