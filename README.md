@@ -7,7 +7,7 @@ Global Startup Action Tool: https://forum.cockos.com/showthread.php?t=294133
 
 Lasso: https://forum.cockos.com/showthread.php?t=297070
 
-RoboFace: https://forum.cockos.com/showthread.php?t=293354 (also francais: https://forum.cockos.com/showthread.php?t=298498)
+RoboFace: https://forum.cockos.com/showthread.php?t=293354 (also français: https://forum.cockos.com/showthread.php?t=298498)
 
 Academic Scripts: https://forum.cockos.com/showthread.php?t=291012
 
