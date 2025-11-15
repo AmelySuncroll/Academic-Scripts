@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.45
+-- @version 1.46
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -38,6 +38,7 @@
 --    + 1.43 improved animations: add eyes focus on book when reading, not mouse cursor; also eyes closed when workout because it is so hard to keep it open
 --    + 1.44 improve ukrainian localization + some little fixes
 --    + 1.45 Glory to Ukraine and Слава Україні
+--    + 1.46 removed weird remind about Amely Suncroll's happy birthday and paypal link; improuved ukrainian localization; another small fixes
 
 
 
@@ -53,6 +54,8 @@
 -- Support:
 -- https://t.me/amely_suncroll_support
 -- amelysuncroll@gmail.com
+
+-- "RoboFace 1.46"
 
 
 
@@ -162,7 +165,7 @@ local translations = {
         show_if_less_than_minute = "Якщо менше хвилини",
         show_every_five_minutes = "Кожні п'ять хвилин",
 
-        tap_tempo = "Тап Темпо",
+        tap_tempo = "Наклацати темп",
         
         cube = "Кості",
         
@@ -330,7 +333,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.45", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.46", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -345,7 +348,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.45", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.46", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -706,6 +709,8 @@ local is_recording = false
 local is_yawning = false
 local is_sneeze_general = false
 local is_coffee = false
+
+local text_in_game = false
 
 
 
@@ -2503,6 +2508,7 @@ local text_params_en = {
     good_morning= { text = " Good\nmorning",font_name = "Consolas", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
     coffee_time = { text = "Coffee\n time!",font_name = "Consolas", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
     eat_time    = { text = " Eat\ntime!",    font_name = "Consolas", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 170 },
+    in_game    = { text = "IN GAME",    font_name = "Iregula", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 170 },
   }
   
   local text_params_ua = {
@@ -2514,6 +2520,7 @@ local text_params_en = {
     good_morning = { text = "Доброго\n ранку!",   font_name = "Consolas",  type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
     coffee_time  = { text = " Час\nкави!",        font_name = "Consolas",  type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
     eat_time     = { text = " Час\nїсти!",        font_name = "Consolas",  type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 170 },
+    in_game    = { text = "У ГРІ",    font_name = "Iregula", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 170 },
   }
   
   local text_params_fr = {
@@ -2525,6 +2532,7 @@ local text_params_en = {
     good_morning= { text = "  C'est un\nbeau matin !",              font_name = "Consolas", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
     coffee_time = { text = " Pause\ncafé !",        font_name = "Consolas", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 130 },
     eat_time    = { text = "   À table !",   font_name = "Consolas", type="static",    duration = 5, interval = 0, start_time = 0, font_size = 170},
+    in_game    = { text = "DANS LE JEU",    font_name = "Iregula", type = "static",    duration = 5, interval = 0,  start_time = 0, font_size = 170 },
   }
 
 
@@ -2686,6 +2694,10 @@ function type_of_text_over()
 
     if is_paused then
         current_state = "is_it_paused"
+    end
+
+    if text_in_game then
+        current_state = "in_game"
     end
 
 
@@ -3127,7 +3139,7 @@ function f_stop_tap_tempo()
             if current_language == "en" then
                 reaper.ShowConsoleMsg("\nTap tempo mode canceled automatically.\n\n")
             elseif current_language == "ua" then
-                reaper.ShowConsoleMsg("\nРежим 'Тап темпо' завершено.\n\n")
+                reaper.ShowConsoleMsg("\nФункцію 'Наклацати темп' завершено.\n\n")
             elseif current_language == "fr" then
                 reaper.ShowConsoleMsg("\nLe mode Tap Tempo est maintenant terminé.\n\n")
             end
@@ -3179,7 +3191,7 @@ function trigger_tap_tempo()
     if current_language == "en" then
         reaper.ShowConsoleMsg("Tap tempo mode activated. Tap at least 5 times on the robot face.\nPress Esc to stop function.\n\n")
     elseif current_language == "ua" then
-        reaper.ShowConsoleMsg("Режим 'Тап темпо' активовано. Будь ласка, натисніть мінімум 5 разів по обличчю робота.\n\nНатисніть Esc, щоб завершити.\n\n")
+        reaper.ShowConsoleMsg("Функцію 'Наклацати темп' активовано. Будь ласка, натисніть мінімум 5 разів по обличчю робота.\n\nНатисніть Esc, щоб завершити.\n\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Le mode 'Tap tempo' est activé. Tapez au moins cinq fois sur le visage du robot.\nAppuyez sur Esc pour terminer.\n\n")
     end
@@ -3396,7 +3408,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("2. Налаштування таймера.\n")
         reaper.ShowConsoleMsg("3. Гру 'Що змінилося?', де потрібно знайти змінений параметр та відновити його значення. Дивіться правила, щоб дізнатися більше.\n")
         reaper.ShowConsoleMsg("4. Анімації: блимання очима, позіхання, злість, чхання та інші.\n")
-        reaper.ShowConsoleMsg("5. Режим 'Тап Темпо', за допомогою якого можна перевірити власний темп клацом миші.\n")
+        reaper.ShowConsoleMsg("5. Функція 'Наклацати темп', за допомогою якої можна перевірити власний темп клацом миші.\n")
         reaper.ShowConsoleMsg("6. Тощо.\n\n")
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати авторку, звертайся за посиланнями в опціях.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
@@ -4413,8 +4425,10 @@ end
 
 function check_order()
     local item_count = reaper.CountSelectedMediaItems(0)
+
     
     if item_count ~= #original_order then
+        text_in_game = true
         reaper.defer(check_order)
         return
     end
@@ -4446,13 +4460,16 @@ function check_order()
 end
 
 function restore_original_item()
+    text_in_game = false
+    
     reaper.Undo_BeginBlock()
-
+    
     reaper.Main_OnCommand(40006, 0) -- remove items
-
+    
     reaper.SetEditCurPos(original_position, false, false)
     reaper.SetOnlyTrackSelected(original_track)
     reaper.Main_OnCommand(40058, 0) -- paste items
+
 
     reaper.Undo_EndBlock("Restore original item after ear puzzle game", -1)
 end
@@ -4552,7 +4569,7 @@ function sp_date(month, day)
     local sp_d = {
     -- month day
         ["08-03"] = "Hello, " .. name .. "! Today is my birthday! I am soooooooo happy! My mom thought it would be fun to have some eyes follow the mouse cursor and blink. But then she lost her mind... And that's how I came to life!",
-        ["11-12"] = "Today we celebrate Amely Suncroll's birthday! This is my mom, I love her so much and hope, you too! If you'd like to send your best wishes or support her creative work in this day, here's the link: https://www.paypal.com/ncp/payment/S8C8GEXK68TNC\n\n\n;)",
+        ["11-12"] = "Today we celebrate Amely Suncroll's birthday!",
 
         ["07-04"] = "Happy International Day of Freedom! On this date many nations reflect on their journeys toward self-determination—let's celebrate the universal spirit of liberty, solidarity and hope.",
         ["10-31"] = "Happy Halloween! From ancient Celtic Samhain origins to today's global celebrations, costumes and creativity unite us all in a night of playful frights and fun.",
@@ -4567,7 +4584,7 @@ function sp_date(month, day)
     local sp_d_ua = {
     -- month day
         ["08-03"] = "Привіт, " .. name .. "! Сьогодні мій день народження! Я такий радий! Моя розробниця подумала, що буде весело, якщо якісь очи стежимуть за курсором миші та блиматимуть, а потім її як понесло... Ось так з'явився я!",
-        ["11-12"] = "Сьогодні день народження Amely Suncroll! Якщо захочеш, можеш надіслати їй щось електронне: https://www.paypal.com/ncp/payment/S8C8GEXK68TNC\n\n\n;)",
+        ["11-12"] = "Сьогодні день народження Amely Suncroll!",
         ["12-31"] = "Йо-хо-хо! Новорічний настрій вже близько! Новий рік — нові надії. Бажаю здійснення всіх мрій!",
         
         ["01-01"] = "З Новим роком! Як ся маєш після цієї ночи?",
@@ -4601,7 +4618,7 @@ function sp_date(month, day)
     local sp_d_fr = {
     -- month day
         ["08-03"] = "Aujourd'hui, c'est mon anniversaire ! Je suis très heureux ! Ma mère a pensé qu'il serait amusant d'avoir des yeux qui suivent le curseur de la souris et qui clignotent. C'est ainsi que je suis né.",
-        ["11-12"] = "Aujourd'hui, c'est l'anniversaire d'Amely Suncroll ! Si vous le souhaitez, vous pouvez lui offrir un cadeau : https://www.paypal.com/ncp/payment/S8C8GEXK68TNC \n\n\n;)",
+        ["11-12"] = "Aujourd'hui, c'est l'anniversaire d'Amely Suncroll !",
     
         ["12-31"] = "À la Saint-Sylvestre, laissez-vous emporter par la magie des lumières et le crépitement des toasts ! Autour d'un festin de foie gras, huîtres et champagne, prenez un instant pour célébrer vos victoires de l'année écoulée et chuchoter vos rêves pour l'année à venir. Que chaque bulle soulève vos espoirs les plus chers et vous guide vers une nouvelle année pleine de promesses ! Bonne fête !",
 
@@ -5476,7 +5493,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.45", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.46", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -5772,7 +5789,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.45", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.46", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -5799,7 +5816,7 @@ function main()
         if current_language == "en" then
             reaper.ShowConsoleMsg("\nTap tempo mode canceled.\n\n")
         elseif current_language == "ua" then
-            reaper.ShowConsoleMsg("\nРежим 'Тап темпо' скасовано.\n\n")
+            reaper.ShowConsoleMsg("\nФункцію 'Наклацати темп' скасовано.\n\n")
         elseif current_language == "fr" then
             reaper.ShowConsoleMsg("\nLe mode Tap Tempo est maintenant terminé.\n\n")
         end        
@@ -5820,7 +5837,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.45", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.46", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     check_hb_message()
