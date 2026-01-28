@@ -5,7 +5,7 @@ Add this repo to ReaPack: https://raw.githubusercontent.com/AmelySuncroll/Academ
 
 Global Startup Action Tool: https://forum.cockos.com/showthread.php?t=294133
 
-Lasso: https://forum.cockos.com/showthread.php?t=297070
+Lasso (paid): https://forum.cockos.com/showthread.php?t=297070
 
 RoboFace: https://forum.cockos.com/showthread.php?t=293354 (also français: https://forum.cockos.com/showthread.php?t=298498)
 
@@ -15,6 +15,6 @@ Academic Scripts: https://forum.cockos.com/showthread.php?t=291012
 
 Text Editor (beta): https://forum.cockos.com/showthread.php?t=292135
 
-Reaper configuration like FL Studio (v2.2.3): https://forum.cockos.com/showthread.php?t=272681
+Reaper configuration like FL Studio (v2.2.3, paid): https://forum.cockos.com/showthread.php?t=272681
 
 RoboMaze: https://forum.cockos.com/showthread.php?t=297064
