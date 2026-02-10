@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="752fc4cd30a50c7ef770abae90aa01a605ec59cc">
+<index version="1" name="Academic-Scripts" commit="49a4281231f1f2484325e5b93cd371923cb858fb">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -1163,6 +1163,12 @@
       <version name="1.01" author="Amely Suncroll" time="2026-02-10T23:00:04Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/752fc4cd30a50c7ef770abae90aa01a605ec59cc/Other/Amely%20Suncroll%20Ukrainian%20Localization%20(auto%20update%20tool).lua</source>
+      </version>
+      <version name="1.02" author="Amely Suncroll" time="2026-02-10T23:24:49Z">
+        <changelog><![CDATA[+ init @
++ 1.01 add p.s. if install for a first time
++ 1.02 fix command to download localization file on Windows]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/49a4281231f1f2484325e5b93cd371923cb858fb/Other/Amely%20Suncroll%20Ukrainian%20Localization%20(auto%20update%20tool).lua</source>
       </version>
     </reapack>
   </category>
