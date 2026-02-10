@@ -1,6 +1,6 @@
 -- @description Ukrainian Localization (auto update tool)
 -- @author Amely Suncroll
--- @version 1.0
+-- @version 1.01
 -- @website https://t.me/reaper_ua
 -- @changelog
 --    + init @
@@ -69,17 +69,25 @@ function UpdateLocalization()
     local dl_cmd
 
     if os_name:match("Win") then
-        dl_cmd = string.format('curl -L -s "%s" -o "%s" -w "%%{http_code}"', url_file, full_path)
+        dl_cmd = string.format('powershell -command "& {Invoke-WebRequest \'%s\' -OutFile \'%s\'; echo $?}"', url_file, full_path)
     else
         dl_cmd = string.format("curl -L -s '%s' -o '%s' -w '%%{http_code}'", url_file, full_path)
     end
 
-    local http_code = fetch(dl_cmd):match("%d+")
+    local response = fetch(dl_cmd)
+    
+    local is_success = false
 
-    if http_code == "200" then
+    if os_name:match("Win") then
+        is_success = response:match("True")
+    else
+        is_success = response:match("200")
+    end
+
+    if is_success then
         reaper.MB("Локалізацію успішно оновлено!\nБудь ласка, перезапустіть Reaper, щоб застосувати зміни.\n\nP.S. Якщо Ви встановлюєте перший раз, спочатку змініть мову в налаштуваннях: Settings / Preferences / General / Language і лише тоді перезапустіть REAPER.", "Готово", 0)
     else
-        reaper.MB("Не вдалося завантажити файл. Код: " .. (http_code or "nil"), "Помилка :(", 0)
+        reaper.MB("Не вдалося завантажити файл. Перевірте з'єднання з інтернетом.", "Помилка :(", 0)
     end
 end
 
