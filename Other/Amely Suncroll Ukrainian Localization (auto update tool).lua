@@ -1,9 +1,11 @@
 -- @description Ukrainian Localization (auto update tool)
 -- @author Amely Suncroll
--- @version 1.01
+-- @version 1.02
 -- @website https://t.me/reaper_ua
 -- @changelog
 --    + init @
+--    + 1.01 add p.s. if install for a first time
+--    + 1.02 fix command to download localization file on Windows
 
 -- @about Add this script to autorun when you start REAPER: 1. Розширення / SWS/S&M / Startup actions / Set global startup action OR 2. Get 'Global Startup Action Tool' script in ReaPack and follow instructions.
     
@@ -31,7 +33,7 @@ local function fetch(cmd)
     return result
 end
 
-local function GetCurrentLocalVersion(path)
+local function get_current_local_version(path)
     local f = io.open(path, "r")
     if not f then return nil end
     local content = f:read("*all")
@@ -40,7 +42,7 @@ local function GetCurrentLocalVersion(path)
     return version
 end
 
-function UpdateLocalization()
+function update_localization()
     local os_name = reaper.GetOS()
     local separator = package.config:sub(1,1)
     local full_path = reaper.GetResourcePath() .. separator .. "LangPack" .. separator .. langpack_name
@@ -51,19 +53,19 @@ function UpdateLocalization()
 
     if not remote_version then return end
 
-    local local_version = GetCurrentLocalVersion(full_path)
+    local local_version = get_current_local_version(full_path)
 
-    if local_version == remote_version then 
-        return 
+    if local_version == remote_version then
+        return
     end
 
     local msg_text = string.format(
-        "Добрий день!\n\nДоступна нова версія локалізації: %s\n\nБажаєте завантажити оновлення?", 
+        "Добрий день!\n\nДоступна нова версія локалізації: %s\n\nБажаєте встановити?", 
         remote_version_full
         -- local_version or "[не вдалося отримати номер версії]"
     )
     
-    local ret = reaper.MB(msg_text, "Тук-тук", 4)
+    local ret = reaper.MB(msg_text, "Оп-па!", 4)
     if ret ~= 6 then return end
 
     local dl_cmd
@@ -85,10 +87,10 @@ function UpdateLocalization()
     end
 
     if is_success then
-        reaper.MB("Локалізацію успішно оновлено!\nБудь ласка, перезапустіть Reaper, щоб застосувати зміни.\n\nP.S. Якщо Ви встановлюєте перший раз, спочатку змініть мову в налаштуваннях: Settings / Preferences / General / Language і лише тоді перезапустіть REAPER.", "Готово", 0)
+        reaper.MB("Локалізацію успішно оновлено!\nБудь ласка, перезапустіть REAPER, щоб застосувати зміни.\n\nP.S. Якщо Ви встановлюєте перший раз, спочатку змініть мову в налаштуваннях: Settings / Preferences / General / Language і лише тоді перезапустіть REAPER.", "Готово", 0)
     else
-        reaper.MB("Не вдалося завантажити файл. Перевірте з'єднання з інтернетом.", "Помилка :(", 0)
+        reaper.MB("Не вдалося завантажити файл. Чи є інтернет у хаті?", "Халепа :(", 0)
     end
 end
 
-UpdateLocalization()
+update_localization()
