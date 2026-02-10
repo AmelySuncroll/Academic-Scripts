@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<index version="1" name="Academic-Scripts" commit="8cfd47b01b8c2662b569444ea916cee8557fcc60">
+<index version="1" name="Academic-Scripts" commit="8b889e25c0ff0931bde959e3fdcb63eb26eeff62">
   <category name="Academic Scripts/Arrange View">
     <reapack name="Amely Suncroll Academic Piano.lua" type="script" desc="Academic Piano">
       <metadata>
@@ -1150,6 +1150,15 @@
       <version name="0.9" author="Amely Suncroll" time="2024-12-26T00:42:06Z">
         <changelog><![CDATA[+ init @]]></changelog>
         <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/99244ea08be5c64fa31f1c3ceb277284d3353449/Other/Amely%20Suncroll%20RoboMaze.lua</source>
+      </version>
+    </reapack>
+    <reapack name="Amely Suncroll Ukrainian Localization (auto update tool).lua" type="script" desc="Ukrainian Localization (auto update tool)">
+      <metadata>
+        <link rel="website">https://t.me/reaper_ua</link>
+      </metadata>
+      <version name="1.0" author="Amely Suncroll" time="2026-02-10T21:40:59Z">
+        <changelog><![CDATA[+ init @]]></changelog>
+        <source main="main">https://github.com/AmelySuncroll/Academic-Scripts/raw/8b889e25c0ff0931bde959e3fdcb63eb26eeff62/Other/Amely%20Suncroll%20Ukrainian%20Localization%20(auto%20update%20tool).lua</source>
       </version>
     </reapack>
   </category>
