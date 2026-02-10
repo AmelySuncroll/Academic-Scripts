@@ -21,7 +21,7 @@ local url_api = "https://api.github.com/repos/AmelySuncroll/ReaperLangPackUA/com
 local langpack_name = "Ukrainian for v7.55+.ReaperLangPack"
 
 function Msg(val)
-    reaper.ShowConsoleMsg(tostring(val) .. "\n")
+    -- reaper.ShowConsoleMsg(tostring(val) .. "\n")
 end
 
 local function fetch(cmd)
@@ -31,26 +31,43 @@ local function fetch(cmd)
     return result
 end
 
+local function GetCurrentLocalVersion(path)
+    local f = io.open(path, "r")
+    if not f then return nil end
+    local content = f:read("*all")
+    f:close()
+    local version = content:match(",%s*v([%d%.]+)")
+    return version
+end
+
 function UpdateLocalization()
     local os_name = reaper.GetOS()
     local separator = package.config:sub(1,1)
     local full_path = reaper.GetResourcePath() .. separator .. "LangPack" .. separator .. langpack_name
     local api_cmd = string.format('curl -s -H "User-Agent: Reaper-Script" "%s"', url_api)
     local response = fetch(api_cmd)
-    local new_version = response:match('"message":%s*"(.-)"')
-    
-    if not new_version then 
-        local ret = reaper.MB("Не вдалося перевірити версію. Оновити файл локалізації примусово?", "Увага", 4)
-        if ret ~= 6 then return end
-    else 
-        local msg_text = string.format("Добрий день!\n\nДоступна нова версія локалізації: %s\n\nБажаєте завантажити оновлення?", new_version)
-        local ret = reaper.MB(msg_text, "Тук-тук", 4) -- 4 = Yes/No
-        if ret ~= 6 then 
-            return 
-        end
+    local remote_version_full = response:match('"message":%s*"(.-)"')
+    local remote_version = remote_version_full and remote_version_full:match("([%d%.]+)")
+
+    if not remote_version then return end
+
+    local local_version = GetCurrentLocalVersion(full_path)
+
+    if local_version == remote_version then 
+        return 
     end
 
+    local msg_text = string.format(
+        "Добрий день!\n\nДоступна нова версія локалізації: %s\n\nБажаєте завантажити оновлення?", 
+        remote_version_full
+        -- local_version or "[не вдалося отримати номер версії]"
+    )
+    
+    local ret = reaper.MB(msg_text, "Тук-тук", 4)
+    if ret ~= 6 then return end
+
     local dl_cmd
+
     if os_name:match("Win") then
         dl_cmd = string.format('curl -L -s "%s" -o "%s" -w "%%{http_code}"', url_file, full_path)
     else
