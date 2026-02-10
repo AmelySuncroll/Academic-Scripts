@@ -77,7 +77,7 @@ function UpdateLocalization()
     local http_code = fetch(dl_cmd):match("%d+")
 
     if http_code == "200" then
-        reaper.MB("Локалізацію успішно оновлено!\nБудь ласка, перезапустіть Reaper, щоб застосувати зміни.", "Готово", 0)
+        reaper.MB("Локалізацію успішно оновлено!\nБудь ласка, перезапустіть Reaper, щоб застосувати зміни.\n\nP.S. Якщо Ви встановлюєте перший раз, спочатку змініть мову в налаштуваннях: Settings / Preferences / General / Language і лише тоді перезапустіть REAPER.", "Готово", 0)
     else
         reaper.MB("Не вдалося завантажити файл. Код: " .. (http_code or "nil"), "Помилка :(", 0)
     end
