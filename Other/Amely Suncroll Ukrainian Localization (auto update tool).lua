@@ -1,11 +1,12 @@
 -- @description Ukrainian Localization (auto update tool)
 -- @author Amely Suncroll
--- @version 1.02
+-- @version 1.03
 -- @website https://t.me/reaper_ua
 -- @changelog
 --    + init @
 --    + 1.01 add p.s. if install for a first time
 --    + 1.02 fix command to download localization file on Windows
+--    + 1.03 add message loc-on is up to date
 
 -- @about Add this script to autorun when you start REAPER: 1. Розширення / SWS/S&M / Startup actions / Set global startup action OR 2. Get 'Global Startup Action Tool' script in ReaPack and follow instructions.
     
@@ -56,6 +57,7 @@ function update_localization()
     local local_version = get_current_local_version(full_path)
 
     if local_version == remote_version then
+        reaper.MB("Все гаразд! Ваша версія локалізації є найновішою.", ":)", 0)
         return
     end
 
