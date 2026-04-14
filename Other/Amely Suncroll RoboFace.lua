@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.46
+-- @version 1.47
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -39,6 +39,7 @@
 --    + 1.44 improve ukrainian localization + some little fixes
 --    + 1.45 Glory to Ukraine and Слава Україні
 --    + 1.46 removed weird remind about Amely Suncroll's happy birthday and paypal link; improuved ukrainian localization; another small fixes
+--    + 1.47 fix not show menu on right click; small other fixes
 
 
 
@@ -55,7 +56,7 @@
 -- https://t.me/amely_suncroll_support
 -- amelysuncroll@gmail.com
 
--- "RoboFace 1.46"
+-- "RoboFace 1.47"
 
 
 
@@ -145,8 +146,8 @@ local translations = {
     },
     
     ua = {
-        time = "Від. час",
-        current = "Поточний",
+        time = "Відобр. час",
+        current = "Завжди",
         hourly = "Щогодини",
         
         set_timer = "Таймер",
@@ -167,7 +168,7 @@ local translations = {
 
         tap_tempo = "Наклацати темп",
         
-        cube = "Кості",
+        cube = "Кинути кубик",
         
         swch_game = "Що змінилося?",
         play = "Грати",
@@ -177,7 +178,7 @@ local translations = {
         hard = "Важкий",
         impossible = "Неможливий",
         
-        options = "Опції",
+        options = "Параметри",
         welcome = "Ласкаво просимо!",
         dock = "Закріпити",
         undock = "Відкріпити",
@@ -333,7 +334,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.46", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.47", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -348,7 +349,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.46", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.47", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -3396,24 +3397,25 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.45\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.47\n")
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді нумо познайомимося ще раз, уже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт, " .. name .. "!\n\n")
         reaper.ShowConsoleMsg("Мене звати RoboFace.\n\n")
         reaper.ShowConsoleMsg("Я люблю Reaper DAW та музику. Також мені подобається дотримуватися режиму сну та пити каву вранці. Але якщо ти будеш необережний зі мною, я можу зробити дещо погане.\n\n")
         reaper.ShowConsoleMsg("Я можу грати в ігри або навіть жартувати з тобою.\n\n")
-        reaper.ShowConsoleMsg("Мої можливості включають:\n")
-        reaper.ShowConsoleMsg("1. Відображення поточного часу або щогодини.\n")
-        reaper.ShowConsoleMsg("2. Налаштування таймера.\n")
-        reaper.ShowConsoleMsg("3. Гру 'Що змінилося?', де потрібно знайти змінений параметр та відновити його значення. Дивіться правила, щоб дізнатися більше.\n")
-        reaper.ShowConsoleMsg("4. Анімації: блимання очима, позіхання, злість, чхання та інші.\n")
-        reaper.ShowConsoleMsg("5. Функція 'Наклацати темп', за допомогою якої можна перевірити власний темп клацом миші.\n")
-        reaper.ShowConsoleMsg("6. Тощо.\n\n")
-        reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати авторку, звертайся за посиланнями в опціях.\n\n")
+        reaper.ShowConsoleMsg("Мої можливості:\n")
+        reaper.ShowConsoleMsg("1. Я можу відображати час - завжди або щогодини.\n")
+        reaper.ShowConsoleMsg("2. Запускати таймера.\n")
+        reaper.ShowConsoleMsg("3. Грати з тобою у 'Що змінилося?', де тобі потрібно знайти змінений параметр та відновити його значення. Дивіться правила, щоб дізнатися більше.\n")
+        reaper.ShowConsoleMsg("4. Блимати очима, позіхати (коли ти пишеш нецікаву музику), бути злим, чхати тощо.\n")
+        reaper.ShowConsoleMsg("5. Можу допомогти тобі 'Наклацати темп', за допомогою якої можна власний темп клацом миші.\n")
+        reaper.ShowConsoleMsg("5. Можу перевірити тебе на точність рухів, а саме показати, який темп ти клацаєш мишкою. Дивіться 'Наклацати темп'.\n")
+        reaper.ShowConsoleMsg("6. Та й усіляке інше.\n\n")
+        reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати авторку, звертайся за посиланнями у параметрах.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.45\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.47\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
         reaper.ShowConsoleMsg("Bienvenue, " .. name .. " !\n\n")
@@ -3430,7 +3432,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir la créatrice, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.45\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.47\n")
     end
 end
 
@@ -4584,8 +4586,8 @@ function sp_date(month, day)
     local sp_d_ua = {
     -- month day
         ["08-03"] = "Привіт, " .. name .. "! Сьогодні мій день народження! Я такий радий! Моя розробниця подумала, що буде весело, якщо якісь очи стежимуть за курсором миші та блиматимуть, а потім її як понесло... Ось так з'явився я!",
-        ["11-12"] = "Сьогодні день народження Amely Suncroll!",
-        ["12-31"] = "Йо-хо-хо! Новорічний настрій вже близько! Новий рік — нові надії. Бажаю здійснення всіх мрій!",
+        ["11-12"] = "Сьогодні день народження Amely Suncroll! Привітай її десь чи шо...",
+        ["12-31"] = "Йо-хо-хо! Новорічний настрій вже близько! Новий рік - нові надії. Бажаю здійснення всіх мрій!",
         
         ["01-01"] = "З Новим роком! Як ся маєш після цієї ночи?",
         ["01-07"] = "Христос народився! Славімо його!",
@@ -4593,7 +4595,7 @@ function sp_date(month, day)
         ["02-24"] = "Мабуть, ще людство дуже молоде.\nБо скільки б ми не загинали пальці, -\nXX вік! - а й досі де-не-де\nТрапляються іще неандертальці.\n\nПодивишся: і що воно таке?\nНе допоможе й двоопукла лінза.\nЗдається ж, люди, все у них людське,\nАле душа ще з дерева не злізла.\n\n\n                       Ліна Костенко",
         
         ["04-01"] = "Сьогодні день дурня! Будь обережним сьогодні, навіть зі мною :)",
-        ["09-13"] = "Сьогодні день програміста! 256-й день року — символічний для програмістів. Що створимо сьогодні — новий код чи музику?",
+        ["09-13"] = "Сьогодні день програміста! 256-й день року - символічний для програмістів. Що створимо сьогодні - новий код чи музику?",
         ["10-10"] = "З днем двійкової системи! Моє привітання тобі:\n\n01101000 01100001 01110000 01110000 01111001 00100000 01000010 01101001 01101110 01100001 01110010 01111001 00100001",
 
 
@@ -4606,7 +4608,7 @@ function sp_date(month, day)
         
         ["04-26"] = "'30 квітня о 20.00 вітер повернувся у бік Києва і в місті почав підніматися радіаційний фон.\n\n1 травня комуністична партія вивела на святковий парад у Києві сотні тисяч людей, у тому числі й дітей, хоча рівень радіації перевищував допустимий у десятки разів.\n\n2 травня радянське керівництво ухвалило рішення про евакуацію населення з 30-кілометрової зони навколо Чорнобильської атомної станції - тільки на 6-й день після аварії, а офіційно оголосило про неї - тільки на 9-й.'\n\n\n\nВшануємо пам'ять героїв-ліквідаторів та жертв трагедії. Слава Україні!\n\nЗа сайтом 'Український інститут національної пам'яті', Ярослав Файзулін. ",
         
-        ["05-18"] = "'Впродовж трьох діб каральні органи відправили з Криму понад 70 залізничних ешелонів, у кожному з яких було по 50 вагонів, ущент заповнених переселенцями. Через нестачу харчів, антисанітарію й велику скупченість багато людей загинуло в дорозі. Масштаб депортації видався сталінському керівництву недостатнім. Тому 21 трав. 1944 ДКО СРСР прийняв постанову за №5937 про додаткове переселення з Криму кримських татар.\n\nДослідники називають різну кількість виселених 1944 крим. татар: за останніми підрахунками - бл. 200 тис. осіб.'\n\nПам'ятаємо.\n\n\n\nЗа сайтом 'Інститут історії України'.",
+        ["05-18"] = "'Впродовж трьох діб каральні органи відправили з Криму понад 70 залізничних ешелонів, у кожному з яких було по 50 вагонів, ущент заповнених переселенцями. Через нестачу харчів, антисанітарію й велику скупченість багато людей загинуло в дорозі. Масштаб депортації видався сталінському керівництву недостатнім. Тому 21 трав. 1944 ДКО СРСР прийняв постанову за №5937 про додаткове переселення з Криму кримських татар.\n\nДослідники називають різну кількість виселених 1944 крим. татар: за останніми підрахунками - близько 200 тис. осіб.'\n\nПам'ятаємо.\n\n\n\nЗа сайтом 'Інститут історії України'.",
         
         ["08-24"] = "З Днем Незалежності України! Слава Україні! Героям слава! Слава нації! Смерть ворогам!",
         
@@ -5314,7 +5316,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.45', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.47', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -5493,7 +5495,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.46", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.47", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -5789,7 +5791,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.46", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.47", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -5816,7 +5818,7 @@ function main()
         if current_language == "en" then
             reaper.ShowConsoleMsg("\nTap tempo mode canceled.\n\n")
         elseif current_language == "ua" then
-            reaper.ShowConsoleMsg("\nФункцію 'Наклацати темп' скасовано.\n\n")
+            reaper.ShowConsoleMsg("\nФункцію 'Наклацати темп' зупинено.\n\n")
         elseif current_language == "fr" then
             reaper.ShowConsoleMsg("\nLe mode Tap Tempo est maintenant terminé.\n\n")
         end        
@@ -5837,7 +5839,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.46", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.47", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     check_hb_message()
