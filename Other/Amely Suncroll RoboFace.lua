@@ -1,6 +1,6 @@
 -- @description RoboFace
 -- @author Amely Suncroll
--- @version 1.47
+-- @version 1.48
 -- @website https://forum.cockos.com/showthread.php?t=291012
 -- @changelog
 --    + init @
@@ -31,7 +31,7 @@
 --    + 1.36 fix show night dream in ukrainian but current language is french (excusez-moi)
 --    + 1.37 fix keep close eyes after sneezing
 --    + 1.38 little improvements for animations
---    + 1.39 fix not blink eyes after little improvements for animations, hahaha
+--    + 1.39 fix not blink eyes after little improvements for animations
 --    + 1.40 full French localisation (many thanks to my french friend Arnaud, who checked it), full calendar, add promt to get user's name and happy birthday, rearrange and rename right-click menu
 --    + 1.41 improved ukrainian localization, fix not show welcome back messages after the time
 --    + 1.42 add zoom to clock, timer and cube same as roboface's zoom
@@ -40,6 +40,7 @@
 --    + 1.45 Glory to Ukraine and Слава Україні
 --    + 1.46 removed weird remind about Amely Suncroll's happy birthday and paypal link; improuved ukrainian localization; another small fixes
 --    + 1.47 fix not show menu on right click; small other fixes
+--    + 1.48 added emotion when waking up because of sound
 
 
 
@@ -56,7 +57,7 @@
 -- https://t.me/amely_suncroll_support
 -- amelysuncroll@gmail.com
 
--- "RoboFace 1.47"
+-- "RoboFace 1.48"
 
 
 
@@ -334,7 +335,7 @@ function save_window_params()
 end
 
 local x, y, startWidth, startHeight, dock_state = load_window_params()
-gfx.init("RoboFace 1.47", startWidth, startHeight, dock_state, x, y)
+gfx.init("RoboFace 1.48", startWidth, startHeight, dock_state, x, y)
 
 
 
@@ -349,7 +350,7 @@ function get_reaper_main_window_size()
 end
 
 function get_script_window_position()
-    local hwnd = reaper.JS_Window_Find("RoboFace 1.47", true)
+    local hwnd = reaper.JS_Window_Find("RoboFace 1.48", true)
     local retval, left, top, right, bottom = reaper.JS_Window_GetRect(hwnd)
     local width = right - left
     local height = bottom - top
@@ -1912,7 +1913,7 @@ function check_for_angry()
         if not angry_start_time then
             angry_start_time = current_time
             angry_count = angry_count + 1
-            trigger_horizontal_shake(10, 0.5)  -- intensity == 10, duration == 0.5
+            trigger_horizontal_shake(10, 0.5)  -- intensity, duration
 
             if angry_count > 1 then
                 reduce_robot_zoom()
@@ -1981,6 +1982,12 @@ local max_sleep_duration = 30
 local quiet_duration = 30 -- 30
 local quiet_start_time = nil
 local sleep_start_time = nil
+local was_sleeping = false
+
+function shake_after_sleep()
+    trigger_vertical_shake(5, 0.5, false)
+    trigger_horizontal_shake(3, 0.5)
+end
 
 function should_robot_sleep()
     local current_time = reaper.time_precise() / 60
@@ -2013,9 +2020,15 @@ function should_robot_sleep()
 
                 return false
             end
+            was_sleeping = true
             return true
         end
     else
+        if was_sleeping then
+            shake_after_sleep()
+            was_sleeping = false
+        end
+
         quiet_start_time = nil
         sleep_start_time = nil
     end
@@ -3397,7 +3410,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("To get help or support the author, use the links in the options.\n\n")
         reaper.ShowConsoleMsg("I hope we will be nice friends!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.47\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.48\n")
     elseif current_language == "ua" then
         reaper.ShowConsoleMsg("Йой!\n\nЯ бачу, що ти обрав українську мову. Молодець!\n\nТоді нумо познайомимося ще раз, уже солов'їною.\n\n")
         reaper.ShowConsoleMsg("Привіт, " .. name .. "!\n\n")
@@ -3415,7 +3428,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Якщо тобі потрібна допомога або хочеш підтримати авторку, звертайся за посиланнями у параметрах.\n\n")
         reaper.ShowConsoleMsg("Сподіваюся, ми будемо чудовими друзями!\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.47\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.48\n")
     elseif current_language == "fr" then
         reaper.ShowConsoleMsg("Oh là là !\n\nJe vois que tu as choisi la langue française. Bravo !\n\nAlors, faisons à nouveau connaissance, cette fois en français.\n\n")
         reaper.ShowConsoleMsg("Bienvenue, " .. name .. " !\n\n")
@@ -3432,7 +3445,7 @@ function welcome_message()
         reaper.ShowConsoleMsg("Pour obtenir de l'aide ou soutenir la créatrice, utilise les liens dans les options.\n\n")
         reaper.ShowConsoleMsg("J'espère que nous serons de bons amis !\n\n")
 
-        -- reaper.ShowConsoleMsg("RoboFace 1.47\n")
+        -- reaper.ShowConsoleMsg("RoboFace 1.48\n")
     end
 end
 
@@ -5316,7 +5329,7 @@ function ShowMenu(menu_str, x, y)
             reaper.JS_Window_Show(hwnd, 'HIDE')
         end
     else
-        gfx.init('RoboFace 1.47', 0, 0, 0, x, y)
+        gfx.init('RoboFace 1.48', 0, 0, 0, x, y)
         gfx.x, gfx.y = gfx.screentoclient(x, y)
     end
     local ret = gfx.showmenu(menu_str)
@@ -5328,7 +5341,7 @@ function show_r_click_menu()
     local dock_menu_title = is_docked and t("undock") or t("dock")
     local menu = {
 
-        -- {title = "test", cmd = animate_sneeze},
+        -- {title = "test", cmd = shake_after_sleep},
 
         {title = t("time"), submenu = {
             {title = t("current"), cmd = toggle_show_system_time, checked = is_show_system_time},
@@ -5495,7 +5508,7 @@ function show_r_click_menu()
         
     }
 
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.47", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.48", true)
     local _, left, top, right, bottom = reaper.JS_Window_GetClientRect(script_hwnd)
     local menu_x = left + gfx.mouse_x
     local menu_y = top + gfx.mouse_y
@@ -5791,7 +5804,7 @@ function main()
 
     local x, y = reaper.GetMousePosition()
     local hover_hwnd = reaper.JS_Window_FromPoint(x, y)
-    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.47", true)
+    local script_hwnd = reaper.JS_Window_Find("RoboFace 1.48", true)
     local mouse_state = reaper.JS_Mouse_GetState(7)
 
     if hover_hwnd == script_hwnd then
@@ -5839,7 +5852,7 @@ function start_script()
     reaper.RefreshToolbar2(section_id, command_id)
 
     local x, y, startWidth, startHeight, dock_state = load_window_params()
-    gfx.init("RoboFace 1.47", startWidth, startHeight, dock_state, x, y)
+    gfx.init("RoboFace 1.48", startWidth, startHeight, dock_state, x, y)
 
     load_options_params()
     check_hb_message()
